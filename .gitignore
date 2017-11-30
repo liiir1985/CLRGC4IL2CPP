@@ -20,6 +20,8 @@ $RECYCLE.BIN/
 Build/
 Library/
 Temp/
+VSProj/IL2CPPTest/externals/
+VSProj/IL2CPPTest/Generated
 
 obj/
 
