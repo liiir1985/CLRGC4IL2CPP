@@ -18,6 +18,10 @@ $RECYCLE.BIN/
 *.lnk
 .vs/
 Build/
+Library/
+Temp/
+
+obj/
 
 # =========================
 # Operating System Files

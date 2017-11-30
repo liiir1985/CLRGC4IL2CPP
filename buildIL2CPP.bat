@@ -1,2 +1,3 @@
-".\externals\il2cpp\build\il2cpp.exe" --convert-to-cpp --emit-null-checks --enable-array-bounds-check --map-file-parser="MapFileParser.exe" --assembly="Assembly-CSharp.dll" --generatedcppdir="out" 
+"C:\Program Files\Unity5_5\Editor\Data\il2cpp\build\il2cpp.exe" --convert-to-cpp --emit-null-checks --development-mode --libil2cpp-static --enable-array-bounds-check --map-file-parser="C:\Program Files\Unity5_5\Editor\Data\Tools\MapFileParser\MapFileParser.exe" --extra-types.file="C:\Program Files\Unity5_5\Editor\Data\il2cpp\il2cpp_default_extra_types.txt" --assembly="E:\SVN\GCTest\UnityProj\GCTest\Temp\StagingArea\assets\bin\Data\Managed\Assembly-CSharp.dll" --generatedcppdir="Generated" 
+"C:\Program Files\Unity5_5\Editor\Data\il2cpp\build\il2cpp.exe"
 pause

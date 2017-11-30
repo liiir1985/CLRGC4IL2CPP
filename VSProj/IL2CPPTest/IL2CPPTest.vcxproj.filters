@@ -1,0 +1,222 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="源文件">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="头文件">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="资源文件">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="il2cppGenerated">
+      <UniqueIdentifier>{2d985284-2871-470a-924f-f17e6b34abad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="il2cppRuntime">
+      <UniqueIdentifier>{ad8e53e2-5609-4cce-9642-69dab1e700d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="il2cppRuntime\utils">
+      <UniqueIdentifier>{0b866a73-4a4e-4f6a-912e-e61ba396463e}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="stdafx.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Generated\GeneratedCodeGen.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Generated\GeneratedGenericInterfaceInvokers.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Generated\GeneratedInterfaceInvokers.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Generated\GeneratedGenericVirtualInvokers.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Generated\GeneratedVirtualInvokers.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="IL2CPPTest.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Generated\Il2CppMetadataRegistration.cpp">
+      <Filter>il2cppGenerated</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Generated\Il2CppCompilerCalculateTypeValuesTable.cpp">
+      <Filter>il2cppGenerated</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Generated\Il2CppCompilerCalculateTypeValues_8Table.cpp">
+      <Filter>il2cppGenerated</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Generated\Il2CppCompilerCalculateTypeValues_7Table.cpp">
+      <Filter>il2cppGenerated</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Generated\Il2CppCompilerCalculateTypeValues_6Table.cpp">
+      <Filter>il2cppGenerated</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Generated\Il2CppCompilerCalculateTypeValues_5Table.cpp">
+      <Filter>il2cppGenerated</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Generated\Il2CppCompilerCalculateTypeValues_4Table.cpp">
+      <Filter>il2cppGenerated</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Generated\Il2CppCompilerCalculateTypeValues_3Table.cpp">
+      <Filter>il2cppGenerated</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Generated\Il2CppCompilerCalculateTypeValues_2Table.cpp">
+      <Filter>il2cppGenerated</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Generated\Il2CppCompilerCalculateTypeValues_1Table.cpp">
+      <Filter>il2cppGenerated</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Generated\Il2CppCompilerCalculateTypeValues_0Table.cpp">
+      <Filter>il2cppGenerated</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Generated\Il2CppGenericMethodDefinitions.cpp">
+      <Filter>il2cppGenerated</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Generated\Il2CppTypeDefinitions.cpp">
+      <Filter>il2cppGenerated</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Generated\Il2CppGenericMethodTable.cpp">
+      <Filter>il2cppGenerated</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Generated\Il2CppGenericInstDefinitions.cpp">
+      <Filter>il2cppGenerated</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Generated\Il2CppGenericClassTable.cpp">
+      <Filter>il2cppGenerated</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Generated\Il2CppMetadataUsage.cpp">
+      <Filter>il2cppGenerated</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Generated\Il2CppCodeRegistration.cpp">
+      <Filter>il2cppGenerated</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Generated\Il2CppInvokerTable.cpp">
+      <Filter>il2cppGenerated</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Generated\Il2CppGenericMethodPointerTable.cpp">
+      <Filter>il2cppGenerated</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Generated\Il2CppCcwMarshalingFunctionsTable.cpp">
+      <Filter>il2cppGenerated</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Generated\Il2CppMarshalingFunctionsTable.cpp">
+      <Filter>il2cppGenerated</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Generated\Il2CppDelegateWrappersManagedToNativeTable.cpp">
+      <Filter>il2cppGenerated</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Generated\Il2CppMethodPointerTable.cpp">
+      <Filter>il2cppGenerated</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Generated\UnresolvedVirtualCallStubs.cpp">
+      <Filter>il2cppGenerated</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Generated\Il2CppGuids.cpp">
+      <Filter>il2cppGenerated</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Generated\Il2CppAttributes.cpp">
+      <Filter>il2cppGenerated</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Generated\Bulk_Generics_3.cpp">
+      <Filter>il2cppGenerated</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Generated\Bulk_Generics_2.cpp">
+      <Filter>il2cppGenerated</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Generated\Bulk_Generics_1.cpp">
+      <Filter>il2cppGenerated</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Generated\Bulk_Generics_0.cpp">
+      <Filter>il2cppGenerated</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Generated\GenericMethods0.cpp">
+      <Filter>il2cppGenerated</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Generated\Bulk_Assembly-CSharp_0.cpp">
+      <Filter>il2cppGenerated</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Generated\Bulk_mscorlib_7.cpp">
+      <Filter>il2cppGenerated</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Generated\Bulk_mscorlib_6.cpp">
+      <Filter>il2cppGenerated</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Generated\Bulk_mscorlib_5.cpp">
+      <Filter>il2cppGenerated</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Generated\Bulk_mscorlib_4.cpp">
+      <Filter>il2cppGenerated</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Generated\Bulk_mscorlib_3.cpp">
+      <Filter>il2cppGenerated</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Generated\Bulk_mscorlib_2.cpp">
+      <Filter>il2cppGenerated</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Generated\Bulk_mscorlib_1.cpp">
+      <Filter>il2cppGenerated</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Generated\Bulk_mscorlib_0.cpp">
+      <Filter>il2cppGenerated</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Program Files\Unity5_5\Editor\Data\il2cpp\libil2cpp\char-conversions.cpp">
+      <Filter>il2cppRuntime</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Program Files\Unity5_5\Editor\Data\il2cpp\libil2cpp\class-internals.cpp">
+      <Filter>il2cppRuntime</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Program Files\Unity5_5\Editor\Data\il2cpp\libil2cpp\il2cpp-api.cpp">
+      <Filter>il2cppRuntime</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Program Files\Unity5_5\Editor\Data\il2cpp\libil2cpp\il2cpp-debugger.cpp">
+      <Filter>il2cppRuntime</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Program Files\Unity5_5\Editor\Data\il2cpp\libil2cpp\UnityAdsStubs.cpp">
+      <Filter>il2cppRuntime</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Program Files\Unity5_5\Editor\Data\il2cpp\libil2cpp\utils\BlobReader.cpp">
+      <Filter>il2cppRuntime\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Program Files\Unity5_5\Editor\Data\il2cpp\libil2cpp\utils\DirectoryUtils.cpp">
+      <Filter>il2cppRuntime\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Program Files\Unity5_5\Editor\Data\il2cpp\libil2cpp\utils\Memory.cpp">
+      <Filter>il2cppRuntime\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Program Files\Unity5_5\Editor\Data\il2cpp\libil2cpp\utils\MemoryPool.cpp">
+      <Filter>il2cppRuntime\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Program Files\Unity5_5\Editor\Data\il2cpp\libil2cpp\utils\Output.cpp">
+      <Filter>il2cppRuntime\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Program Files\Unity5_5\Editor\Data\il2cpp\libil2cpp\utils\PathUtils.cpp">
+      <Filter>il2cppRuntime\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Program Files\Unity5_5\Editor\Data\il2cpp\libil2cpp\utils\RegisterRuntimeInitializeAndCleanup.cpp">
+      <Filter>il2cppRuntime\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Program Files\Unity5_5\Editor\Data\il2cpp\libil2cpp\utils\StringUtils.cpp">
+      <Filter>il2cppRuntime\utils</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

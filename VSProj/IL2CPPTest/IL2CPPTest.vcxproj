@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>15.0</VCProjectVersion>
+    <ProjectGuid>{D09E194B-3384-4C8B-B17C-F8F7DF971529}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>IL2CPPTest</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <IntDir>.vs\$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>E:\SVN\GCTest\Generated;E:\SVN\GCTest\externals\boehmgc\include;C:\Program Files\Unity5_5\Editor\Data\il2cpp\libil2cpp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>E:\SVN\GCTest\externals\boehmgc\include;C:\Program Files\Unity5_5\Editor\Data\il2cpp\libil2cpp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <Text Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\Generated\GeneratedCodeGen.h" />
+    <ClInclude Include="..\..\Generated\GeneratedGenericInterfaceInvokers.h" />
+    <ClInclude Include="..\..\Generated\GeneratedGenericVirtualInvokers.h" />
+    <ClInclude Include="..\..\Generated\GeneratedInterfaceInvokers.h" />
+    <ClInclude Include="..\..\Generated\GeneratedVirtualInvokers.h" />
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="targetver.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\Generated\Bulk_Assembly-CSharp_0.cpp" />
+    <ClCompile Include="..\..\Generated\Bulk_Generics_0.cpp" />
+    <ClCompile Include="..\..\Generated\Bulk_Generics_1.cpp" />
+    <ClCompile Include="..\..\Generated\Bulk_Generics_2.cpp" />
+    <ClCompile Include="..\..\Generated\Bulk_Generics_3.cpp" />
+    <ClCompile Include="..\..\Generated\Bulk_mscorlib_0.cpp" />
+    <ClCompile Include="..\..\Generated\Bulk_mscorlib_1.cpp" />
+    <ClCompile Include="..\..\Generated\Bulk_mscorlib_2.cpp" />
+    <ClCompile Include="..\..\Generated\Bulk_mscorlib_3.cpp" />
+    <ClCompile Include="..\..\Generated\Bulk_mscorlib_4.cpp" />
+    <ClCompile Include="..\..\Generated\Bulk_mscorlib_5.cpp" />
+    <ClCompile Include="..\..\Generated\Bulk_mscorlib_6.cpp" />
+    <ClCompile Include="..\..\Generated\Bulk_mscorlib_7.cpp" />
+    <ClCompile Include="..\..\Generated\GenericMethods0.cpp" />
+    <ClCompile Include="..\..\Generated\Il2CppAttributes.cpp" />
+    <ClCompile Include="..\..\Generated\Il2CppCcwMarshalingFunctionsTable.cpp" />
+    <ClCompile Include="..\..\Generated\Il2CppCodeRegistration.cpp" />
+    <ClCompile Include="..\..\Generated\Il2CppCompilerCalculateTypeValuesTable.cpp" />
+    <ClCompile Include="..\..\Generated\Il2CppCompilerCalculateTypeValues_0Table.cpp" />
+    <ClCompile Include="..\..\Generated\Il2CppCompilerCalculateTypeValues_1Table.cpp" />
+    <ClCompile Include="..\..\Generated\Il2CppCompilerCalculateTypeValues_2Table.cpp" />
+    <ClCompile Include="..\..\Generated\Il2CppCompilerCalculateTypeValues_3Table.cpp" />
+    <ClCompile Include="..\..\Generated\Il2CppCompilerCalculateTypeValues_4Table.cpp" />
+    <ClCompile Include="..\..\Generated\Il2CppCompilerCalculateTypeValues_5Table.cpp" />
+    <ClCompile Include="..\..\Generated\Il2CppCompilerCalculateTypeValues_6Table.cpp" />
+    <ClCompile Include="..\..\Generated\Il2CppCompilerCalculateTypeValues_7Table.cpp" />
+    <ClCompile Include="..\..\Generated\Il2CppCompilerCalculateTypeValues_8Table.cpp" />
+    <ClCompile Include="..\..\Generated\Il2CppDelegateWrappersManagedToNativeTable.cpp" />
+    <ClCompile Include="..\..\Generated\Il2CppGenericClassTable.cpp" />
+    <ClCompile Include="..\..\Generated\Il2CppGenericInstDefinitions.cpp" />
+    <ClCompile Include="..\..\Generated\Il2CppGenericMethodDefinitions.cpp" />
+    <ClCompile Include="..\..\Generated\Il2CppGenericMethodPointerTable.cpp" />
+    <ClCompile Include="..\..\Generated\Il2CppGenericMethodTable.cpp" />
+    <ClCompile Include="..\..\Generated\Il2CppGuids.cpp" />
+    <ClCompile Include="..\..\Generated\Il2CppInvokerTable.cpp" />
+    <ClCompile Include="..\..\Generated\Il2CppMarshalingFunctionsTable.cpp" />
+    <ClCompile Include="..\..\Generated\Il2CppMetadataRegistration.cpp" />
+    <ClCompile Include="..\..\Generated\Il2CppMetadataUsage.cpp" />
+    <ClCompile Include="..\..\Generated\Il2CppMethodPointerTable.cpp" />
+    <ClCompile Include="..\..\Generated\Il2CppTypeDefinitions.cpp" />
+    <ClCompile Include="..\..\Generated\UnresolvedVirtualCallStubs.cpp" />
+    <ClCompile Include="C:\Program Files\Unity5_5\Editor\Data\il2cpp\libil2cpp\char-conversions.cpp" />
+    <ClCompile Include="C:\Program Files\Unity5_5\Editor\Data\il2cpp\libil2cpp\class-internals.cpp" />
+    <ClCompile Include="C:\Program Files\Unity5_5\Editor\Data\il2cpp\libil2cpp\il2cpp-api.cpp" />
+    <ClCompile Include="C:\Program Files\Unity5_5\Editor\Data\il2cpp\libil2cpp\il2cpp-debugger.cpp" />
+    <ClCompile Include="C:\Program Files\Unity5_5\Editor\Data\il2cpp\libil2cpp\UnityAdsStubs.cpp" />
+    <ClCompile Include="C:\Program Files\Unity5_5\Editor\Data\il2cpp\libil2cpp\utils\BlobReader.cpp" />
+    <ClCompile Include="C:\Program Files\Unity5_5\Editor\Data\il2cpp\libil2cpp\utils\DirectoryUtils.cpp" />
+    <ClCompile Include="C:\Program Files\Unity5_5\Editor\Data\il2cpp\libil2cpp\utils\Memory.cpp" />
+    <ClCompile Include="C:\Program Files\Unity5_5\Editor\Data\il2cpp\libil2cpp\utils\MemoryPool.cpp" />
+    <ClCompile Include="C:\Program Files\Unity5_5\Editor\Data\il2cpp\libil2cpp\utils\Output.cpp" />
+    <ClCompile Include="C:\Program Files\Unity5_5\Editor\Data\il2cpp\libil2cpp\utils\PathUtils.cpp" />
+    <ClCompile Include="C:\Program Files\Unity5_5\Editor\Data\il2cpp\libil2cpp\utils\RegisterRuntimeInitializeAndCleanup.cpp" />
+    <ClCompile Include="C:\Program Files\Unity5_5\Editor\Data\il2cpp\libil2cpp\utils\StringUtils.cpp" />
+    <ClCompile Include="IL2CPPTest.cpp" />
+    <ClCompile Include="stdafx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+    </ClCompile>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
