@@ -1,0 +1,6 @@
+<linker>
+	<!-- Don't reference anything other than FSharp.Core in this file -->
+	<assembly fullname="FSharp.Core">
+		<type fullname="Microsoft.FSharp.Core.EntryPointAttribute" preserve="all"/>
+	</assembly>
+</linker>

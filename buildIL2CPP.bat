@@ -1,0 +1,2 @@
+".\externals\il2cpp\build\il2cpp.exe" --convert-to-cpp --emit-null-checks --enable-array-bounds-check --map-file-parser="MapFileParser.exe" --assembly="Assembly-CSharp.dll" --generatedcppdir="out" 
+pause

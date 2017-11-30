@@ -1,0 +1,18 @@
+<linker>
+	<!-- Don't reference anything other than mscorlib in this file -->
+	<!-- Only reference types exclusively needed for net45 -->
+	<assembly fullname="mscorlib">
+		<type fullname="System.MulticastDelegate" preserve="fields"/>
+		<type fullname="System.Decimal" preserve="fields"/>
+		<type fullname="System.Single" preserve="fields"/>
+		<type fullname="System.RuntimeType" preserve="fields"/>
+		<type fullname="System.IOAsyncResult" preserve="fields"/>
+		<type fullname="System.Globalization.CalendarData" preserve="fields"/>
+		<type fullname="System.Reflection.MonoParameterInfo" preserve="fields"/>
+		<type fullname="System.Reflection.MonoAssembly" preserve="fields"/>
+		<type fullname="System.Threading.InternalThread" preserve="fields"/>
+		<type fullname="System.Threading._ThreadPoolWaitCallback" preserve="all"/>
+		<type fullname="System.Threading.NativeOverlapped" preserve="fields"/>
+		<type fullname="System.Runtime.CompilerServices.CompilationRelaxationsAttribute" preserve="all" />
+	</assembly>
+</linker>
