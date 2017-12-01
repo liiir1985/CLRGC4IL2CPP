@@ -237,7 +237,7 @@ il2cpp::gc::GarbageCollector::AllocateFixed(size_t size, void *descr)
 void
 il2cpp::gc::GarbageCollector::FreeFixed(void* addr)
 {
-	//GC_FREE(addr);
+	clrgc::FreeFixed(addr);
 }
 
 int32_t

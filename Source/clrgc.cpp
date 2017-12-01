@@ -83,7 +83,7 @@ namespace clrgc
 		MethodTable m_MT;
 	};
 
-	class FixedObject : Object
+	class FixedObject : public Object
 	{
 	private:
 		OBJECTHANDLE handle;
@@ -92,7 +92,7 @@ namespace clrgc
 		{
 			if (handle == NULL)
 			{
-				handle = HndCreateHandle(g_HandleTableMap.pBuckets[0]->pTable[GetCurrentThreadHomeHeapNumber()], HNDTYPE_DEFAULT, this);
+				handle = HndCreateHandle(g_HandleTableMap.pBuckets[0]->pTable[GetCurrentThreadHomeHeapNumber()], HNDTYPE_PINNED, this);
 			}
 		}
 
@@ -100,7 +100,7 @@ namespace clrgc
 		{
 			if (handle)
 			{
-				HndDestroyHandle(HndGetHandleTable(handle), HNDTYPE_DEFAULT, handle);
+				HndDestroyHandle(HndGetHandleTable(handle), HNDTYPE_PINNED, handle);
 			}
 		}
 	};
@@ -137,6 +137,11 @@ namespace clrgc
 		void SetDescriptor(FreeSizeObject_MethodTable& mt)
 		{
 			m_MT = mt;
+		}
+
+		static FreeSizeDescriptor* GetDescriptorFromObject(FreeSizeObject* obj)
+		{
+			return (FreeSizeDescriptor*)(intptr_t)obj->RawGetMethodTable() - offsetof(FreeSizeObject_MethodTable, m_MT) - offsetof(FreeSizeDescriptor, m_MT);
 		}
 
 		void AddRef()
@@ -197,5 +202,14 @@ namespace clrgc
 		FreeSizeObject* obj = (FreeSizeObject*)AllocateObject(&descriptor->GetDescriptor().m_MT);
 		obj->AccuireHandle();
 		return obj->GetAddress();
+	}
+
+	void FreeFixed(void* addr)
+	{
+		FreeSizeObject* obj = FreeSizeObject::GetObjectFromAddress(addr);
+		FreeSizeDescriptor* desc = FreeSizeDescriptor::GetDescriptorFromObject(obj);
+
+		obj->ReleaseHandle();
+		desc->RemoveRef();
 	}
 }

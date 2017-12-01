@@ -22,7 +22,7 @@ Library/
 Temp/
 VSProj/IL2CPPTest/externals/
 VSProj/IL2CPPTest/Generated
-
+VSProj/IL2CPPTest/Source/
 obj/
 
 # =========================
