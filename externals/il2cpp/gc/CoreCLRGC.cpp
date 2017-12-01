@@ -6,6 +6,9 @@
 #include "gc_wrapper.h"
 #include "GarbageCollector.h"
 #include "vm/Profiler.h"
+#include "vm/Thread.h"
+#include "object-internals.h"
+#include "clrgc.h"
 
 static bool s_GCInitialized = false;
 
@@ -99,6 +102,8 @@ il2cpp::gc::GarbageCollector::Enable()
 bool
 il2cpp::gc::GarbageCollector::RegisterThread(void *baseptr)
 {
+	Il2CppThread* th = il2cpp::vm::Thread::Current();
+	//th->stack_ptr;
 #if defined(GC_THREADS)
 	struct GC_stack_base sb;
 	int res;
@@ -226,8 +231,7 @@ il2cpp::gc::GarbageCollector::AllocateFixed(size_t size, void *descr)
 	// and we can or will support those use cases in a different manner.
 	IL2CPP_ASSERT(!descr);
 
-	return 0;
-	//return GC_MALLOC_UNCOLLECTABLE(size);
+	return clrgc::AllocateFixed(size);
 }
 
 void

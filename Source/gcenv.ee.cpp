@@ -17,7 +17,7 @@ EEConfig * g_pConfig;
 
 gc_alloc_context g_global_alloc_context;
 
-bool CLREventStatic::CreateManualEventNoThrow(bool bInitialState)
+/*bool CLREventStatic::CreateManualEventNoThrow(bool bInitialState)
 {
     m_hEvent = CreateEventW(NULL, TRUE, bInitialState, NULL);
     m_fInitialized = true;
@@ -104,7 +104,7 @@ uint32_t CLREventStatic::Wait(uint32_t dwMilliseconds, bool bAlertable)
     }
 
     return result;
-}
+}*/
 
 __declspec(thread) Thread * pCurrentThread;
 

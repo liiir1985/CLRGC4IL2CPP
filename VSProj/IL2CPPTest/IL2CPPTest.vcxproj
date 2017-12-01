@@ -92,7 +92,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_SCL_SECURE_NO_WARNINGS;WIN32;GC_WIN32_THREADS;GC_GCJ_SUPPORT;_DEBUG;_CONSOLE;_X86_;FEATURE_REDHAWK;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>E:\SVN\GCTest\externals\clrgc;E:\SVN\GCTest\VSProj\IL2CPPTest\Source;E:\SVN\GCTest\externals\clrgc\env;E:\SVN\GCTest\Generated;E:\SVN\GCTest\externals\il2cpp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>E:\SVN\GCTest\externals\clrgc;E:\SVN\GCTest\Source;E:\SVN\GCTest\externals\clrgc\env;E:\SVN\GCTest\Generated;E:\SVN\GCTest\externals\il2cpp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>/D _CRT_SECURE_NO_WARNINGS /D _WINSOCK_DEPRECATED_NO_WARNINGS %(AdditionalOptions)</AdditionalOptions>
       <ObjectFileName>$(IntDir)%(RelativeDir)</ObjectFileName>
       <UndefinePreprocessorDefinitions>_MT</UndefinePreprocessorDefinitions>
@@ -125,7 +125,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>_SCL_SECURE_NO_WARNINGS;GC_WIN32_THREADS;GC_GCJ_SUPPORT;WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>E:\SVN\GCTest\Generated;E:\SVN\GCTest\externals\boehmgc\include;E:\SVN\GCTest\externals\il2cpp;E:\SVN\GCTest\externals\clrgc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>E:\SVN\GCTest\Generated;E:\SVN\GCTest\externals\boehmgc\include;E:\SVN\GCTest\externals\il2cpp;E:\SVN\GCTest\VSProj\IL2CPPTest\Source;E:\SVN\GCTest\externals\clrgc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>/D _CRT_SECURE_NO_WARNINGS /D _WINSOCK_DEPRECATED_NO_WARNINGS %(AdditionalOptions)</AdditionalOptions>
       <ObjectFileName>$(IntDir)\%(RelativeDir)</ObjectFileName>
     </ClCompile>
@@ -163,6 +163,7 @@
     <ClInclude Include="..\..\Generated\GeneratedGenericVirtualInvokers.h" />
     <ClInclude Include="..\..\Generated\GeneratedInterfaceInvokers.h" />
     <ClInclude Include="..\..\Generated\GeneratedVirtualInvokers.h" />
+    <ClInclude Include="..\..\Source\clrgc.h" />
     <ClInclude Include="..\..\Source\gcenv.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />

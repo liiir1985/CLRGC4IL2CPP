@@ -168,7 +168,7 @@ namespace vm
 #if IL2CPP_DEBUGGER_ENABLED
         il2cpp_debugger_notify_thread_detach(thread);
 #endif
-
+		
         Unregister(thread);
         FreeThreadStaticData(thread);
 
