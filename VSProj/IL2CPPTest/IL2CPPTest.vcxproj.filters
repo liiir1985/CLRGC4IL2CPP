@@ -43,6 +43,12 @@
     <Filter Include="il2cppRuntime\externals">
       <UniqueIdentifier>{258a963c-5d09-4401-8d47-a85f42161c22}</UniqueIdentifier>
     </Filter>
+    <Filter Include="il2cppRuntime\gc">
+      <UniqueIdentifier>{ad094584-b15f-4cea-9612-6f72004b447e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="boehmgc">
+      <UniqueIdentifier>{70930410-f018-470b-be47-5e9eb8a6ebc7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -1249,6 +1255,60 @@
     </ClCompile>
     <ClCompile Include="..\..\externals\il2cpp\UnityAdsStubs.cpp">
       <Filter>il2cppRuntime</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\externals\il2cpp\gc\BoehmGC.cpp">
+      <Filter>il2cppRuntime\gc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\externals\il2cpp\gc\GarbageCollector.cpp">
+      <Filter>il2cppRuntime\gc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\externals\il2cpp\gc\GCHandle.cpp">
+      <Filter>il2cppRuntime\gc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\externals\il2cpp\gc\NullGC.cpp">
+      <Filter>il2cppRuntime\gc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\externals\il2cpp\gc\WriteBarrier.cpp">
+      <Filter>il2cppRuntime\gc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\externals\boehmgc\extra\gc.c">
+      <Filter>boehmgc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\externals\il2cpp\external\zlib\adler32.c">
+      <Filter>il2cppRuntime\externals</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\externals\il2cpp\external\zlib\compress.c">
+      <Filter>il2cppRuntime\externals</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\externals\il2cpp\external\zlib\crc32.c">
+      <Filter>il2cppRuntime\externals</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\externals\il2cpp\external\zlib\deflate.c">
+      <Filter>il2cppRuntime\externals</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\externals\il2cpp\external\zlib\gzio.c">
+      <Filter>il2cppRuntime\externals</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\externals\il2cpp\external\zlib\infback.c">
+      <Filter>il2cppRuntime\externals</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\externals\il2cpp\external\zlib\inffast.c">
+      <Filter>il2cppRuntime\externals</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\externals\il2cpp\external\zlib\inflate.c">
+      <Filter>il2cppRuntime\externals</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\externals\il2cpp\external\zlib\inftrees.c">
+      <Filter>il2cppRuntime\externals</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\externals\il2cpp\external\zlib\trees.c">
+      <Filter>il2cppRuntime\externals</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\externals\il2cpp\external\zlib\uncompr.c">
+      <Filter>il2cppRuntime\externals</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\externals\il2cpp\external\zlib\zutil.c">
+      <Filter>il2cppRuntime\externals</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
