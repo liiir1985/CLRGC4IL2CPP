@@ -90,11 +90,12 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>_SCL_SECURE_NO_WARNINGS;WIN32;GC_WIN32_THREADS;GC_GCJ_SUPPORT;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_SCL_SECURE_NO_WARNINGS;WIN32;GC_WIN32_THREADS;GC_GCJ_SUPPORT;_DEBUG;_CONSOLE;_X86_;FEATURE_REDHAWK;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>E:\SVN\GCTest\Generated;E:\SVN\GCTest\externals\boehmgc\include;E:\SVN\GCTest\externals\il2cpp;E:\SVN\GCTest\externals\boehmgc\libatomic_ops\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>E:\SVN\GCTest\externals\clrgc;E:\SVN\GCTest\VSProj\IL2CPPTest\Source;E:\SVN\GCTest\externals\clrgc\env;E:\SVN\GCTest\Generated;E:\SVN\GCTest\externals\il2cpp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>/D _CRT_SECURE_NO_WARNINGS /D _WINSOCK_DEPRECATED_NO_WARNINGS %(AdditionalOptions)</AdditionalOptions>
       <ObjectFileName>$(IntDir)%(RelativeDir)</ObjectFileName>
+      <UndefinePreprocessorDefinitions>_MT</UndefinePreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -124,7 +125,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>_SCL_SECURE_NO_WARNINGS;GC_WIN32_THREADS;GC_GCJ_SUPPORT;WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>E:\SVN\GCTest\Generated;E:\SVN\GCTest\externals\boehmgc\include;E:\SVN\GCTest\externals\il2cpp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>E:\SVN\GCTest\Generated;E:\SVN\GCTest\externals\boehmgc\include;E:\SVN\GCTest\externals\il2cpp;E:\SVN\GCTest\externals\clrgc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>/D _CRT_SECURE_NO_WARNINGS /D _WINSOCK_DEPRECATED_NO_WARNINGS %(AdditionalOptions)</AdditionalOptions>
       <ObjectFileName>$(IntDir)\%(RelativeDir)</ObjectFileName>
     </ClCompile>
@@ -162,11 +163,28 @@
     <ClInclude Include="..\..\Generated\GeneratedGenericVirtualInvokers.h" />
     <ClInclude Include="..\..\Generated\GeneratedInterfaceInvokers.h" />
     <ClInclude Include="..\..\Generated\GeneratedVirtualInvokers.h" />
+    <ClInclude Include="..\..\Source\gcenv.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\externals\boehmgc\extra\gc.c" />
+    <ClCompile Include="..\..\externals\clrgc\env\common.cpp" />
+    <ClCompile Include="..\..\externals\clrgc\gccommon.cpp" />
+    <ClCompile Include="..\..\externals\clrgc\gcconfig.cpp" />
+    <ClCompile Include="..\..\externals\clrgc\gceesvr.cpp" />
+    <ClCompile Include="..\..\externals\clrgc\gceewks.cpp" />
+    <ClCompile Include="..\..\externals\clrgc\gchandletable.cpp" />
+    <ClCompile Include="..\..\externals\clrgc\gcload.cpp" />
+    <ClCompile Include="..\..\externals\clrgc\gcscan.cpp" />
+    <ClCompile Include="..\..\externals\clrgc\gcsvr.cpp" />
+    <ClCompile Include="..\..\externals\clrgc\gcwks.cpp" />
+    <ClCompile Include="..\..\externals\clrgc\handletable.cpp" />
+    <ClCompile Include="..\..\externals\clrgc\handletablecache.cpp" />
+    <ClCompile Include="..\..\externals\clrgc\handletablecore.cpp" />
+    <ClCompile Include="..\..\externals\clrgc\handletablescan.cpp" />
+    <ClCompile Include="..\..\externals\clrgc\objecthandle.cpp" />
+    <ClCompile Include="..\..\externals\clrgc\softwarewritewatch.cpp" />
+    <ClCompile Include="..\..\externals\clrgc\windows\gcenv.windows.cpp" />
     <ClCompile Include="..\..\externals\il2cpp\char-conversions.cpp" />
     <ClCompile Include="..\..\externals\il2cpp\class-internals.cpp" />
     <ClCompile Include="..\..\externals\il2cpp\debugger\agent.cpp" />
@@ -223,6 +241,7 @@
     <ClCompile Include="..\..\externals\il2cpp\external\zlib\uncompr.c" />
     <ClCompile Include="..\..\externals\il2cpp\external\zlib\zutil.c" />
     <ClCompile Include="..\..\externals\il2cpp\gc\BoehmGC.cpp" />
+    <ClCompile Include="..\..\externals\il2cpp\gc\CoreCLRGC.cpp" />
     <ClCompile Include="..\..\externals\il2cpp\gc\GarbageCollector.cpp" />
     <ClCompile Include="..\..\externals\il2cpp\gc\GCHandle.cpp" />
     <ClCompile Include="..\..\externals\il2cpp\gc\NullGC.cpp" />
@@ -575,6 +594,8 @@
     <ClCompile Include="..\..\Generated\Il2CppMethodPointerTable.cpp" />
     <ClCompile Include="..\..\Generated\Il2CppTypeDefinitions.cpp" />
     <ClCompile Include="..\..\Generated\UnresolvedVirtualCallStubs.cpp" />
+    <ClCompile Include="..\..\Source\clrgc.cpp" />
+    <ClCompile Include="..\..\Source\gcenv.ee.cpp" />
     <ClCompile Include="IL2CPPTest.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

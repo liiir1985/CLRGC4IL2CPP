@@ -49,6 +49,18 @@
     <Filter Include="boehmgc">
       <UniqueIdentifier>{70930410-f018-470b-be47-5e9eb8a6ebc7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="clrgc">
+      <UniqueIdentifier>{48970db9-0a76-406a-bc0f-3e69a8956996}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="clrgc\env">
+      <UniqueIdentifier>{203c96d6-a42f-457e-a4d6-52c3eba3bf7b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="clrgc\windows">
+      <UniqueIdentifier>{bdb5614e-6c35-4ca6-952d-0edc790b1965}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\clrgc">
+      <UniqueIdentifier>{2aed3e04-78cd-424d-8594-25fbd39f1bdd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -73,6 +85,9 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Generated\GeneratedVirtualInvokers.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\gcenv.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
@@ -1271,9 +1286,6 @@
     <ClCompile Include="..\..\externals\il2cpp\gc\WriteBarrier.cpp">
       <Filter>il2cppRuntime\gc</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\externals\boehmgc\extra\gc.c">
-      <Filter>boehmgc</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\externals\il2cpp\external\zlib\adler32.c">
       <Filter>il2cppRuntime\externals</Filter>
     </ClCompile>
@@ -1309,6 +1321,66 @@
     </ClCompile>
     <ClCompile Include="..\..\externals\il2cpp\external\zlib\zutil.c">
       <Filter>il2cppRuntime\externals</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\externals\clrgc\gccommon.cpp">
+      <Filter>clrgc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\externals\clrgc\gcconfig.cpp">
+      <Filter>clrgc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\externals\clrgc\gceesvr.cpp">
+      <Filter>clrgc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\externals\clrgc\gceewks.cpp">
+      <Filter>clrgc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\externals\clrgc\gchandletable.cpp">
+      <Filter>clrgc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\externals\clrgc\gcload.cpp">
+      <Filter>clrgc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\externals\clrgc\gcscan.cpp">
+      <Filter>clrgc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\externals\clrgc\gcsvr.cpp">
+      <Filter>clrgc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\externals\clrgc\gcwks.cpp">
+      <Filter>clrgc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\externals\clrgc\handletable.cpp">
+      <Filter>clrgc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\externals\clrgc\handletablecache.cpp">
+      <Filter>clrgc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\externals\clrgc\handletablecore.cpp">
+      <Filter>clrgc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\externals\clrgc\objecthandle.cpp">
+      <Filter>clrgc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\externals\clrgc\softwarewritewatch.cpp">
+      <Filter>clrgc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\externals\clrgc\env\common.cpp">
+      <Filter>clrgc\env</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\externals\clrgc\windows\gcenv.windows.cpp">
+      <Filter>clrgc\windows</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\clrgc.cpp">
+      <Filter>源文件\clrgc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\gcenv.ee.cpp">
+      <Filter>源文件\clrgc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\externals\il2cpp\gc\CoreCLRGC.cpp">
+      <Filter>il2cppRuntime\gc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\externals\clrgc\handletablescan.cpp">
+      <Filter>clrgc</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -46,7 +46,7 @@ struct TestClass2_t2823348084;
 #include "AssemblyU2DCSharp_TestLib_TestClass22823348084.h"
 #include "AssemblyU2DCSharp_TestLib_TestStruct1193123819MethodDeclarations.h"
 #include "mscorlib_System_Int64909078037.h"
-
+//#include "gc.h"
 #ifdef __clang__
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Winvalid-offsetof"
@@ -76,9 +76,20 @@ extern "C"  void Main_TestGC_m1651579141 (Il2CppObject * __this /* static, unuse
 		il2cpp_codegen_initialize_method (Main_TestGC_m1651579141_MetadataUsageId);
 		s_Il2CppMethodInitialized = true;
 	}
+
+	for (int i = 0; i < List_1_t3836700070_il2cpp_TypeInfo_var->field_count; i++)
+	{
+		FieldInfo &fi = List_1_t3836700070_il2cpp_TypeInfo_var->fields[i];
+
+		printf("name:%s type:%d offset=%d flags=0x%X\n", fi.name, fi.type->type, fi.offset, il2cpp_field_get_flags(&fi));
+	}
 	Thread_t241561612 * V_0 = NULL;
 	{
 		List_1_t3836700070 * L_0 = (List_1_t3836700070 *)il2cpp_codegen_object_new(List_1_t3836700070_il2cpp_TypeInfo_var);
+		printf("name:1111 offset=0x%X\n", offsetof(List_1_t3836700070, klass));
+		printf("name:1111 offset=0x%X\n", offsetof(List_1_t3836700070, monitor));
+		Il2CppObject* obj2 = (Il2CppObject*)L_0;
+		printf("addr1=0x%X addr2=0x%X \n", (intptr_t)L_0, (intptr_t)obj2);
 		List_1__ctor_m574377014(L_0, /*hidden argument*/List_1__ctor_m574377014_MethodInfo_var);
 		((Main_t3706940067_StaticFields*)Main_t3706940067_il2cpp_TypeInfo_var->static_fields)->set_lst_0(L_0);
 		ThreadStart_t3437517264 * L_1 = ((Main_t3706940067_StaticFields*)Main_t3706940067_il2cpp_TypeInfo_var->static_fields)->get_U3CU3Ef__mgU24cache0_1();
@@ -175,6 +186,11 @@ IL_0001:
 		List_1_t3836700070 * L_12 = ((Main_t3706940067_StaticFields*)Main_t3706940067_il2cpp_TypeInfo_var->static_fields)->get_lst_0();
 		NullCheck(L_12);
 		int32_t L_13 = List_1_get_Count_m3314063396(L_12, /*hidden argument*/List_1_get_Count_m3314063396_MethodInfo_var);
+		
+		/*GC_word pheap_size = 0, pfree_bytes = 0, punmapped_bytes = 0, pbytes_since_gc = 0, ptotal_bytes = 0;
+		GC_get_heap_usage_safe(&pheap_size, &pfree_bytes, &punmapped_bytes, &pbytes_since_gc, &ptotal_bytes);
+		printf("pheap_size=%d, pfree_bytes=%d, punmapped_bytes=%d, pbytes_since_gc=%d, ptotal_bytes=%d\n", pheap_size, pfree_bytes, punmapped_bytes, pbytes_since_gc, ptotal_bytes);*/
+
 		if ((((int32_t)L_13) <= ((int32_t)((int32_t)50000))))
 		{
 			goto IL_007f;
@@ -189,7 +205,7 @@ IL_0001:
 IL_007f:
 	{
 		IL2CPP_RUNTIME_CLASS_INIT(Thread_t241561612_il2cpp_TypeInfo_var);
-		Thread_Sleep_m1248422015(NULL /*static, unused*/, ((int32_t)100), /*hidden argument*/NULL);
+		Thread_Sleep_m1248422015(NULL /*static, unused*/, ((int32_t)10), /*hidden argument*/NULL);
 		goto IL_0001;
 	}
 }

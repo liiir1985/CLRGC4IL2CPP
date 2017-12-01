@@ -13,7 +13,7 @@
 #include "gchandletableimpl.h"
 
 #ifdef SERVER_GC
-#undef SERVER_GC
+#undef SERVER_GC 
 #endif
 
 namespace WKS { 

@@ -231,7 +231,7 @@ namespace vm
 
     Il2CppObject* Object::NewPinned(Il2CppClass *klass)
     {
-#if (IL2CPP_GC_BOEHM || IL2CPP_GC_NULL)
+#if (IL2CPP_GC_BOEHM || IL2CPP_GC_NULL || IL2CPP_GC_CORE)
         return New(klass);
 #else
         NOT_IMPLEMENTED(Object::NewPinned);

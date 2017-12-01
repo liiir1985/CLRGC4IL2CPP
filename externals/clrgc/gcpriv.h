@@ -2,7 +2,6 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 // optimize for speed
-extern void GCLog222(const char *fmt, ...);
 
 
 #ifndef _DEBUG
@@ -264,7 +263,7 @@ void GCLog (const char *fmt, ... );
 // Nobody used the logging mechanism that used to be here. If we find ourselves
 // wanting to inspect GC logs on unmodified builds, we can use this define here
 // to do so.
-#define dprintf(l, x) GCLog222 x ;
+#define dprintf(l, x) 
 
 #endif //SIMPLE_DPRINTF
 
