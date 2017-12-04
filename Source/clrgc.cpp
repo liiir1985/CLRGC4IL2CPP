@@ -8,6 +8,8 @@
 
 #include "gcdesc.h"
 #include "clrgc.h"
+#include "ClassDescriptorBuilder.h"
+#include "object-internals.h"
 
 namespace clrgc
 {
@@ -193,6 +195,52 @@ namespace clrgc
 
 		return found;
 	}
+	extern "C" HRESULT GC_Initialize(IGCToCLR* clrToGC, IGCHeap** gcHeap, IGCHandleManager** gcHandleManager, GcDacVars* gcDacVars);
+
+	int clrgc::Initialize()
+	{
+		//
+		// Initialize system info
+		//
+		if (!GCToOSInterface::Initialize())
+		{
+			return -1;
+		}
+
+		// 
+		// Initialize free object methodtable. The GC uses a special array-like methodtable as placeholder
+		// for collected free space.
+		//
+		static MethodTable freeObjectMT;
+		freeObjectMT.InitializeFreeObject();
+		g_gc_pFreeObjectMethodTable = &freeObjectMT;
+
+		//
+		// Initialize GC heap
+		//
+		GcDacVars dacVars;
+		IGCHeap *pGCHeap;
+		IGCHandleManager *pGCHandleManager;
+		if (GC_Initialize(nullptr, &pGCHeap, &pGCHandleManager, &dacVars) != S_OK)
+		{
+			return -1;
+		}
+
+		if (FAILED(pGCHeap->Initialize()))
+			return -1;
+
+		//
+		// Initialize handle manager
+		//
+		if (!pGCHandleManager->Initialize())
+			return -1;
+
+		//
+		// Initialize current thread
+		//
+		ThreadStore::AttachCurrentThread();
+		return 0;
+	}
 
 	void* clrgc::AllocateFixed(size_t size)
 	{
@@ -204,12 +252,20 @@ namespace clrgc
 		return obj->GetAddress();
 	}
 
-	void FreeFixed(void* addr)
+	void clrgc::FreeFixed(void* addr)
 	{
 		FreeSizeObject* obj = FreeSizeObject::GetObjectFromAddress(addr);
 		FreeSizeDescriptor* desc = FreeSizeDescriptor::GetDescriptorFromObject(obj);
 
 		obj->ReleaseHandle();
 		desc->RemoveRef();
+	}
+
+	void* clrgc::AllocateObject(size_t size, Il2CppClass* klass)
+	{
+		MethodTable* tbl = clrgc::descriptor_builder::MakeDescriptorForType(klass);
+
+		Il2CppObject* obj = (Il2CppObject*)AllocateObject(tbl);
+		return obj;
 	}
 }

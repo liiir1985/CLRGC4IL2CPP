@@ -163,6 +163,7 @@
     <ClInclude Include="..\..\Generated\GeneratedGenericVirtualInvokers.h" />
     <ClInclude Include="..\..\Generated\GeneratedInterfaceInvokers.h" />
     <ClInclude Include="..\..\Generated\GeneratedVirtualInvokers.h" />
+    <ClInclude Include="..\..\Source\ClassDescriptorBuilder.h" />
     <ClInclude Include="..\..\Source\clrgc.h" />
     <ClInclude Include="..\..\Source\gcenv.h" />
     <ClInclude Include="stdafx.h" />
@@ -595,6 +596,7 @@
     <ClCompile Include="..\..\Generated\Il2CppMethodPointerTable.cpp" />
     <ClCompile Include="..\..\Generated\Il2CppTypeDefinitions.cpp" />
     <ClCompile Include="..\..\Generated\UnresolvedVirtualCallStubs.cpp" />
+    <ClCompile Include="..\..\Source\ClassDescriptorBuilder.cpp" />
     <ClCompile Include="..\..\Source\clrgc.cpp" />
     <ClCompile Include="..\..\Source\gcenv.ee.cpp" />
     <ClCompile Include="IL2CPPTest.cpp" />

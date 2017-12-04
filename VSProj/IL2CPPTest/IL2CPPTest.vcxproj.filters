@@ -93,6 +93,9 @@
     <ClInclude Include="..\..\Source\clrgc.h">
       <Filter>源文件\clrgc</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\ClassDescriptorBuilder.h">
+      <Filter>源文件\clrgc</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -1384,6 +1387,9 @@
     </ClCompile>
     <ClCompile Include="..\..\externals\clrgc\handletablescan.cpp">
       <Filter>clrgc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\ClassDescriptorBuilder.cpp">
+      <Filter>源文件\clrgc</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -33,11 +33,20 @@ namespace os
 
 struct Il2CppReflectionAssembly;
 
+#if IL2CPP_GC_CORE
+struct Il2CppObject
+{
+	void* MethodTable;
+	Il2CppClass *klass;
+	MonitorData *monitor;
+};
+#else
 struct Il2CppObject
 {
     Il2CppClass *klass;
     MonitorData *monitor;
 };
+#endif
 
 typedef int32_t il2cpp_array_lower_bound_t;
 #define IL2CPP_ARRAY_MAX_INDEX ((int32_t) 0x7fffffff)

@@ -52,6 +52,9 @@ namespace gc
         static void* AllocateFixed(size_t size, void *descr);
         static void FreeFixed(void* addr);
 
+#if IL2CPP_GC_PRECISE
+		static Il2CppObject* AllocateObject(size_t size, Il2CppClass* klass);
+#endif
         static bool RegisterThread(void *baseptr);
         static bool UnregisterThread();
 

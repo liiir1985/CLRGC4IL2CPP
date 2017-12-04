@@ -23,6 +23,10 @@ il2cpp::gc::GarbageCollector::Initialize()
 {
 	if (s_GCInitialized)
 		return;
+
+	int res = clrgc::Initialize();
+
+	IL2CPP_ASSERT(res == 0);
 	// This tells the GC that we are not scanning dynamic library data segments and that
 	// the GC tracked data structures need ot be manually pushed and marked.
 	// Call this before GC_INIT since the initialization logic uses this value.
@@ -238,6 +242,11 @@ void
 il2cpp::gc::GarbageCollector::FreeFixed(void* addr)
 {
 	clrgc::FreeFixed(addr);
+}
+
+Il2CppObject* il2cpp::gc::GarbageCollector::AllocateObject(size_t size, Il2CppClass* klass)
+{
+	return (Il2CppObject*)clrgc::AllocateObject(size, klass);
 }
 
 int32_t

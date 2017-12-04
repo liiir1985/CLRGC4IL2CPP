@@ -327,6 +327,9 @@ struct Il2CppClass
     // The following fields are always valid for a Il2CppClass structure
     const Il2CppImage* image;
     void* gc_desc;
+#if IL2CPP_GC_PRECISE
+    void* gc_desc_precise;
+#endif
     const char* name;
     const char* namespaze;
     const Il2CppType* byval_arg;

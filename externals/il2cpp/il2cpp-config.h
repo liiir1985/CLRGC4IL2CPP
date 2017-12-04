@@ -318,6 +318,7 @@
 #define IL2CPP_GC_BOEHM 0
 #define IL2CPP_GC_CORE 1
 #define IL2CPP_GC_NULL !IL2CPP_GC_BOEHM && !IL2CPP_GC_CORE
+#define IL2CPP_GC_PRECISE IL2CPP_GC_CORE
 
 /* we always need to NULL pointer free memory with our current allocators */
 #define NEED_TO_ZERO_PTRFREE 1
