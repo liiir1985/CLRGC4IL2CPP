@@ -6,29 +6,21 @@
 #include "clrgc.h"
 #include "tabledefs.h"
 #include "object-internals.h"
+#include "vm/Class.h"
 
 namespace clrgc
 {
 	namespace descriptor_builder
 	{
-		struct Descriptor
+		inline BOOL IS_ALIGNED(size_t val, size_t alignment)
 		{
-		
-			CGCDescSeries* m_series;
-			// GCDesc
-			size_t m_numSeries;
+			LIMITED_METHOD_CONTRACT;
+			SUPPORTS_DAC;
 
-			// The actual methodtable
-			MethodTable m_MT;
-			
-			static void Initialize(Descriptor& desc, void* addr, int seriesCnt)
-			{
-				desc.m_MT = *(MethodTable*)addr;
-				desc.m_numSeries = *(size_t*)((intptr_t)addr - sizeof(size_t));
-				desc.m_series = (CGCDescSeries*)((intptr_t)addr - sizeof(size_t) - sizeof(CGCDescSeries) * desc.m_numSeries);
-			}
-
-		};
+			// alignment must be a power of 2 for this implementation to work (need modulo otherwise)
+			IL2CPP_ASSERT(0 == (alignment & (alignment - 1)));
+			return 0 == (val & (alignment - 1));
+		}
 
 		inline bool ShouldSkilField(FieldInfo& fi) 
 		{
@@ -45,6 +37,15 @@ namespace clrgc
 			case IL2CPP_TYPE_MVAR:
 			case IL2CPP_TYPE_GENERICINST:
 				break;
+			case IL2CPP_TYPE_VALUETYPE:
+			{
+				Il2CppClass* cls = il2cpp::vm::Class::FromIl2CppType(fi.type);
+				if (!cls->has_references)
+					return true;
+				else
+					return false;
+			}
+				break;
 			default:
 				return true;
 			}
@@ -59,9 +60,34 @@ namespace clrgc
 				FieldInfo& fi = klass->fields[i];
 				if (ShouldSkilField(fi))
 					continue;
-				cnt++;
+				if (fi.type->type == IL2CPP_TYPE_VALUETYPE)
+				{
+					Il2CppClass* cls = il2cpp::vm::Class::FromIl2CppType(fi.type);
+					cnt += CalculateSeriesNum(cls);
+				}
+				else
+					cnt++;
 			}
+			if (klass->parent != NULL && klass->parent->has_references)
+			{
+				cnt += CalculateSeriesNum(klass->parent);
+			}
+			IL2CPP_ASSERT(cnt);
 			return cnt;
+		}
+
+		inline MethodTable* AllocNewMT(size_t seriesNum)
+		{
+			MethodTable* pMT;
+			size_t seriesSize = CGCDesc::ComputeSize(seriesNum);
+			size_t size = sizeof(MethodTable) + seriesSize;
+			void* ptr = malloc(size);
+			pMT = (MethodTable*)((intptr_t)ptr + seriesSize);
+			pMT->m_componentSize = 0;
+			PTR_CGCDesc desc = CGCDesc::GetCGCDescFromMT(pMT);
+			desc->Init(pMT, seriesNum);
+
+			return pMT;
 		}
 
 		void GenerateMethodTable(Il2CppClass* klass)
@@ -75,14 +101,86 @@ namespace clrgc
 				{
 					if (klass->element_class->has_references)
 					{
-						IL2CPP_ASSERT(IL2CPP_E_NOTIMPL);
+						CGCDescSeries  *pSeries;
+						MethodTable* pElemMT = MakeDescriptorForType(klass->element_class);
+						// There must be only one series for value classes
+						CGCDescSeries  *pByValueSeries = CGCDesc::GetCGCDescFromMT(pElemMT)->GetHighestSeries();
+
+						// negative series has a special meaning, indicating a different form of GCDesc
+						size_t nSeries = CGCDesc::GetCGCDescFromMT(pElemMT)->GetNumSeries();
+						pMT = AllocNewMT(nSeries);
+						pMT->m_flags = MTFlag_Collectible | MTFlag_IsArray | MTFlag_ContainsPointers;
+						if (klass->has_finalize)
+							pMT->m_flags |= MTFlag_HasFinalizer;
+						pMT->m_baseSize = AlignedSize(klass->instance_size);
+						pMT->m_componentSize = klass->element_size;
+						CGCDesc::GetCGCDescFromMT(pMT)->InitValueClassSeries(pMT, nSeries);
+
+						pSeries = CGCDesc::GetCGCDescFromMT(pMT)->GetHighestSeries();
+
+						// sort by offset
+						size_t AllocSizeSeries;
+						AllocSizeSeries = sizeof(CGCDescSeries*) * nSeries;
+					
+						CGCDescSeries** sortedSeries = (CGCDescSeries**)_alloca(AllocSizeSeries);
+						int index;
+						for (index = 0; index < nSeries; index++)
+							sortedSeries[index] = &pByValueSeries[-index];
+
+						// section sort
+						for (int i = 0; i < nSeries; i++) {
+							for (int j = i + 1; j < nSeries; j++)
+								if (sortedSeries[j]->GetSeriesOffset() < sortedSeries[i]->GetSeriesOffset())
+								{
+									CGCDescSeries* temp = sortedSeries[i];
+									sortedSeries[i] = sortedSeries[j];
+									sortedSeries[j] = temp;
+								}
+						}
+
+						// Offset of the first pointer in the array
+						// This equals the offset of the first pointer if this were an array of entirely pointers, plus the offset of the
+						// first pointer in the value class
+						pSeries->SetSeriesOffset(kIl2CppSizeOfArray
+							+ (sortedSeries[0]->GetSeriesOffset()) - sizeof(Il2CppObject));
+						for (index = 0; index < nSeries; index++)
+						{
+							size_t numPtrsInBytes = sortedSeries[index]->GetSeriesSize()
+								+ pElemMT->GetBaseSize();
+							size_t currentOffset;
+							size_t skip;
+							currentOffset = sortedSeries[index]->GetSeriesOffset() + numPtrsInBytes;
+							if (index != nSeries - 1)
+							{
+								skip = sortedSeries[index + 1]->GetSeriesOffset() - currentOffset;
+							}
+							else if (index == 0)
+							{
+								size_t bSize = pElemMT->GetBaseSize();
+								skip = AlignedBytes(bSize) - numPtrsInBytes;
+							}
+							else
+							{
+								skip = sortedSeries[0]->GetSeriesOffset() + pElemMT->GetBaseSize()
+									- ObjSizeOf(Il2CppObject) - currentOffset;
+							}
+
+							IL2CPP_ASSERT(!"Module::CreateArrayMethodTable() - unaligned GC info" || IS_ALIGNED(skip, sizeof(size_t)));
+
+							unsigned short NumPtrs = (unsigned short)(numPtrsInBytes / sizeof(void*));
+							IL2CPP_ASSERT(skip <= MAX_SIZE_FOR_VALUECLASS_IN_ARRAY && numPtrsInBytes <= MAX_PTRS_FOR_VALUECLASSS_IN_ARRAY);
+
+							val_serie_item *val_item = &(pSeries->val_serie[-index]);
+
+							val_item->set_val_serie_item(NumPtrs, (unsigned short)skip);
+						}
 					}
 					else
 					{
 						size_t size = sizeof(MethodTable) + sizeof(size_t);
 						void* ptr = malloc(size);
 						pMT = (MethodTable*)((intptr_t)ptr + sizeof(size_t));
-						pMT->m_flags = MTFlag_Collectible;
+						pMT->m_flags = MTFlag_Collectible | MTFlag_IsArray;
 						if (klass->has_finalize)
 							pMT->m_flags |= MTFlag_HasFinalizer;
 						pMT->m_baseSize = AlignedSize(klass->instance_size);
@@ -93,18 +191,12 @@ namespace clrgc
 				}
 				else
 				{
-					size_t seriesNum = 1;
-					size_t seriesSize = CGCDesc::ComputeSize(seriesNum);
-					size_t size = sizeof(MethodTable) + seriesSize;
-					void* ptr = malloc(size);
-					pMT = (MethodTable*)((intptr_t)ptr + seriesNum);
-					pMT->m_flags = MTFlag_Collectible | MTFlag_ContainsPointers;
+					pMT = AllocNewMT(1);
+					pMT->m_flags = MTFlag_Collectible | MTFlag_ContainsPointers | MTFlag_IsArray;
 					if (klass->has_finalize)
 						pMT->m_flags |= MTFlag_HasFinalizer;
 					pMT->m_baseSize = AlignedSize(klass->instance_size);
 					pMT->m_componentSize = klass->element_size;
-					PTR_CGCDesc desc = CGCDesc::GetCGCDescFromMT(pMT);
-					desc->Init(pMT, seriesNum);
 					
 					CGCDescSeries  *pSeries;
 					pSeries = CGCDesc::GetCGCDescFromMT(pMT)->GetHighestSeries();
@@ -121,32 +213,32 @@ namespace clrgc
 				if (klass->has_references)
 				{
 					size_t seriesNum = CalculateSeriesNum(klass);
-					size_t seriesSize = CGCDesc::ComputeSize(seriesNum);
-					size_t size = sizeof(MethodTable) + seriesSize;
-					void* ptr = malloc(size);
-					pMT = (MethodTable*)((intptr_t)ptr + seriesNum);
+					pMT = AllocNewMT(seriesNum);
 					pMT->m_flags = MTFlag_Collectible | MTFlag_ContainsPointers;
 					if (klass->has_finalize)
 						pMT->m_flags |= MTFlag_HasFinalizer;
 					pMT->m_baseSize = AlignedSize(klass->instance_size);
 					pMT->m_componentSize = 0;
-					PTR_CGCDesc desc = CGCDesc::GetCGCDescFromMT(pMT);
-					desc->Init(pMT, seriesNum);
-					PTR_CGCDescSeries series = desc->GetHighestSeries();
+					PTR_CGCDescSeries series = CGCDesc::GetCGCDescFromMT(pMT)->GetHighestSeries();
 
 					int i = 0;
-					for (int j = 0; j < klass->field_count; j++)
+					Il2CppClass* cur = klass;
+					while (cur && cur->has_references)
 					{
-						FieldInfo& fi = klass->fields[j];
-						if (ShouldSkilField(fi))
-							continue;
-						CGCDescSeries& cur = series[-i];
-						i++;
-						cur.SetSeriesOffset(fi.offset);
-						cur.SetSeriesCount(1);
-						cur.seriessize -= pMT->m_baseSize;
+						for (int j = cur->field_count - 1; j >= 0; j--)
+						{
+							FieldInfo& fi = cur->fields[j];
+							if (ShouldSkilField(fi))
+								continue;
+							CGCDescSeries& cur = series[-i];
+							i++;
+							cur.SetSeriesOffset(fi.offset);
+							cur.SetSeriesCount(1);
+							cur.seriessize -= pMT->m_baseSize;
+						}
+						cur = cur->parent;
 					}
-
+					IL2CPP_ASSERT(i == seriesNum);
 				}
 				else
 				{

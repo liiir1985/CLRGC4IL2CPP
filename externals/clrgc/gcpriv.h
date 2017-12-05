@@ -249,13 +249,13 @@ const int policy_expand  = 2;
 #ifdef SIMPLE_DPRINTF
 
 //#define dprintf(l,x) {if (trace_gc && ((l<=print_level)||gc_heap::settings.concurrent)) {printf ("\n");printf x ; fflush(stdout);}}
-void GCLog (const char *fmt, ... );
+void GCLog22 (const char *fmt, ... );
 //#define dprintf(l,x) {if (trace_gc && (l<=print_level)) {GCLog x;}}
 //#define dprintf(l,x) {if ((l==SEG_REUSE_LOG_0) || (l==SEG_REUSE_LOG_1) || (trace_gc && (l<=3))) {GCLog x;}}
 //#define dprintf(l,x) {if (l == DT_LOG_0) {GCLog x;}}
 //#define dprintf(l,x) {if (trace_gc && ((l <= 2) || (l == BGC_LOG) || (l==GTC_LOG))) {GCLog x;}}
 //#define dprintf(l,x) {if ((l == 1) || (l == 2222)) {GCLog x;}}
-#define dprintf(l,x) {if ((l <= 1) || (l == GTC_LOG)) {GCLog x;}}
+#define dprintf(l,x) {if ((l <= 1) || (l == GTC_LOG)) {GCLog22 x;}}
 //#define dprintf(l,x) {if ((l==GTC_LOG) || (l <= 1)) {GCLog x;}}
 //#define dprintf(l,x) {if (trace_gc && ((l <= print_level) || (l==GTC_LOG))) {GCLog x;}}
 //#define dprintf(l,x) {if (l==GTC_LOG) {printf ("\n");printf x ; fflush(stdout);}}
@@ -263,7 +263,8 @@ void GCLog (const char *fmt, ... );
 // Nobody used the logging mechanism that used to be here. If we find ourselves
 // wanting to inspect GC logs on unmodified builds, we can use this define here
 // to do so.
-#define dprintf(l, x) 
+void GCLog22(const char *fmt, ...);
+#define dprintf(l, x) {{GCLog22 x;}}
 
 #endif //SIMPLE_DPRINTF
 

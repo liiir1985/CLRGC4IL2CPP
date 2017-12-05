@@ -8,6 +8,7 @@
 
 #include "gcenv.h"
 #include "gc.h"
+#include "il2cpp-api.h"
 
 MethodTable * g_pFreeObjectMethodTable;
 
@@ -138,7 +139,7 @@ void ThreadStore::AttachCurrentThread()
 void GCToEEInterface::SuspendEE(SUSPEND_REASON reason)
 {
     g_theGCHeap->SetGCInProgress(true);
-
+	
     // TODO: Implement
 }
 

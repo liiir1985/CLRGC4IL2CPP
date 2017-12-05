@@ -3,6 +3,7 @@
 struct Il2CppClass;
 #define ObjSizeOf(c)    (sizeof(c) + sizeof(ObjHeader))
 #define AlignedSize(c)  max(c + sizeof(ObjHeader), MIN_OBJECT_SIZE)
+#define AlignedBytes(c) ((c + 3) & (~3))
 namespace clrgc
 {
 	int Initialize();

@@ -11,6 +11,20 @@
 #include "ClassDescriptorBuilder.h"
 #include "object-internals.h"
 
+namespace WKS
+{
+	void GCLog22(const char *fmt, ...)
+	{
+		va_list valist;
+		va_start(valist, fmt);
+
+		printf(fmt, valist);
+		va_end(valist);
+
+		printf("\n");
+
+	}
+}
 namespace clrgc
 {
 	inline Object* AllocateFree(MethodTable* pMT, size_t size)
@@ -122,7 +136,7 @@ namespace clrgc
 		}
 	};
 
-	FreeSizeObject_MethodTable fDescMethodTable;
+	static FreeSizeObject_MethodTable fDescMethodTable;
 
 	#define CalculateTypeSize(t,addition) max(sizeof(t)+sizeof(ObjHeader) + addition, MIN_OBJECT_SIZE)
 
@@ -205,8 +219,17 @@ namespace clrgc
 	void* clrgc::AllocateObject(size_t size, Il2CppClass* klass)
 	{
 		MethodTable* tbl = clrgc::descriptor_builder::MakeDescriptorForType(klass);
-
-		Il2CppObject* obj = (Il2CppObject*)AllocateObject(tbl);
+		size_t alocSize = AlignedSize(size);
+		Il2CppObject* obj;
+		if (klass->rank > 0)
+		{
+			obj = (Il2CppObject*)AllocateFree(tbl, alocSize);
+		}
+		else 
+		{
+			IL2CPP_ASSERT(alocSize == tbl->GetBaseSize());
+			obj = (Il2CppObject*)AllocateObject(tbl);
+		}
 		return obj;
 	}
 	void * AllocateFree(size_t size, Il2CppClass * klass)

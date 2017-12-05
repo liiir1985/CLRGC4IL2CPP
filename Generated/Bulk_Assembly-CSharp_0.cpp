@@ -92,6 +92,8 @@ extern "C"  void Main_TestGC_m1651579141 (Il2CppObject * __this /* static, unuse
 		printf("addr1=0x%X addr2=0x%X \n", (intptr_t)L_0, (intptr_t)obj2);
 		List_1__ctor_m574377014(L_0, /*hidden argument*/List_1__ctor_m574377014_MethodInfo_var);
 		((Main_t3706940067_StaticFields*)Main_t3706940067_il2cpp_TypeInfo_var->static_fields)->set_lst_0(L_0);
+
+		Main_MainLoop_m709282870(NULL, NULL);
 		ThreadStart_t3437517264 * L_1 = ((Main_t3706940067_StaticFields*)Main_t3706940067_il2cpp_TypeInfo_var->static_fields)->get_U3CU3Ef__mgU24cache0_1();
 		if (L_1)
 		{
@@ -176,9 +178,9 @@ IL_0001:
 		TestStruct_t1193123819  L_8 = V_1;
 		NullCheck(L_7);
 		TestClass2_set_Struct_m2775423800(L_7, L_8, /*hidden argument*/NULL);
-		List_1_t3836700070 * L_9 = (List_1_t3836700070 *)il2cpp_codegen_object_new(List_1_t3836700070_il2cpp_TypeInfo_var);
-		List_1__ctor_m574377014(L_9, /*hidden argument*/List_1__ctor_m574377014_MethodInfo_var);
-		((Main_t3706940067_StaticFields*)Main_t3706940067_il2cpp_TypeInfo_var->static_fields)->set_lst_0(L_9);
+		//List_1_t3836700070 * L_9 = (List_1_t3836700070 *)il2cpp_codegen_object_new(List_1_t3836700070_il2cpp_TypeInfo_var);
+		//List_1__ctor_m574377014(L_9, /*hidden argument*/List_1__ctor_m574377014_MethodInfo_var);
+		//((Main_t3706940067_StaticFields*)Main_t3706940067_il2cpp_TypeInfo_var->static_fields)->set_lst_0(L_9);
 		List_1_t3836700070 * L_10 = ((Main_t3706940067_StaticFields*)Main_t3706940067_il2cpp_TypeInfo_var->static_fields)->get_lst_0();
 		TestClass_t172611642 * L_11 = V_0;
 		NullCheck(L_10);
