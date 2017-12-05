@@ -36,9 +36,9 @@
 #define ALLOC_TYPED(dest, size, type) do { (dest) = mono_gc_alloc_obj (type, size);} while (0)
 #else
 #ifdef IL2CPP_GC_CORE
-#define ALLOC_PTRFREE(obj, vt, size) do { (obj) = il2cpp::gc::GarbageCollector::AllocateObject(size, vt);} while (0)
-#define ALLOC_OBJECT(obj, vt, size) do { (obj) = il2cpp::gc::GarbageCollector::AllocateObject(size, vt);} while (0)
-#define ALLOC_TYPED(dest, size, type) do { (dest) = il2cpp::gc::GarbageCollector::AllocateObject(size, type);} while (0)
+#define ALLOC_PTRFREE(obj, vt, size) do { (obj) = il2cpp::gc::GarbageCollector::AllocateFree(size, vt); (obj)->klass = (vt); (obj)->monitor = NULL;} while (0)
+#define ALLOC_OBJECT(obj, vt, size) do { (obj) = il2cpp::gc::GarbageCollector::AllocateObject(size, vt); (obj)->klass = (vt);} while (0)
+#define ALLOC_TYPED(dest, size, type) do { (dest) = il2cpp::gc::GarbageCollector::AllocateObject(size, type); (dest)->klass = (type);} while (0)
 #else
 #define ALLOC_PTRFREE(obj, vt, size) do { (obj) = (Il2CppObject*)malloc ((size)); (obj)->klass = (vt); (obj)->monitor = NULL;} while (0)
 #define ALLOC_OBJECT(obj, vt, size) do { (obj) = (Il2CppObject*)calloc (1, (size)); (obj)->klass = (vt);} while (0)

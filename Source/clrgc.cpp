@@ -13,12 +13,12 @@
 
 namespace clrgc
 {
-	Object * AllocateObject(MethodTable * pMT)
+	inline Object* AllocateFree(MethodTable* pMT, size_t size)
 	{
 		alloc_context * acontext = GetThread()->GetAllocContext();
 		Object * pObject;
 
-		size_t size = pMT->GetBaseSize();
+		IL2CPP_ASSERT(size >= pMT->GetBaseSize());
 
 		uint8_t* result = acontext->alloc_ptr;
 		uint8_t* advance = result + size;
@@ -38,6 +38,15 @@ namespace clrgc
 
 		return pObject;
 	}
+
+	inline Object * AllocateObject(MethodTable * pMT)
+	{
+		size_t size = pMT->GetBaseSize();
+
+		return AllocateFree(pMT, size);
+	}
+
+	
 #if defined(BIT64)
 	// Card byte shift is different on 64bit.
 #define card_byte_shift     11
@@ -68,15 +77,6 @@ namespace clrgc
 	}
 
 	struct FreeSizeObject_MethodTable
-	{
-		// GCDesc
-		size_t m_numSeries = 0;
-
-		// The actual methodtable
-		MethodTable m_MT;
-	};
-
-	struct FreeSizeDescriptor_MethodTable
 	{
 		// GCDesc
 		size_t m_numSeries = 0;
@@ -122,79 +122,11 @@ namespace clrgc
 		}
 	};
 
-	FreeSizeDescriptor_MethodTable fDescMethodTable;
-
-	class FreeSizeDescriptor : public FixedObject
-	{
-	private:
-		FreeSizeObject_MethodTable m_MT;
-		int refCount;
-		
-	public:
-		FreeSizeObject_MethodTable& GetDescriptor()
-		{
-			return m_MT;
-		}
-
-		void SetDescriptor(FreeSizeObject_MethodTable& mt)
-		{
-			m_MT = mt;
-		}
-
-		static FreeSizeDescriptor* GetDescriptorFromObject(FreeSizeObject* obj)
-		{
-			return (FreeSizeDescriptor*)(intptr_t)obj->RawGetMethodTable() - offsetof(FreeSizeObject_MethodTable, m_MT) - offsetof(FreeSizeDescriptor, m_MT);
-		}
-
-		void AddRef()
-		{
-			refCount++;
-		}
-
-		void RemoveRef()
-		{
-			refCount--;
-			ASSERT(refCount >= 0);
-		}
-
-		bool CanRelease()
-		{
-			return refCount <= 0;
-		}
-	};
-
-	std::unordered_map<size_t, FreeSizeDescriptor*> descriptorMap;	
+	FreeSizeObject_MethodTable fDescMethodTable;
 
 	#define CalculateTypeSize(t,addition) max(sizeof(t)+sizeof(ObjHeader) + addition, MIN_OBJECT_SIZE)
 
-	inline FreeSizeDescriptor* GetDescriptorForFreeSizeObject(size_t size)
-	{
-		size = CalculateTypeSize(FreeSizeObject, size - sizeof(int));
-		std::unordered_map<size_t, FreeSizeDescriptor*>::iterator it = descriptorMap.find(size);
-		FreeSizeDescriptor* found;
-		if (it != descriptorMap.end()) 
-		{
-			found = it->second;
-		}
-		else 
-		{
-			if (fDescMethodTable.m_MT.m_baseSize <= 0)
-			{
-				// Add padding as necessary. GC requires the object size to be at least MIN_OBJECT_SIZE.
-				fDescMethodTable.m_MT.m_baseSize = CalculateTypeSize(FreeSizeDescriptor, 0);
-				fDescMethodTable.m_MT.m_componentSize = 0;    // Array component size
-				fDescMethodTable.m_MT.m_flags = 0;
-			}
-
-			found = (FreeSizeDescriptor*)AllocateObject(&fDescMethodTable.m_MT);
-			FreeSizeObject_MethodTable mt;
-			mt.m_MT.m_baseSize = size;
-			found->SetDescriptor(mt);
-			found->AccuireHandle();
-		}
-
-		return found;
-	}
+	
 	extern "C" HRESULT GC_Initialize(IGCToCLR* clrToGC, IGCHeap** gcHeap, IGCHandleManager** gcHandleManager, GcDacVars* gcDacVars);
 
 	int clrgc::Initialize()
@@ -235,19 +167,30 @@ namespace clrgc
 		if (!pGCHandleManager->Initialize())
 			return -1;
 
-		//
-		// Initialize current thread
-		//
+		fDescMethodTable.m_MT.m_baseSize = AlignedSize(ObjSizeOf(FreeSizeObject));
+		fDescMethodTable.m_MT.m_flags = 0;
+		fDescMethodTable.m_MT.m_componentSize = 0;
+		fDescMethodTable.m_numSeries = 0;
+		
 		ThreadStore::AttachCurrentThread();
 		return 0;
 	}
 
+	bool RegisterThread(void * basePtr)
+	{
+		ThreadStore::AttachCurrentThread();
+		return true;
+	}
+
+	bool UnRegisterThread()
+	{
+		return false;
+	}
+
 	void* clrgc::AllocateFixed(size_t size)
 	{
-		FreeSizeDescriptor* descriptor = GetDescriptorForFreeSizeObject(size);
-		descriptor->AddRef();
-
-		FreeSizeObject* obj = (FreeSizeObject*)AllocateObject(&descriptor->GetDescriptor().m_MT);
+		
+		FreeSizeObject* obj = (FreeSizeObject*)AllocateObject(&fDescMethodTable.m_MT);
 		obj->AccuireHandle();
 		return obj->GetAddress();
 	}
@@ -255,10 +198,8 @@ namespace clrgc
 	void clrgc::FreeFixed(void* addr)
 	{
 		FreeSizeObject* obj = FreeSizeObject::GetObjectFromAddress(addr);
-		FreeSizeDescriptor* desc = FreeSizeDescriptor::GetDescriptorFromObject(obj);
 
 		obj->ReleaseHandle();
-		desc->RemoveRef();
 	}
 
 	void* clrgc::AllocateObject(size_t size, Il2CppClass* klass)
@@ -266,6 +207,13 @@ namespace clrgc
 		MethodTable* tbl = clrgc::descriptor_builder::MakeDescriptorForType(klass);
 
 		Il2CppObject* obj = (Il2CppObject*)AllocateObject(tbl);
+		return obj;
+	}
+	void * AllocateFree(size_t size, Il2CppClass * klass)
+	{
+		MethodTable* tbl = clrgc::descriptor_builder::MakeDescriptorForType(klass);
+
+		Il2CppObject* obj = (Il2CppObject*)AllocateFree(tbl, AlignedSize(size));
 		return obj;
 	}
 }

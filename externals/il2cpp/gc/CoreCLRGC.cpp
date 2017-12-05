@@ -106,45 +106,13 @@ il2cpp::gc::GarbageCollector::Enable()
 bool
 il2cpp::gc::GarbageCollector::RegisterThread(void *baseptr)
 {
-	Il2CppThread* th = il2cpp::vm::Thread::Current();
-	//th->stack_ptr;
-#if defined(GC_THREADS)
-	struct GC_stack_base sb;
-	int res;
-
-	res = GC_get_stack_base(&sb);
-	if (res != GC_SUCCESS)
-	{
-		sb.mem_base = baseptr;
-#ifdef __ia64__
-		/* Can't determine the register stack bounds */
-		IL2CPP_ASSERT(false && "mono_gc_register_thread failed ().");
-#endif
-	}
-	res = GC_register_my_thread(&sb);
-	if ((res != GC_SUCCESS) && (res != GC_DUPLICATE))
-	{
-		IL2CPP_ASSERT(false && "GC_register_my_thread () failed.");
-		return false;
-	}
-#endif
-	return true;
+	return clrgc::RegisterThread(baseptr);
 }
 
 bool
 il2cpp::gc::GarbageCollector::UnregisterThread()
 {
-#if defined(GC_THREADS)
-	int res;
-
-	res = GC_unregister_my_thread();
-	if (res != GC_SUCCESS)
-		IL2CPP_ASSERT(false && "GC_unregister_my_thread () failed.");
-
-	return res == GC_SUCCESS;
-#else
-	return true;
-#endif
+	return clrgc::UnRegisterThread();
 }
 
 il2cpp::gc::GarbageCollector::FinalizerCallback il2cpp::gc::GarbageCollector::RegisterFinalizerWithCallback(Il2CppObject* obj, FinalizerCallback callback)
@@ -247,6 +215,11 @@ il2cpp::gc::GarbageCollector::FreeFixed(void* addr)
 Il2CppObject* il2cpp::gc::GarbageCollector::AllocateObject(size_t size, Il2CppClass* klass)
 {
 	return (Il2CppObject*)clrgc::AllocateObject(size, klass);
+}
+
+Il2CppObject* il2cpp::gc::GarbageCollector::AllocateFree(size_t size, Il2CppClass* klass)
+{
+	return (Il2CppObject*)clrgc::AllocateFree(size, klass);
 }
 
 int32_t
