@@ -24,6 +24,9 @@ Temp/
 VSProj/IL2CPPTest/externals/
 VSProj/IL2CPPTest/Generated
 VSProj/IL2CPPTest/Source/
+VSProj/GCTest/Debug/
+VSProj/GCTest/x64/
+
 obj/
 
 # =========================

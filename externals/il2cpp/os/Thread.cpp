@@ -256,5 +256,20 @@ namespace os
     }
 
 #endif
+
+	int Thread::GetThreadState()
+	{
+		return m_State;
+	}
+
+	void Thread::Suspend()
+	{
+		m_Thread->Suspend();
+	}
+
+	void Thread::Resume()
+	{
+		m_Thread->Resume();
+	}
 }
 }

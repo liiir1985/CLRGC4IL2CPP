@@ -54,6 +54,8 @@ namespace os
         static bool YieldInternal();
 #endif
 
+		void Suspend();
+		void Resume();
     private:
         HANDLE m_ThreadHandle;
         volatile DWORD m_ThreadId;

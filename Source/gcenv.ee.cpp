@@ -1,3 +1,5 @@
+#include "il2cpp-config.h"
+#if IL2CPP_GC_CORE
 // Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
@@ -9,6 +11,10 @@
 #include "gcenv.h"
 #include "gc.h"
 #include "il2cpp-api.h"
+#include "os/Thread.h"
+#include "os/Mutex.h"
+
+#define kThreadRuning 1
 
 MethodTable * g_pFreeObjectMethodTable;
 
@@ -115,6 +121,7 @@ Thread * GetThread()
 }
 
 Thread * g_pThreadList = NULL;
+il2cpp::os::FastMutex mutex;
 
 Thread * ThreadStore::GetThreadList(Thread * pThread)
 {
@@ -127,26 +134,53 @@ Thread * ThreadStore::GetThreadList(Thread * pThread)
 void ThreadStore::AttachCurrentThread()
 {
     // TODO: Locks
-
+	if (pCurrentThread)
+		return;
+	//il2cpp::os::Thread* il2cppThread = il2cpp::os::Thread::GetOrCreateCurrentThread();
     Thread * pThread = new Thread();
     pThread->GetAllocContext()->init();
+	//pThread->SetIL2CPPThread(il2cppThread);
     pCurrentThread = pThread;
 
+	//mutex.Lock();	
     pThread->m_pNext = g_pThreadList;
     g_pThreadList = pThread;
+	//mutex.Unlock();
 }
 
 void GCToEEInterface::SuspendEE(SUSPEND_REASON reason)
 {
     g_theGCHeap->SetGCInProgress(true);
-	
-    // TODO: Implement
+	/*mutex.Lock();
+    
+	uint64_t gcThreadId = 0;
+	if (pCurrentThread)
+	{
+		il2cpp::os::Thread* th = pCurrentThread->GetIL2CPPThread();
+		if (th)
+		{
+			gcThreadId = th->Id();
+		}
+	}
+	Thread* cur = ThreadStore::GetThreadList(NULL);
+	while (cur)
+	{
+		il2cpp::os::Thread* th = cur->GetIL2CPPThread();
+		if (th)
+		{
+			if (th->GetThreadState() == kThreadRuning && th->Id() != gcThreadId)
+			{
+				//th->Suspend();
+			}
+		}
+		cur = ThreadStore::GetThreadList(cur);
+	}*/
 }
 
 void GCToEEInterface::RestartEE(bool bFinishedGC)
 {
     // TODO: Implement
-
+	//mutex.Unlock();
     g_theGCHeap->SetGCInProgress(false);
 }
 
@@ -331,3 +365,4 @@ bool GCToEEInterface::CreateThread(void (*threadStart)(void*), void* arg, bool i
 {
     return false;
 }
+#endif

@@ -30,7 +30,6 @@
 #include "gcenv.sync.h"
 #include "gcenv.ee.h"
 #include "volatile.h"
-
 #ifdef PLATFORM_UNIX
 #include "gcenv.unix.inl"
 #else
@@ -80,9 +79,18 @@
 #define SVAL_IMPL_INIT(type, cls, var, init) \
     type cls::var = init
 
+
 //
 // Thread
 //
+
+namespace il2cpp
+{
+	namespace os
+	{
+		class Thread;
+	}
+}
 
 struct alloc_context;
 
@@ -93,6 +101,7 @@ class Thread
 
     friend class ThreadStore;
     Thread * m_pNext;
+    il2cpp::os::Thread* nativeThread;
 
 public:
     Thread()
@@ -123,6 +132,15 @@ public:
     {
     }
 
+    il2cpp::os::Thread* GetIL2CPPThread()
+    {
+        return nativeThread;
+    }
+
+    void SetIL2CPPThread(il2cpp::os::Thread* th)
+    {
+        nativeThread = th;
+    }
     bool CatchAtSafePoint()
     {
         // This is only called by the GC on a background GC worker thread that's explicitly interested in letting

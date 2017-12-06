@@ -64,7 +64,8 @@ namespace os
         static void RegisterCurrentThreadForCleanup(void* arg);
         static void UnregisterCurrentThreadForCleanup();
 #endif
-
+        void Suspend();
+        void Resume();
     private:
 
         friend class posix::PosixWaitObject; // SetWaitObject(), CheckForAPCAndHandle()

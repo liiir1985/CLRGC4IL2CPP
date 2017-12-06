@@ -1,3 +1,6 @@
+#include "il2cpp-config.h"
+
+#if IL2CPP_GC_CORE
 #include "ClassDescriptorBuilder.h"
 #include "gcenv.h"
 
@@ -271,3 +274,4 @@ namespace clrgc
 }
 
 
+#endif

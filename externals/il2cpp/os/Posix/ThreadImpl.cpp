@@ -282,6 +282,16 @@ namespace os
     }
 
 #endif
+
+    void ThreadImpl::Suspend()
+    {
+        IL2CPP_E_ABORT(IL2CPP_E_NOTIMPL);
+    }
+
+    void ThreadImpl::Resume()
+    {
+        IL2CPP_E_ABORT(IL2CPP_E_NOTIMPL);
+    }
 }
 }
 

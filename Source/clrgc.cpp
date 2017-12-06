@@ -1,4 +1,5 @@
-
+#include "il2cpp-config.h"
+#if IL2CPP_GC_CORE
 #include "common.h"
 #include <unordered_map>
 #include "gcenv.h"
@@ -10,7 +11,7 @@
 #include "clrgc.h"
 #include "ClassDescriptorBuilder.h"
 #include "object-internals.h"
-
+#include "os/Thread.h"
 namespace WKS
 {
 	void GCLog22(const char *fmt, ...)
@@ -20,7 +21,6 @@ namespace WKS
 
 		printf(fmt, valist);
 		va_end(valist);
-
 		printf("\n");
 
 	}
@@ -240,3 +240,4 @@ namespace clrgc
 		return obj;
 	}
 }
+#endif

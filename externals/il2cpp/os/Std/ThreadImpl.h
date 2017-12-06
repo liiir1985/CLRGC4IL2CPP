@@ -24,6 +24,8 @@ namespace os
         WaitStatus Join(uint32_t ms);
         static WaitStatus Sleep(uint32_t milliseconds);
         static uint64_t CurrentThreadId();
+        void Suspend();
+        void Resume();
     private:
         std::thread m_Thread;
     };
