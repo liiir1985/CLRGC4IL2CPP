@@ -262,6 +262,11 @@ namespace os
 		return m_State;
 	}
 
+	void Thread::SetThreadState(int state)
+	{
+		m_State = (ThreadState)state;
+	}
+
 	void Thread::Suspend()
 	{
 		m_Thread->Suspend();

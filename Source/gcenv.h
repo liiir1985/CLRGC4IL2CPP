@@ -91,6 +91,7 @@ namespace il2cpp
 		class Thread;
 	}
 }
+#define kThreadRuning 1
 
 struct alloc_context;
 

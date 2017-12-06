@@ -18,8 +18,7 @@ namespace WKS
 	{
 		va_list valist;
 		va_start(valist, fmt);
-
-		printf(fmt, valist);
+		vprintf(fmt, valist);
 		va_end(valist);
 		printf("\n");
 
@@ -27,6 +26,13 @@ namespace WKS
 }
 namespace clrgc
 {
+#define ALIGNCONST (DATA_ALIGNMENT-1)
+	inline
+		size_t Align(size_t nbytes, int alignment = ALIGNCONST)
+	{
+		return (nbytes + alignment) & ~alignment;
+	}
+
 	inline Object* AllocateFree(MethodTable* pMT, size_t size)
 	{
 		alloc_context * acontext = GetThread()->GetAllocContext();
@@ -35,7 +41,7 @@ namespace clrgc
 		IL2CPP_ASSERT(size >= pMT->GetBaseSize());
 
 		uint8_t* result = acontext->alloc_ptr;
-		uint8_t* advance = result + size;
+		uint8_t* advance = result + Align(size);
 		if (advance <= acontext->alloc_limit)
 		{
 			acontext->alloc_ptr = advance;
@@ -99,7 +105,7 @@ namespace clrgc
 		MethodTable m_MT;
 	};
 
-	class FixedObject : public Object
+	class FixedObject : public ArrayBase
 	{
 	private:
 		OBJECTHANDLE handle;
@@ -182,11 +188,13 @@ namespace clrgc
 			return -1;
 
 		fDescMethodTable.m_MT.m_baseSize = AlignedSize(ObjSizeOf(FreeSizeObject));
-		fDescMethodTable.m_MT.m_flags = 0;
-		fDescMethodTable.m_MT.m_componentSize = 0;
+		fDescMethodTable.m_MT.m_flags = MTFlag_IsArray | MTFlag_HasComponentSize;
+		fDescMethodTable.m_MT.m_componentSize = 1;
 		fDescMethodTable.m_numSeries = 0;
 		
 		ThreadStore::AttachCurrentThread();
+		//Main thread is runing
+		GetThread()->GetIL2CPPThread()->SetThreadState(kThreadRuning);
 		return 0;
 	}
 
@@ -202,9 +210,11 @@ namespace clrgc
 	}
 
 	void* clrgc::AllocateFixed(size_t size)
-	{
-		
-		FreeSizeObject* obj = (FreeSizeObject*)AllocateObject(&fDescMethodTable.m_MT);
+	{	
+		size_t as = AlignedSize(ObjSizeOf(FreeSizeObject) + size);
+		FreeSizeObject* obj = (FreeSizeObject*)AllocateFree(&fDescMethodTable.m_MT, as);
+		uint32_t* pSize = (uint32_t*)((intptr_t)obj + ArrayBase::GetOffsetOfNumComponents());
+		*pSize = size;
 		obj->AccuireHandle();
 		return obj->GetAddress();
 	}

@@ -109,7 +109,9 @@ namespace vm
 
         ao = (Il2CppArray*)o;
         ao->max_length = n;
-
+#if IL2CPP_GC_CORE
+        ao->reserved = n;
+#endif
 #if IL2CPP_ENABLE_PROFILER
         if (Profiler::ProfileAllocations())
             Profiler::Allocation(o, klass);

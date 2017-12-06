@@ -93,7 +93,6 @@ extern "C"  void Main_TestGC_m1651579141 (Il2CppObject * __this /* static, unuse
 		List_1__ctor_m574377014(L_0, /*hidden argument*/List_1__ctor_m574377014_MethodInfo_var);
 		((Main_t3706940067_StaticFields*)Main_t3706940067_il2cpp_TypeInfo_var->static_fields)->set_lst_0(L_0);
 
-		Main_MainLoop_m709282870(NULL, NULL);
 		ThreadStart_t3437517264 * L_1 = ((Main_t3706940067_StaticFields*)Main_t3706940067_il2cpp_TypeInfo_var->static_fields)->get_U3CU3Ef__mgU24cache0_1();
 		if (L_1)
 		{
@@ -121,6 +120,7 @@ IL_0023:
 
 IL_0034:
 	{
+		printf("MainLoop");
 		IL2CPP_RUNTIME_CLASS_INIT(Thread_t241561612_il2cpp_TypeInfo_var);
 		Thread_Sleep_m1248422015(NULL /*static, unused*/, ((int32_t)100), /*hidden argument*/NULL);
 		goto IL_0034;

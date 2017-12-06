@@ -37,6 +37,8 @@ struct Il2CppReflectionAssembly;
 struct Il2CppObject
 {
 	void* MethodTable;
+	//CoreCLR expects array size to be located here
+	il2cpp_array_size_t reserved;
 	Il2CppClass *klass;
 	MonitorData *monitor;
 };
@@ -68,10 +70,10 @@ struct Il2CppArrayBounds
 
 struct Il2CppArray : public Il2CppObject
 {
-    /* bounds is NULL for szarrays */
+	/* bounds is NULL for szarrays */
     Il2CppArrayBounds *bounds;
-    /* total number of elements of the array */
-    il2cpp_array_size_t max_length;
+	/* total number of elements of the array */
+	il2cpp_array_size_t max_length;
 };
 
 struct Il2CppArraySize : public Il2CppArray

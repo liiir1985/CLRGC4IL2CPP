@@ -112,7 +112,7 @@ namespace clrgc
 						// negative series has a special meaning, indicating a different form of GCDesc
 						size_t nSeries = CGCDesc::GetCGCDescFromMT(pElemMT)->GetNumSeries();
 						pMT = AllocNewMT(nSeries);
-						pMT->m_flags = MTFlag_Collectible | MTFlag_IsArray | MTFlag_ContainsPointers;
+						pMT->m_flags = MTFlag_Collectible | MTFlag_IsArray | MTFlag_ContainsPointers | MTFlag_HasComponentSize;
 						if (klass->has_finalize)
 							pMT->m_flags |= MTFlag_HasFinalizer;
 						pMT->m_baseSize = AlignedSize(klass->instance_size);
@@ -183,7 +183,7 @@ namespace clrgc
 						size_t size = sizeof(MethodTable) + sizeof(size_t);
 						void* ptr = malloc(size);
 						pMT = (MethodTable*)((intptr_t)ptr + sizeof(size_t));
-						pMT->m_flags = MTFlag_Collectible | MTFlag_IsArray;
+						pMT->m_flags = MTFlag_Collectible | MTFlag_IsArray | MTFlag_HasComponentSize;
 						if (klass->has_finalize)
 							pMT->m_flags |= MTFlag_HasFinalizer;
 						pMT->m_baseSize = AlignedSize(klass->instance_size);
@@ -195,7 +195,7 @@ namespace clrgc
 				else
 				{
 					pMT = AllocNewMT(1);
-					pMT->m_flags = MTFlag_Collectible | MTFlag_ContainsPointers | MTFlag_IsArray;
+					pMT->m_flags = MTFlag_Collectible | MTFlag_ContainsPointers | MTFlag_IsArray | MTFlag_HasComponentSize;
 					if (klass->has_finalize)
 						pMT->m_flags |= MTFlag_HasFinalizer;
 					pMT->m_baseSize = AlignedSize(klass->instance_size);

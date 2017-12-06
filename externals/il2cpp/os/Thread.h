@@ -100,6 +100,7 @@ namespace os
         static void UnregisterCurrentThreadForCleanup();
 #endif
         int GetThreadState();
+        void SetThreadState(int state);
         void Suspend();
         void Resume();
         static const uint64_t kInvalidThreadId = 0;
