@@ -117,12 +117,8 @@ il2cpp::gc::GarbageCollector::UnregisterThread()
 
 il2cpp::gc::GarbageCollector::FinalizerCallback il2cpp::gc::GarbageCollector::RegisterFinalizerWithCallback(Il2CppObject* obj, FinalizerCallback callback)
 {
-	/*FinalizerCallback oldCallback;
-	void* oldData;
-	GC_REGISTER_FINALIZER_NO_ORDER((char*)obj, callback, NULL, &oldCallback, &oldData);
-	IL2CPP_ASSERT(oldData == NULL);
-	return oldCallback;*/
-	return NULL;
+	clrgc::RegisterFinalizer(obj, callback);
+	return callback;
 }
 
 void
@@ -225,8 +221,8 @@ Il2CppObject* il2cpp::gc::GarbageCollector::AllocateFree(size_t size, Il2CppClas
 int32_t
 il2cpp::gc::GarbageCollector::InvokeFinalizers()
 {
+	clrgc::RunFinalizer();
 	return 0;
-	//return (int32_t)GC_invoke_finalizers();
 }
 
 bool

@@ -249,5 +249,26 @@ namespace clrgc
 		Il2CppObject* obj = (Il2CppObject*)AllocateFree(tbl, AlignedSize(size));
 		return obj;
 	}
+	il2cpp::gc::GarbageCollector::FinalizerCallback finalizer = NULL;
+
+	void RunFinalizer()
+	{
+		size_t cnt = g_theGCHeap->GetNumberOfFinalizable();
+		size_t totalCnt = g_theGCHeap->GetNumberOfHeaps();
+
+		Object* obj = g_theGCHeap->GetNextFinalizable();
+		while (obj)
+		{
+			finalizer(obj, NULL);
+			obj = g_theGCHeap->GetNextFinalizable();
+		}
+	}
+
+	void RegisterFinalizer(Il2CppObject * obj, il2cpp::gc::GarbageCollector::FinalizerCallback callback)
+	{
+		IL2CPP_ASSERT(finalizer == NULL || finalizer == callback);
+		finalizer = callback;
+		g_theGCHeap->RegisterForFinalization(0, (Object*)obj);
+	}
 }
 #endif

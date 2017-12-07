@@ -428,10 +428,10 @@ typedef PTR_PTR_Object PTR_UNCHECKED_OBJECTREF;
 
 class Thread;
 
-inline bool dbgOnly_IsSpecialEEThread()
+extern inline bool dbgOnly_IsSpecialEEThread();/*
 {
     return false;
-}
+}*/
 
 #define ClrFlsSetThreadType(type)
 

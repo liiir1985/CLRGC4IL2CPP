@@ -222,7 +222,7 @@ namespace clrgc
 						pMT->m_flags |= MTFlag_HasFinalizer;
 					pMT->m_baseSize = AlignedSize(klass->instance_size);
 					pMT->m_componentSize = 0;
-					PTR_CGCDescSeries series = CGCDesc::GetCGCDescFromMT(pMT)->GetHighestSeries();
+					PTR_CGCDescSeries series = CGCDesc::GetCGCDescFromMT(pMT)->GetLowestSeries();
 
 					int i = 0;
 					Il2CppClass* cur = klass;
@@ -233,7 +233,7 @@ namespace clrgc
 							FieldInfo& fi = cur->fields[j];
 							if (ShouldSkilField(fi))
 								continue;
-							CGCDescSeries& cur = series[-i];
+							CGCDescSeries& cur = series[i];
 							i++;
 							cur.SetSeriesOffset(fi.offset);
 							cur.SetSeriesCount(1);

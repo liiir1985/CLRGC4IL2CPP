@@ -13,6 +13,7 @@
 #include "il2cpp-api.h"
 #include "os/Thread.h"
 #include "os/Mutex.h"
+#include "gc/GarbageCollector.h"
 
 
 MethodTable * g_pFreeObjectMethodTable;
@@ -112,7 +113,13 @@ uint32_t CLREventStatic::Wait(uint32_t dwMilliseconds, bool bAlertable)
     return result;
 }*/
 
+
 __declspec(thread) Thread * pCurrentThread;
+
+inline bool dbgOnly_IsSpecialEEThread()
+{
+	return true;
+}
 
 Thread * GetThread()
 {
@@ -226,6 +233,7 @@ void GCToEEInterface::GcBeforeBGCSweepWork()
 
 void GCToEEInterface::GcDone(int condemned)
 {
+    
 }
 
 bool GCToEEInterface::RefCountedHandleCallbacks(Object * pObject)
@@ -326,6 +334,7 @@ void GCToEEInterface::EnableFinalization(bool foundFinalizers)
 {
     // Signal to finalizer thread that there are objects to finalize
     // TODO: Implement for finalization
+	il2cpp::gc::GarbageCollector::NotifyFinalizers();
 }
 
 void GCToEEInterface::HandleFatalError(unsigned int exitCode)
