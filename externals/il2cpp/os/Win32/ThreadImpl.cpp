@@ -146,18 +146,10 @@ namespace os
         ::QueueUserAPC(reinterpret_cast<PAPCFUNC>(func), m_ThreadHandle, reinterpret_cast<ULONG_PTR>(context));
     }
 
-	void ThreadImpl::Suspend()
+	void* ThreadImpl::GetNativeHandle()
 	{
-		DWORD res = ::SuspendThread(m_ThreadHandle);
-		IL2CPP_ASSERT(res >= 0);
+		return m_ThreadHandle;
 	}
-
-	void ThreadImpl::Resume()
-	{
-		DWORD res = ::ResumeThread(m_ThreadHandle);
-		IL2CPP_ASSERT(res >= 0);
-	}
-
 namespace
 {
     // It would be nice to always use CoGetApartmentType but it's only available on Windows 7 and later.

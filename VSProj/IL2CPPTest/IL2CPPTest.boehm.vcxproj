@@ -581,9 +581,11 @@
     <ClCompile Include="..\..\Generated\Il2CppMethodPointerTable.cpp" />
     <ClCompile Include="..\..\Generated\Il2CppTypeDefinitions.cpp" />
     <ClCompile Include="..\..\Generated\UnresolvedVirtualCallStubs.cpp" />
+    <ClCompile Include="..\..\Source\boehm_bridge.cpp" />
     <ClCompile Include="..\..\Source\ClassDescriptorBuilder.cpp" />
     <ClCompile Include="..\..\Source\clrgc.cpp" />
     <ClCompile Include="..\..\Source\gcenv.ee.cpp" />
+    <ClCompile Include="..\..\Source\scan_root_win32.cpp" />
     <ClCompile Include="IL2CPPTest.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

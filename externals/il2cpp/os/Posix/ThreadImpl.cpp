@@ -283,15 +283,15 @@ namespace os
 
 #endif
 
-    void ThreadImpl::Suspend()
-    {
+	void* ThreadImpl::GetNativeHandle()
+	{
         IL2CPP_E_ABORT(IL2CPP_E_NOTIMPL);
     }
 
-    void ThreadImpl::Resume()
-    {
-        IL2CPP_E_ABORT(IL2CPP_E_NOTIMPL);
-    }
+	size_t GetStackSize()
+	{
+		return m_StackSize;
+	}
 }
 }
 

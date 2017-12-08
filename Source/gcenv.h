@@ -133,12 +133,12 @@ public:
     {
     }
 
-    il2cpp::os::Thread* GetIL2CPPThread()
+    il2cpp::os::Thread* GetNativeThread()
     {
         return nativeThread;
     }
 
-    void SetIL2CPPThread(il2cpp::os::Thread* th)
+    void SetNativeThread(il2cpp::os::Thread* th)
     {
         nativeThread = th;
     }

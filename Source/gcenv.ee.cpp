@@ -11,10 +11,13 @@
 #include "gcenv.h"
 #include "gc.h"
 #include "il2cpp-api.h"
+#include "il2cpp-api-types.h"
 #include "os/Thread.h"
 #include "os/Mutex.h"
 #include "gc/GarbageCollector.h"
-
+#include "vm/Thread.h"
+#include "object-internals.h"
+#include "clrgc.h"
 
 MethodTable * g_pFreeObjectMethodTable;
 
@@ -118,7 +121,7 @@ __declspec(thread) Thread * pCurrentThread;
 
 inline bool dbgOnly_IsSpecialEEThread()
 {
-	return true;
+    return true;
 }
 
 Thread * GetThread()
@@ -146,7 +149,7 @@ void ThreadStore::AttachCurrentThread()
 
     Thread * pThread = new Thread();
     pThread->GetAllocContext()->init();
-    pThread->SetIL2CPPThread(il2cppThread);
+    pThread->SetNativeThread(il2cppThread);
     pCurrentThread = pThread;
 
     mutex.Lock();	
@@ -155,68 +158,32 @@ void ThreadStore::AttachCurrentThread()
     mutex.Unlock();
 }
 
-void GCToEEInterface::SuspendEE(SUSPEND_REASON reason)
-{
-    g_theGCHeap->SetGCInProgress(true);
-    mutex.Lock();
-    
-    uint64_t gcThreadId = 0;
-    if (pCurrentThread)
-    {
-        il2cpp::os::Thread* th = pCurrentThread->GetIL2CPPThread();
-        if (th)
-        {
-            gcThreadId = th->Id();
-        }
-    }
-    Thread* cur = ThreadStore::GetThreadList(NULL);
-    while (cur)
-    {
-        il2cpp::os::Thread* th = cur->GetIL2CPPThread();
-        if (th)
-        {
-            if (th->GetThreadState() == kThreadRuning && th->Id() != gcThreadId)
-            {
-                th->Suspend();
-            }
-        }
-        cur = ThreadStore::GetThreadList(cur);
-    }
-}
-
-void GCToEEInterface::RestartEE(bool bFinishedGC)
-{
-    // TODO: Implement
-    uint64_t gcThreadId = 0;
-    if (pCurrentThread)
-    {
-        il2cpp::os::Thread* th = pCurrentThread->GetIL2CPPThread();
-        if (th)
-        {
-            gcThreadId = th->Id();
-        }
-    }
-    Thread* cur = ThreadStore::GetThreadList(NULL);
-    while (cur)
-    {
-        il2cpp::os::Thread* th = cur->GetIL2CPPThread();
-        if (th)
-        {
-            if (th->GetThreadState() == kThreadRuning && th->Id() != gcThreadId)
-            {
-                th->Resume();
-            }
-        }
-        cur = ThreadStore::GetThreadList(cur);
-    }
-    mutex.Unlock();
-
-    g_theGCHeap->SetGCInProgress(false);
-}
-
 void GCToEEInterface::GcScanRoots(promote_func* fn,  int condemned, int max_gen, ScanContext* sc)
 {
     // TODO: Implement - Scan stack roots on given thread
+    uint64_t gcThreadId = 0;
+	if (pCurrentThread)
+	{
+		il2cpp::os::Thread* th = pCurrentThread->GetNativeThread();
+		if (th)
+		{
+			gcThreadId = th->Id();
+		}
+	}
+
+    Thread* cur = ThreadStore::GetThreadList(NULL);
+	std::vector<intptr_t> registers;
+    while (cur)
+    {
+        il2cpp::os::Thread* th = cur->GetNativeThread();
+        if (th)
+        {
+			registers.clear();
+			intptr_t sp = clrgc::GetStackPointerAndRegisters(gcThreadId == th->Id(), th->GetNativeHandle(), registers);
+			
+        }
+        cur = ThreadStore::GetThreadList(cur);
+    }	
 }
 
 void GCToEEInterface::GcStartWork(int condemned, int max_gen)
@@ -334,7 +301,7 @@ void GCToEEInterface::EnableFinalization(bool foundFinalizers)
 {
     // Signal to finalizer thread that there are objects to finalize
     // TODO: Implement for finalization
-	il2cpp::gc::GarbageCollector::NotifyFinalizers();
+    //il2cpp::gc::GarbageCollector::NotifyFinalizers();
 }
 
 void GCToEEInterface::HandleFatalError(unsigned int exitCode)
@@ -396,5 +363,67 @@ MethodTable* GCToEEInterface::GetFreeObjectMethodTable()
 bool GCToEEInterface::CreateThread(void (*threadStart)(void*), void* arg, bool is_suspendable, const char* name)
 {
     return false;
+}
+
+#include "gc_bohem.h"
+void GCToEEInterface::SuspendEE(SUSPEND_REASON reason)
+{
+	g_theGCHeap->SetGCInProgress(true);
+	mutex.Lock();
+
+	/*uint64_t gcThreadId = 0;
+	if (pCurrentThread)
+	{
+	il2cpp::os::Thread* th = pCurrentThread->GetNativeThread();
+	if (th)
+	{
+	gcThreadId = th->Id();
+	}
+	}
+	Thread* cur = ThreadStore::GetThreadList(NULL);
+	while (cur)
+	{
+	il2cpp::os::Thread* th = cur->GetNativeThread();
+	if (th)
+	{
+	if (th->GetThreadState() == kThreadRuning && th->Id() != gcThreadId)
+	{
+	th->Suspend();
+	}
+	}
+	cur = ThreadStore::GetThreadList(cur);
+	}*/
+	GC_stop_world_external();
+}
+
+void GCToEEInterface::RestartEE(bool bFinishedGC)
+{
+	// TODO: Implement
+	/*uint64_t gcThreadId = 0;
+	if (pCurrentThread)
+	{
+	il2cpp::os::Thread* th = pCurrentThread->GetNativeThread();
+	if (th)
+	{
+	gcThreadId = th->Id();
+	}
+	}
+	Thread* cur = ThreadStore::GetThreadList(NULL);
+	while (cur)
+	{
+	il2cpp::os::Thread* th = cur->GetNativeThread();
+	if (th)
+	{
+	if (th->GetThreadState() == kThreadRuning && th->Id() != gcThreadId)
+	{
+	th->Resume();
+	}
+	}
+	cur = ThreadStore::GetThreadList(cur);
+	}*/
+	GC_start_world_external();
+	mutex.Unlock();
+
+	g_theGCHeap->SetGCInProgress(false);
 }
 #endif

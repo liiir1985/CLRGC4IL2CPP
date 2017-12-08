@@ -106,12 +106,14 @@ il2cpp::gc::GarbageCollector::Enable()
 bool
 il2cpp::gc::GarbageCollector::RegisterThread(void *baseptr)
 {
+	clrgc::RegisterThreadBoehm(baseptr);
 	return clrgc::RegisterThread(baseptr);
 }
 
 bool
 il2cpp::gc::GarbageCollector::UnregisterThread()
 {
+	clrgc::UnregisterThreadBoehm();
 	return clrgc::UnRegisterThread();
 }
 

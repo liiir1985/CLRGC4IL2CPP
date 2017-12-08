@@ -1391,5 +1391,14 @@
     <ClCompile Include="..\..\Source\ClassDescriptorBuilder.cpp">
       <Filter>源文件\clrgc</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\externals\boehmgc\extra\gc.c">
+      <Filter>boehmgc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\boehm_bridge.cpp">
+      <Filter>源文件\clrgc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\get_sp_win32.cpp">
+      <Filter>源文件\clrgc</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

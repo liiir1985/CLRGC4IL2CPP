@@ -64,13 +64,8 @@ namespace os
         return std::this_thread::get_id().hash();
     }
 
-    void ThreadImpl::Suspend()
-    {
-        IL2CPP_E_ABORT(IL2CPP_E_NOTIMPL);
-    }
-
-    void ThreadImpl::Resume()
-    {
+	void* ThreadImpl::GetNativeHandle()
+	{
         IL2CPP_E_ABORT(IL2CPP_E_NOTIMPL);
     }
 }

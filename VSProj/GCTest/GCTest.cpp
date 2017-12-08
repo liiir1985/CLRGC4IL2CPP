@@ -25,8 +25,7 @@ int main()
 	lastObject->object = (AAA*)GC_MALLOC(sizeof(AAA));
 	lastObject->object = (AAA*)GC_MALLOC(sizeof(AAA));
 	lastObject->object = (AAA*)GC_MALLOC(sizeof(AAA));
-	GC_stop_world_external();
-	for (int i = 0; i < 100000; i++) 
+	for (int i = 0; i < 1000000; i++) 
 	{
 		lastObject->object = (AAA*)GC_MALLOC(sizeof(AAA));
 	}

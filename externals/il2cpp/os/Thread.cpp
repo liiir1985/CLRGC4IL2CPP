@@ -257,24 +257,19 @@ namespace os
 
 #endif
 
-	int Thread::GetThreadState()
-	{
-		return m_State;
-	}
+    int Thread::GetThreadState()
+    {
+        return m_State;
+    }
 
-	void Thread::SetThreadState(int state)
-	{
-		m_State = (ThreadState)state;
-	}
+    void Thread::SetThreadState(int state)
+    {
+        m_State = (ThreadState)state;
+    }
 
-	void Thread::Suspend()
-	{
-		m_Thread->Suspend();
-	}
-
-	void Thread::Resume()
-	{
-		m_Thread->Resume();
-	}
+    void* Thread::GetNativeHandle()
+    {
+        return m_Thread->GetNativeHandle();
+    }
 }
 }

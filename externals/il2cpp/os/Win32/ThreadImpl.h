@@ -54,8 +54,11 @@ namespace os
         static bool YieldInternal();
 #endif
 
-		void Suspend();
-		void Resume();
+		void* GetNativeHandle();
+		size_t GetStackSize()
+		{
+			return m_StackSize;
+		}
     private:
         HANDLE m_ThreadHandle;
         volatile DWORD m_ThreadId;

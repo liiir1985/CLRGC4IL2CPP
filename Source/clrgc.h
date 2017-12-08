@@ -1,7 +1,7 @@
 #pragma once
 
 #include "gc/GarbageCollector.h"
-
+#include <vector>
 struct Il2CppClass;
 #define ObjSizeOf(c)    (sizeof(c) + sizeof(ObjHeader))
 #define AlignedSize(c)  max(c + sizeof(ObjHeader), MIN_OBJECT_SIZE)
@@ -25,4 +25,16 @@ namespace clrgc
 	void RunFinalizer();
 
 	void RegisterFinalizer(Il2CppObject* obj, il2cpp::gc::GarbageCollector::FinalizerCallback callback);
+
+	void InitBoehm();
+
+	void InitBoehmThread();
+
+	void RegisterThreadBoehm(void* baseptr);
+
+	void UnregisterThreadBoehm();
+
+	intptr_t approx_sp(void);
+
+	intptr_t GetStackPointerAndRegisters(bool isSelf, void* handle, std::vector<intptr_t>& registers);
 }

@@ -99,10 +99,10 @@ namespace os
         static void RegisterCurrentThreadForCleanup(void* arg);
         static void UnregisterCurrentThreadForCleanup();
 #endif
+        size_t GetStackSize();
         int GetThreadState();
         void SetThreadState(int state);
-        void Suspend();
-        void Resume();
+        void* GetNativeHandle();
         static const uint64_t kInvalidThreadId = 0;
 
     private:

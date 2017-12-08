@@ -12,6 +12,7 @@
 #include "ClassDescriptorBuilder.h"
 #include "object-internals.h"
 #include "os/Thread.h"
+
 namespace WKS
 {
 	void GCLog22(const char *fmt, ...)
@@ -191,10 +192,13 @@ namespace clrgc
 		fDescMethodTable.m_MT.m_flags = MTFlag_IsArray | MTFlag_HasComponentSize;
 		fDescMethodTable.m_MT.m_componentSize = 1;
 		fDescMethodTable.m_numSeries = 0;
+
+		clrgc::InitBoehm();
+		clrgc::InitBoehmThread();
 		
 		ThreadStore::AttachCurrentThread();
 		//Main thread is runing
-		GetThread()->GetIL2CPPThread()->SetThreadState(kThreadRuning);
+		GetThread()->GetNativeThread()->SetThreadState(kThreadRuning);
 		return 0;
 	}
 
@@ -270,5 +274,6 @@ namespace clrgc
 		finalizer = callback;
 		g_theGCHeap->RegisterForFinalization(0, (Object*)obj);
 	}
+
 }
 #endif
