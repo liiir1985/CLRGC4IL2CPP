@@ -15,7 +15,10 @@
 #include "os/Thread.h"
 #include "os/Mutex.h"
 #include "gc/GarbageCollector.h"
-#include "vm/Thread.h"
+#include "vm/Class.h"
+#include "vm/Type.h"
+#include "vm/Field.h"
+#include "tabledefs.h"
 #include "object-internals.h"
 #include "il2cpp-metadata.h"
 #include "clrgc.h"
@@ -224,6 +227,156 @@ void GcScanRootsInner(promote_func* fn, ScanContext* sc, uintptr_t bp, uintptr_t
     }
 }
 
+bool FieldCanContainReferences(FieldInfo* field)
+{
+	if (il2cpp::vm::Type::IsStruct(field->type))
+		return true;
+	if (field->type->attrs & FIELD_ATTRIBUTE_LITERAL)
+		return false;
+	if (field->type->type == IL2CPP_TYPE_STRING)
+		return false;
+	return il2cpp::vm::Type::IsReference(field->type);
+}
+
+void** StaticGetValueAddress(FieldInfo *field)
+{
+	void** src = NULL;
+
+	IL2CPP_ASSERT(field->type->attrs & FIELD_ATTRIBUTE_STATIC);
+
+	// ensure parent is initialized so that static fields memory has been allocated
+	il2cpp::vm::Class::SetupFields(field->parent);
+
+	if (field->offset == THREAD_STATIC_FIELD_OFFSET)
+	{
+		// Thread static
+		NOT_IMPLEMENTED_NO_ASSERT(Field::StaticGetValue, "Field::StaticGetValue is not implemented for thread-static fields");
+	}
+	else
+	{
+		src = ((void**)field->parent->static_fields) + field->offset;
+	}
+
+	return src;
+}
+
+void TraverseObjectInternal(promote_func* fn, ScanContext* sc, Il2CppObject* object, bool isStruct, Il2CppClass* klass)
+{
+	FieldInfo *field;
+	Il2CppClass *p;
+
+	IL2CPP_ASSERT(object);
+
+	if (!klass->initialized)
+	{
+		IL2CPP_ASSERT(isStruct);
+		return;
+	}
+
+	// subtract the added offset for the vtable. This is added to the offset even though it is a struct
+	if (isStruct)
+		object--;
+
+	for (p = klass; p != NULL; p = p->parent)
+	{
+		void* iter = NULL;
+		while ((field = il2cpp::vm::Class::GetFields(p, &iter)))
+		{
+			if (field->type->attrs & FIELD_ATTRIBUTE_STATIC)
+				continue;
+
+			if (!FieldCanContainReferences(field))
+				continue;
+
+			if (il2cpp::vm::Type::IsStruct(field->type))
+			{
+				char* offseted = (char*)object;
+				offseted += field->offset;
+				if (il2cpp::vm::Type::IsGenericInstance(field->type))
+				{
+					IL2CPP_ASSERT(field->type->data.generic_class->cached_class);
+					TraverseObjectInternal(fn, sc, (Il2CppObject*)offseted, true, field->type->data.generic_class->cached_class);
+				}
+				else
+					TraverseObjectInternal(fn, sc, (Il2CppObject*)offseted, true, il2cpp::vm::Type::GetClass(field->type));
+				continue;
+			}
+
+			if (field->offset == THREAD_STATIC_FIELD_OFFSET)
+			{
+				IL2CPP_ASSERT(0);
+			}
+			else
+			{
+				
+				PTR_PTR_Object src = (PTR_PTR_Object)((char*)object + field->offset);
+				PTR_Object val = *src;
+				if (val)
+				{
+					fn(src, sc, NULL);
+				}				
+			}
+		}
+	}
+}
+
+void ScanStatics(promote_func* fn, ScanContext* sc)
+{
+	const dynamic_array<Il2CppClass*>& classesWithStatics = il2cpp::vm::Class::GetStaticFieldData();
+
+	
+	for (dynamic_array<Il2CppClass*>::const_iterator iter = classesWithStatics.begin();
+		iter != classesWithStatics.end();
+		iter++)
+	{
+		Il2CppClass* klass = *iter;
+		FieldInfo *field;
+		if (!klass)
+			continue;
+		if (klass->image == il2cpp_defaults.corlib)
+			continue;
+		if (klass->size_inited == 0)
+			continue;
+
+		void* fieldIter = NULL;
+		while ((field = il2cpp::vm::Class::GetFields(klass, &fieldIter)))
+		{
+			if (!(field->type->attrs & FIELD_ATTRIBUTE_STATIC))
+				continue;
+			if (!FieldCanContainReferences(field))
+				continue;
+			// shortcut check for thread-static field
+			if (field->offset == THREAD_STATIC_FIELD_OFFSET)
+				continue;
+
+			if (il2cpp::vm::Type::IsStruct(field->type))
+			{
+				char* offseted = (char*)klass->static_fields;
+				offseted += field->offset;
+				if (il2cpp::vm::Type::IsGenericInstance(field->type))
+				{
+					IL2CPP_ASSERT(field->type->data.generic_class->cached_class);
+					TraverseObjectInternal(fn, sc, (Il2CppObject*)offseted, true, field->type->data.generic_class->cached_class);
+				}
+				else
+				{
+					TraverseObjectInternal(fn, sc, (Il2CppObject*)offseted, true, il2cpp::vm::Type::GetClass(field->type));
+				}
+			}
+			else
+			{
+				PTR_PTR_Object addr = (PTR_PTR_Object)StaticGetValueAddress(field);
+				void* val = *addr;
+
+				if (val)
+				{
+					fn(addr, sc, NULL);
+				}
+			}
+		}
+	}
+}
+
 void GCToEEInterface::GcScanRoots(promote_func* fn,  int condemned, int max_gen, ScanContext* sc)
 {
     // TODO: Implement - Scan stack roots on given thread
@@ -239,17 +392,19 @@ void GCToEEInterface::GcScanRoots(promote_func* fn,  int condemned, int max_gen,
 
     Thread* cur = ThreadStore::GetThreadList(NULL);
     std::vector<uintptr_t> registers;
-    while (cur)
-    {
-        il2cpp::os::Thread* th = cur->GetNativeThread();
-        if (th)
-        {
-            registers.clear();
+	while (cur)
+	{
+		il2cpp::os::Thread* th = cur->GetNativeThread();
+		if (th)
+		{
+			registers.clear();
 			uintptr_t sp = clrgc::GetStackPointerAndRegisters(gcThreadId == th->Id(), th->GetNativeHandle(), registers);
-            GcScanRootsInner(fn, sc, cur->GetBasePointer(), sp, registers);
-        }
-        cur = ThreadStore::GetThreadList(cur);
-    }	
+			GcScanRootsInner(fn, sc, cur->GetBasePointer(), sp, registers);
+		}
+		cur = ThreadStore::GetThreadList(cur);
+	}
+
+	ScanStatics(fn, sc);
 }
 
 void GCToEEInterface::GcStartWork(int condemned, int max_gen)
