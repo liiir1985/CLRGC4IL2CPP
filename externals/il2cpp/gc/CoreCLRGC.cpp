@@ -220,6 +220,11 @@ Il2CppObject* il2cpp::gc::GarbageCollector::AllocateFree(size_t size, Il2CppClas
 	return (Il2CppObject*)clrgc::AllocateFree(size, klass);
 }
 
+void il2cpp::gc::GarbageCollector::WriteBarrier(void** dst, void* ref)
+{
+	clrgc::WriteBarrier(dst, ref);
+}
+
 int32_t
 il2cpp::gc::GarbageCollector::InvokeFinalizers()
 {

@@ -83,7 +83,7 @@ struct Il2CppMetadataCache
 
 static Il2CppMetadataCache s_MetadataCache;
 static Il2CppClass** s_TypeInfoTable = NULL;
-static Il2CppClass** s_TypeInfoDefinitionTable = NULL;
+Il2CppClass** s_TypeInfoDefinitionTable = NULL;
 static const MethodInfo** s_MethodInfoDefinitionTable = NULL;
 static Il2CppString** s_StringLiteralTable = NULL;
 static const Il2CppGenericMethod** s_GenericMethodTable = NULL;
@@ -130,7 +130,7 @@ void MetadataCache::Register(const Il2CppCodeRegistration* const codeRegistratio
 }
 
 static void* s_GlobalMetadata;
-static const Il2CppGlobalMetadataHeader* s_GlobalMetadataHeader;
+const Il2CppGlobalMetadataHeader* s_GlobalMetadataHeader;
 
 void MetadataCache::Initialize()
 {

@@ -99,6 +99,7 @@ class Thread
 {
     uint32_t m_fPreemptiveGCDisabled;
     uintptr_t m_alloc_context[16]; // Reserve enough space to fix allocation context
+	intptr_t m_basePtr;
 
     friend class ThreadStore;
     Thread * m_pNext;
@@ -148,6 +149,16 @@ public:
         // a foreground GC proceed at that point. So it's always safe to return true.
         return true;
     }
+
+	void SetBasePointer(intptr_t addr)
+	{
+		m_basePtr = addr;
+	}
+
+	intptr_t GetBasePointer()
+	{
+		return m_basePtr;
+	}
 };
 
 Thread * GetThread();
@@ -157,7 +168,7 @@ class ThreadStore
 public:
     static Thread * GetThreadList(Thread * pThread);
 
-    static void AttachCurrentThread();
+    static void AttachCurrentThread(void* baseptr);
 };
 
 // -----------------------------------------------------------------------------------------------------------

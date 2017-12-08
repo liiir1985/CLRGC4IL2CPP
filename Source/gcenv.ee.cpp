@@ -1,4 +1,4 @@
-#include "il2cpp-config.h"
+﻿#include "il2cpp-config.h"
 #if IL2CPP_GC_CORE
 // Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
@@ -17,6 +17,7 @@
 #include "gc/GarbageCollector.h"
 #include "vm/Thread.h"
 #include "object-internals.h"
+#include "il2cpp-metadata.h"
 #include "clrgc.h"
 
 MethodTable * g_pFreeObjectMethodTable;
@@ -140,47 +141,112 @@ Thread * ThreadStore::GetThreadList(Thread * pThread)
     return pThread->m_pNext;
 }
 
-void ThreadStore::AttachCurrentThread()
+extern const Il2CppGlobalMetadataHeader* s_GlobalMetadataHeader;
+extern Il2CppClass** s_TypeInfoDefinitionTable;
+
+void ThreadStore::AttachCurrentThread(void* baseptr)
 {
-    // TODO: Locks
+    mutex.Lock();
     if (pCurrentThread)
+    {
+        pCurrentThread->SetBasePointer((intptr_t)baseptr);
+        mutex.Unlock();
         return;
+    }
     il2cpp::os::Thread* il2cppThread = il2cpp::os::Thread::GetOrCreateCurrentThread();
 
     Thread * pThread = new Thread();
     pThread->GetAllocContext()->init();
     pThread->SetNativeThread(il2cppThread);
+    pThread->SetBasePointer((intptr_t)baseptr);
     pCurrentThread = pThread;
 
-    mutex.Lock();	
     pThread->m_pNext = g_pThreadList;
     g_pThreadList = pThread;
     mutex.Unlock();
+}
+
+#define INTPTR_INC(p) p = p + sizeof(uintptr_t)
+#define INTPTR_DEC(p) p = p - sizeof(uintptr_t)
+#define IS_GC_HEAP_ADDR(addr) addr <= (PTR_Object)g_gc_highest_address && addr >= (PTR_Object)g_gc_lowest_address
+#define IS_VALID_KLASS(klass) klass >= s_TypeInfoDefinitionTable && klass <= (s_TypeInfoDefinitionTable + s_GlobalMetadataHeader->typeDefinitionsCount)
+
+void GcScanRootsInner(promote_func* fn, ScanContext* sc, uintptr_t bp, uintptr_t sp, std::vector<uintptr_t>& registers)
+{
+    if (sp > bp)
+    {
+        for (uintptr_t cur = sp; cur >= bp; INTPTR_DEC(cur))
+        {
+			PTR_PTR_Object pObj = (Object**)cur;
+			PTR_Object addr = *pObj;
+			if (IS_GC_HEAP_ADDR(addr))
+			{
+				Il2CppObject* obj = (Il2CppObject*)addr;
+				void* klass = obj->klass;
+				if (IS_VALID_KLASS(klass))
+				{
+					fn(pObj, sc, NULL);
+				}
+			}
+        }
+    }
+    else
+    {
+        for (uintptr_t cur = sp; cur <= bp; INTPTR_INC(cur))
+        {
+			PTR_PTR_Object pObj = (Object**)cur;
+			PTR_Object addr = *pObj;
+			if (IS_GC_HEAP_ADDR(addr))
+            {
+				Il2CppObject* obj = (Il2CppObject*)addr;
+				void* klass = obj->klass;
+                if (IS_VALID_KLASS(klass))
+                {
+                    fn(pObj, sc, NULL);
+                }
+            }
+        }
+    }
+    vector<uintptr_t>::iterator iter;
+    for (iter = registers.begin(); iter != registers.end(); iter++)
+    {
+        PTR_Object addr = (PTR_Object)*iter;
+		if (IS_GC_HEAP_ADDR(addr))
+		{
+			Il2CppObject* obj = (Il2CppObject*)addr;
+			void* klass = obj->klass;
+			if (IS_VALID_KLASS(klass))
+			{
+
+				//fn(pObj, sc, NULL);
+			}
+		}
+    }
 }
 
 void GCToEEInterface::GcScanRoots(promote_func* fn,  int condemned, int max_gen, ScanContext* sc)
 {
     // TODO: Implement - Scan stack roots on given thread
     uint64_t gcThreadId = 0;
-	if (pCurrentThread)
-	{
-		il2cpp::os::Thread* th = pCurrentThread->GetNativeThread();
-		if (th)
-		{
-			gcThreadId = th->Id();
-		}
-	}
+    if (pCurrentThread)
+    {
+        il2cpp::os::Thread* th = pCurrentThread->GetNativeThread();
+        if (th)
+        {
+            gcThreadId = th->Id();
+        }
+    }
 
     Thread* cur = ThreadStore::GetThreadList(NULL);
-	std::vector<intptr_t> registers;
+    std::vector<uintptr_t> registers;
     while (cur)
     {
         il2cpp::os::Thread* th = cur->GetNativeThread();
         if (th)
         {
-			registers.clear();
-			intptr_t sp = clrgc::GetStackPointerAndRegisters(gcThreadId == th->Id(), th->GetNativeHandle(), registers);
-			
+            registers.clear();
+			uintptr_t sp = clrgc::GetStackPointerAndRegisters(gcThreadId == th->Id(), th->GetNativeHandle(), registers);
+            GcScanRootsInner(fn, sc, cur->GetBasePointer(), sp, registers);
         }
         cur = ThreadStore::GetThreadList(cur);
     }	
@@ -365,65 +431,19 @@ bool GCToEEInterface::CreateThread(void (*threadStart)(void*), void* arg, bool i
     return false;
 }
 
-#include "gc_bohem.h"
+#include "private\gc_priv.h"
 void GCToEEInterface::SuspendEE(SUSPEND_REASON reason)
 {
-	g_theGCHeap->SetGCInProgress(true);
-	mutex.Lock();
-
-	/*uint64_t gcThreadId = 0;
-	if (pCurrentThread)
-	{
-	il2cpp::os::Thread* th = pCurrentThread->GetNativeThread();
-	if (th)
-	{
-	gcThreadId = th->Id();
-	}
-	}
-	Thread* cur = ThreadStore::GetThreadList(NULL);
-	while (cur)
-	{
-	il2cpp::os::Thread* th = cur->GetNativeThread();
-	if (th)
-	{
-	if (th->GetThreadState() == kThreadRuning && th->Id() != gcThreadId)
-	{
-	th->Suspend();
-	}
-	}
-	cur = ThreadStore::GetThreadList(cur);
-	}*/
-	GC_stop_world_external();
+    g_theGCHeap->SetGCInProgress(true);
+    mutex.Lock();
+    GC_stop_world_external();
 }
 
 void GCToEEInterface::RestartEE(bool bFinishedGC)
 {
-	// TODO: Implement
-	/*uint64_t gcThreadId = 0;
-	if (pCurrentThread)
-	{
-	il2cpp::os::Thread* th = pCurrentThread->GetNativeThread();
-	if (th)
-	{
-	gcThreadId = th->Id();
-	}
-	}
-	Thread* cur = ThreadStore::GetThreadList(NULL);
-	while (cur)
-	{
-	il2cpp::os::Thread* th = cur->GetNativeThread();
-	if (th)
-	{
-	if (th->GetThreadState() == kThreadRuning && th->Id() != gcThreadId)
-	{
-	th->Resume();
-	}
-	}
-	cur = ThreadStore::GetThreadList(cur);
-	}*/
-	GC_start_world_external();
-	mutex.Unlock();
+    GC_start_world_external();
+    mutex.Unlock();
 
-	g_theGCHeap->SetGCInProgress(false);
+    g_theGCHeap->SetGCInProgress(false);
 }
 #endif

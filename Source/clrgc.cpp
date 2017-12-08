@@ -91,10 +91,10 @@ namespace clrgc
 			*pCardByte = 0xFF;
 	}
 
-	void WriteBarrier(Object ** dst, Object * ref)
+	void WriteBarrier(void** dst, void* ref)
 	{
 		*dst = ref;
-		ErectWriteBarrier(dst, ref);
+		ErectWriteBarrier((Object**)dst, (Object*)ref);
 	}
 
 	struct FreeSizeObject_MethodTable
@@ -196,7 +196,7 @@ namespace clrgc
 		clrgc::InitBoehm();
 		clrgc::InitBoehmThread();
 		
-		ThreadStore::AttachCurrentThread();
+		ThreadStore::AttachCurrentThread(NULL);
 		//Main thread is runing
 		GetThread()->GetNativeThread()->SetThreadState(kThreadRuning);
 		return 0;
@@ -204,7 +204,7 @@ namespace clrgc
 
 	bool RegisterThread(void * basePtr)
 	{
-		ThreadStore::AttachCurrentThread();
+		ThreadStore::AttachCurrentThread(basePtr);
 		return true;
 	}
 

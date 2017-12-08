@@ -1193,7 +1193,7 @@ inline int64_t il2cpp_codegen_abs(int64_t value)
 template<typename T>
 inline void Il2CppCodeGenWriteBarrier(T** targetAddress, T* object)
 {
-    // TODO
+    il2cpp::gc::GarbageCollector::WriteBarrier((void**)targetAddress, (void*)object);
 }
 
 // This is used to get a tiny bit of type safety since we're casting the pointer away in a macro

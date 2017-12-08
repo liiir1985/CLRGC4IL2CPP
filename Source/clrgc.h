@@ -22,6 +22,8 @@ namespace clrgc
 
 	void* AllocateFree(size_t size, Il2CppClass* klass);
 
+	void WriteBarrier(void** dst, void* ref);
+
 	void RunFinalizer();
 
 	void RegisterFinalizer(Il2CppObject* obj, il2cpp::gc::GarbageCollector::FinalizerCallback callback);
@@ -36,5 +38,5 @@ namespace clrgc
 
 	intptr_t approx_sp(void);
 
-	intptr_t GetStackPointerAndRegisters(bool isSelf, void* handle, std::vector<intptr_t>& registers);
+	intptr_t GetStackPointerAndRegisters(bool isSelf, void* handle, std::vector<uintptr_t>& registers);
 }

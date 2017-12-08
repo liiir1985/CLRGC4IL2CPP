@@ -55,6 +55,7 @@ namespace gc
 #if IL2CPP_GC_PRECISE
 		static Il2CppObject* AllocateObject(size_t size, Il2CppClass* klass);
 		static Il2CppObject* AllocateFree(size_t size, Il2CppClass* klass);
+		static void WriteBarrier(void** dst, void* ref);
 #endif
         static bool RegisterThread(void *baseptr);
         static bool UnregisterThread();
