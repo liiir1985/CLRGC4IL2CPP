@@ -330,8 +330,8 @@ void ScanStatics(promote_func* fn, ScanContext* sc, int condemned)
 		FieldInfo *field;
 		if (!klass)
 			continue;
-		if (klass->image == il2cpp_defaults.corlib)
-			continue;
+		//if (klass->image == il2cpp_defaults.corlib)
+		//	continue;
 		if (klass->size_inited == 0)
 			continue;
 
@@ -367,7 +367,9 @@ void ScanStatics(promote_func* fn, ScanContext* sc, int condemned)
 
 				if (val && IS_VALID_GEN(val, condemned))
 				{
-					fn(addr, sc, NULL);
+					Il2CppObject* obj = (Il2CppObject*)val;
+					if (clrgc::IsValidInternalMemory(obj->MethodTable))
+						fn(addr, sc, NULL);
 				}
 			}
 		}
