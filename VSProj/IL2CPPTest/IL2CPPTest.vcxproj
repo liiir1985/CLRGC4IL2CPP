@@ -602,6 +602,7 @@
     <ClCompile Include="..\..\Source\clrgc.cpp" />
     <ClCompile Include="..\..\Source\gcenv.ee.cpp" />
     <ClCompile Include="..\..\Source\get_sp_win32.cpp" />
+    <ClCompile Include="..\..\Source\mem_pool.cpp" />
     <ClCompile Include="IL2CPPTest.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

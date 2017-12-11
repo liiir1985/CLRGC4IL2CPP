@@ -264,8 +264,8 @@ void GCLog22 (const char *fmt, ... );
 // wanting to inspect GC logs on unmodified builds, we can use this define here
 // to do so.
 void GCLog22(const char *fmt, ...);
-//#define dprintf(l, x) {{GCLog22 x;}}
-#define dprintf(l, x)
+#define dprintf(l, x) {{GCLog22 x;}}
+//#define dprintf(l, x)
 #endif //SIMPLE_DPRINTF
 
 #else //DACCESS_COMPILE

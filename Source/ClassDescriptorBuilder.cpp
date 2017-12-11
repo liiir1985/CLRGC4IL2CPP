@@ -10,11 +10,14 @@
 #include "tabledefs.h"
 #include "object-internals.h"
 #include "vm/Class.h"
+#include "os/Mutex.h"
 
 namespace clrgc
 {
 	namespace descriptor_builder
 	{
+		il2cpp::os::FastMutex mutex;
+
 		inline BOOL IS_ALIGNED(size_t val, size_t alignment)
 		{
 			LIMITED_METHOD_CONTRACT;
@@ -79,14 +82,15 @@ namespace clrgc
 			return cnt;
 		}
 
-		inline MethodTable* AllocNewMT(size_t seriesNum)
+		inline MethodTable* AllocNewMT(size_t seriesNum, uint16_t flags)
 		{
 			MethodTable* pMT;
 			size_t seriesSize = CGCDesc::ComputeSize(seriesNum);
 			size_t size = sizeof(MethodTable) + seriesSize;
-			void* ptr = malloc(size);
+			void* ptr = clrgc::AllocateInternal(size);
 			pMT = (MethodTable*)((intptr_t)ptr + seriesSize);
 			pMT->m_componentSize = 0;
+			pMT->m_flags = flags;
 			PTR_CGCDesc desc = CGCDesc::GetCGCDescFromMT(pMT);
 			desc->Init(pMT, seriesNum);
 
@@ -111,10 +115,10 @@ namespace clrgc
 
 						// negative series has a special meaning, indicating a different form of GCDesc
 						size_t nSeries = CGCDesc::GetCGCDescFromMT(pElemMT)->GetNumSeries();
-						pMT = AllocNewMT(nSeries);
-						pMT->m_flags = MTFlag_Collectible | MTFlag_IsArray | MTFlag_ContainsPointers | MTFlag_HasComponentSize;
+						uint16_t flags = MTFlag_IsArray | MTFlag_ContainsPointers | MTFlag_HasComponentSize;
 						if (klass->has_finalize)
-							pMT->m_flags |= MTFlag_HasFinalizer;
+							flags |= MTFlag_HasFinalizer;
+						pMT = AllocNewMT(nSeries, flags);
 						pMT->m_baseSize = AlignedSize(klass->instance_size);
 						pMT->m_componentSize = klass->element_size;
 						CGCDesc::GetCGCDescFromMT(pMT)->InitValueClassSeries(pMT, nSeries);
@@ -181,7 +185,7 @@ namespace clrgc
 					else
 					{
 						size_t size = sizeof(MethodTable) + sizeof(size_t);
-						void* ptr = malloc(size);
+						void* ptr = clrgc::AllocateInternal(size);
 						pMT = (MethodTable*)((intptr_t)ptr + sizeof(size_t));
 						pMT->m_flags = MTFlag_Collectible | MTFlag_IsArray | MTFlag_HasComponentSize;
 						if (klass->has_finalize)
@@ -194,10 +198,10 @@ namespace clrgc
 				}
 				else
 				{
-					pMT = AllocNewMT(1);
-					pMT->m_flags = MTFlag_Collectible | MTFlag_ContainsPointers | MTFlag_IsArray | MTFlag_HasComponentSize;
+					uint16_t flags = MTFlag_ContainsPointers | MTFlag_IsArray | MTFlag_HasComponentSize;
 					if (klass->has_finalize)
-						pMT->m_flags |= MTFlag_HasFinalizer;
+						flags |= MTFlag_HasFinalizer;
+					pMT = AllocNewMT(1, flags);
 					pMT->m_baseSize = AlignedSize(klass->instance_size);
 					pMT->m_componentSize = klass->element_size;
 					
@@ -216,10 +220,10 @@ namespace clrgc
 				if (klass->has_references)
 				{
 					size_t seriesNum = CalculateSeriesNum(klass);
-					pMT = AllocNewMT(seriesNum);
-					pMT->m_flags = MTFlag_Collectible | MTFlag_ContainsPointers;
+					uint16_t flags = MTFlag_ContainsPointers;
 					if (klass->has_finalize)
-						pMT->m_flags |= MTFlag_HasFinalizer;
+						flags |= MTFlag_HasFinalizer;
+					pMT = AllocNewMT(seriesNum, flags);
 					pMT->m_baseSize = AlignedSize(klass->instance_size);
 					pMT->m_componentSize = 0;
 					PTR_CGCDescSeries series = CGCDesc::GetCGCDescFromMT(pMT)->GetLowestSeries();
@@ -246,7 +250,7 @@ namespace clrgc
 				else
 				{
 					size_t size = sizeof(MethodTable) + sizeof(size_t);
-					void* ptr = malloc(size);
+					void* ptr = clrgc::AllocateInternal(size);
 					pMT = (MethodTable*)((intptr_t)ptr + sizeof(size_t));
 					pMT->m_flags = MTFlag_Collectible;
 					if (klass->has_finalize)
@@ -266,8 +270,12 @@ namespace clrgc
 		{
 			if (klass->gc_desc_precise)
 				return (MethodTable*)klass->gc_desc_precise;
-			
+			mutex.Lock();
+			//It can be retrived from a previous lock operation
+			if (klass->gc_desc_precise)
+				return (MethodTable*)klass->gc_desc_precise;
 			GenerateMethodTable(klass);
+			mutex.Unlock();
 			return (MethodTable*)klass->gc_desc_precise;
 		}
 	}

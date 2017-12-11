@@ -22,6 +22,10 @@ namespace clrgc
 
 	void* AllocateFree(size_t size, Il2CppClass* klass);
 
+	void* AllocateInternal(size_t size);
+
+	bool IsValidInternalMemory(void* ptr);
+
 	void WriteBarrier(void** dst, void* ref);
 
 	void RunFinalizer();

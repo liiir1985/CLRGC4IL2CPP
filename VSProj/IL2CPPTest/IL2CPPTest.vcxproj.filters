@@ -1400,5 +1400,8 @@
     <ClCompile Include="..\..\Source\get_sp_win32.cpp">
       <Filter>源文件\clrgc</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\mem_pool.cpp">
+      <Filter>源文件\clrgc</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

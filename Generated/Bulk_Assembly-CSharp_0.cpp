@@ -193,7 +193,7 @@ IL_0001:
 		GC_get_heap_usage_safe(&pheap_size, &pfree_bytes, &punmapped_bytes, &pbytes_since_gc, &ptotal_bytes);
 		printf("pheap_size=%d, pfree_bytes=%d, punmapped_bytes=%d, pbytes_since_gc=%d, ptotal_bytes=%d\n", pheap_size, pfree_bytes, punmapped_bytes, pbytes_since_gc, ptotal_bytes);*/
 
-		if ((((int32_t)L_13) <= ((int32_t)((int32_t)50000))))
+		if ((((int32_t)L_13) <= ((int32_t)((int32_t)50))))
 		{
 			goto IL_007f;
 		}
@@ -201,7 +201,7 @@ IL_0001:
 	{
 		List_1_t3836700070 * L_14 = ((Main_t3706940067_StaticFields*)Main_t3706940067_il2cpp_TypeInfo_var->static_fields)->get_lst_0();
 		NullCheck(L_14);
-		List_1_RemoveRange_m3027445787(L_14, ((int32_t)10000), ((int32_t)40000), /*hidden argument*/List_1_RemoveRange_m3027445787_MethodInfo_var);
+		List_1_RemoveRange_m3027445787(L_14, ((int32_t)10), ((int32_t)40), /*hidden argument*/List_1_RemoveRange_m3027445787_MethodInfo_var);
 	}
 
 IL_007f:

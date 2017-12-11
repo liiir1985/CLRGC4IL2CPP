@@ -173,8 +173,8 @@ void ThreadStore::AttachCurrentThread(void* baseptr)
 #define INTPTR_DEC(p) p = p - sizeof(uintptr_t)
 #define IS_GC_HEAP_ADDR(addr) addr <= (PTR_Object)g_gc_highest_address && addr >= (PTR_Object)g_gc_lowest_address
 #define IS_VALID_KLASS(klass) klass >= s_TypeInfoDefinitionTable && klass <= (s_TypeInfoDefinitionTable + s_GlobalMetadataHeader->typeDefinitionsCount)
-
-void GcScanRootsInner(promote_func* fn, ScanContext* sc, uintptr_t bp, uintptr_t sp, std::vector<uintptr_t>& registers)
+#define IS_VALID_GEN(obj, condemned) IS_GC_HEAP_ADDR(obj) && g_theGCHeap->WhichGeneration((Object*)obj) == condemned
+void GcScanRootsInner(promote_func* fn, ScanContext* sc, int condemned, uintptr_t bp, uintptr_t sp, std::vector<uintptr_t>& registers)
 {
     if (sp > bp)
     {
@@ -182,11 +182,10 @@ void GcScanRootsInner(promote_func* fn, ScanContext* sc, uintptr_t bp, uintptr_t
         {
 			PTR_PTR_Object pObj = (Object**)cur;
 			PTR_Object addr = *pObj;
-			if (IS_GC_HEAP_ADDR(addr))
+			if (IS_VALID_GEN(addr, condemned))
 			{
 				Il2CppObject* obj = (Il2CppObject*)addr;
-				void* klass = obj->klass;
-				if (IS_VALID_KLASS(klass))
+				if (clrgc::IsValidInternalMemory(obj->MethodTable))
 				{
 					fn(pObj, sc, NULL);
 				}
@@ -199,28 +198,26 @@ void GcScanRootsInner(promote_func* fn, ScanContext* sc, uintptr_t bp, uintptr_t
         {
 			PTR_PTR_Object pObj = (Object**)cur;
 			PTR_Object addr = *pObj;
-			if (IS_GC_HEAP_ADDR(addr))
-            {
+			if (IS_VALID_GEN(addr, condemned))
+			{
 				Il2CppObject* obj = (Il2CppObject*)addr;
-				void* klass = obj->klass;
-                if (IS_VALID_KLASS(klass))
-                {
-                    fn(pObj, sc, NULL);
-                }
-            }
+				if (clrgc::IsValidInternalMemory(obj->MethodTable))
+				{
+					fn(pObj, sc, NULL);
+				}
+			}
         }
     }
     vector<uintptr_t>::iterator iter;
     for (iter = registers.begin(); iter != registers.end(); iter++)
     {
         PTR_Object addr = (PTR_Object)*iter;
-		if (IS_GC_HEAP_ADDR(addr))
+		if (IS_VALID_GEN(addr, condemned))
 		{
 			Il2CppObject* obj = (Il2CppObject*)addr;
-			void* klass = obj->klass;
-			if (IS_VALID_KLASS(klass))
+			if (clrgc::IsValidInternalMemory(obj->MethodTable))
 			{
-
+				IL2CPP_ASSERT(IL2CPP_E_NOTIMPL);
 				//fn(pObj, sc, NULL);
 			}
 		}
@@ -260,7 +257,7 @@ void** StaticGetValueAddress(FieldInfo *field)
 	return src;
 }
 
-void TraverseObjectInternal(promote_func* fn, ScanContext* sc, Il2CppObject* object, bool isStruct, Il2CppClass* klass)
+void TraverseObjectInternal(promote_func* fn, ScanContext* sc, int condemned, Il2CppObject* object, bool isStruct, Il2CppClass* klass)
 {
 	FieldInfo *field;
 	Il2CppClass *p;
@@ -295,10 +292,10 @@ void TraverseObjectInternal(promote_func* fn, ScanContext* sc, Il2CppObject* obj
 				if (il2cpp::vm::Type::IsGenericInstance(field->type))
 				{
 					IL2CPP_ASSERT(field->type->data.generic_class->cached_class);
-					TraverseObjectInternal(fn, sc, (Il2CppObject*)offseted, true, field->type->data.generic_class->cached_class);
+					TraverseObjectInternal(fn, sc, condemned, (Il2CppObject*)offseted, true, field->type->data.generic_class->cached_class);
 				}
 				else
-					TraverseObjectInternal(fn, sc, (Il2CppObject*)offseted, true, il2cpp::vm::Type::GetClass(field->type));
+					TraverseObjectInternal(fn, sc, condemned, (Il2CppObject*)offseted, true, il2cpp::vm::Type::GetClass(field->type));
 				continue;
 			}
 
@@ -311,7 +308,7 @@ void TraverseObjectInternal(promote_func* fn, ScanContext* sc, Il2CppObject* obj
 				
 				PTR_PTR_Object src = (PTR_PTR_Object)((char*)object + field->offset);
 				PTR_Object val = *src;
-				if (val)
+				if (val && IS_VALID_GEN(val, condemned))
 				{
 					fn(src, sc, NULL);
 				}				
@@ -320,7 +317,7 @@ void TraverseObjectInternal(promote_func* fn, ScanContext* sc, Il2CppObject* obj
 	}
 }
 
-void ScanStatics(promote_func* fn, ScanContext* sc)
+void ScanStatics(promote_func* fn, ScanContext* sc, int condemned)
 {
 	const dynamic_array<Il2CppClass*>& classesWithStatics = il2cpp::vm::Class::GetStaticFieldData();
 
@@ -356,11 +353,11 @@ void ScanStatics(promote_func* fn, ScanContext* sc)
 				if (il2cpp::vm::Type::IsGenericInstance(field->type))
 				{
 					IL2CPP_ASSERT(field->type->data.generic_class->cached_class);
-					TraverseObjectInternal(fn, sc, (Il2CppObject*)offseted, true, field->type->data.generic_class->cached_class);
+					TraverseObjectInternal(fn, sc, condemned, (Il2CppObject*)offseted, true, field->type->data.generic_class->cached_class);
 				}
 				else
 				{
-					TraverseObjectInternal(fn, sc, (Il2CppObject*)offseted, true, il2cpp::vm::Type::GetClass(field->type));
+					TraverseObjectInternal(fn, sc, condemned, (Il2CppObject*)offseted, true, il2cpp::vm::Type::GetClass(field->type));
 				}
 			}
 			else
@@ -368,7 +365,7 @@ void ScanStatics(promote_func* fn, ScanContext* sc)
 				PTR_PTR_Object addr = (PTR_PTR_Object)StaticGetValueAddress(field);
 				void* val = *addr;
 
-				if (val)
+				if (val && IS_VALID_GEN(val, condemned))
 				{
 					fn(addr, sc, NULL);
 				}
@@ -399,12 +396,12 @@ void GCToEEInterface::GcScanRoots(promote_func* fn,  int condemned, int max_gen,
 		{
 			registers.clear();
 			uintptr_t sp = clrgc::GetStackPointerAndRegisters(gcThreadId == th->Id(), th->GetNativeHandle(), registers);
-			GcScanRootsInner(fn, sc, cur->GetBasePointer(), sp, registers);
+			GcScanRootsInner(fn, sc, condemned, cur->GetBasePointer(), sp, registers);
 		}
 		cur = ThreadStore::GetThreadList(cur);
 	}
 
-	ScanStatics(fn, sc);
+	ScanStatics(fn, sc, condemned);
 }
 
 void GCToEEInterface::GcStartWork(int condemned, int max_gen)
