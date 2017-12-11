@@ -19,6 +19,8 @@ struct Main_t3706940067;
 struct TestClass_t172611642;
 // TestLib.TestClass2
 struct TestClass2_t2823348084;
+// System.String
+struct String_t;
 
 #include "class-internals.h"
 #include "codegen/il2cpp-codegen.h"
@@ -32,21 +34,24 @@ struct TestClass2_t2823348084;
 #include "mscorlib_System_Collections_Generic_List_1_gen3836700070MethodDeclarations.h"
 #include "mscorlib_System_Threading_ThreadStart3437517264MethodDeclarations.h"
 #include "mscorlib_System_Threading_Thread241561612MethodDeclarations.h"
+#include "mscorlib_System_String2029220233MethodDeclarations.h"
+#include "mscorlib_System_Console2311202731MethodDeclarations.h"
 #include "mscorlib_System_Threading_Thread241561612.h"
 #include "mscorlib_System_Collections_Generic_List_1_gen3836700070.h"
 #include "mscorlib_System_Threading_ThreadStart3437517264.h"
 #include "mscorlib_System_Object2689449295.h"
 #include "mscorlib_System_IntPtr2504060609.h"
 #include "mscorlib_System_Int322071877448.h"
+#include "mscorlib_System_String2029220233.h"
+#include "AssemblyU2DCSharp_TestLib_TestClass172611642.h"
 #include "AssemblyU2DCSharp_TestLib_TestClass172611642MethodDeclarations.h"
 #include "AssemblyU2DCSharp_TestLib_TestClass22823348084MethodDeclarations.h"
-#include "AssemblyU2DCSharp_TestLib_TestClass172611642.h"
 #include "AssemblyU2DCSharp_TestLib_TestStruct1193123819.h"
 #include "mscorlib_System_Byte3683104436.h"
 #include "AssemblyU2DCSharp_TestLib_TestClass22823348084.h"
-#include "AssemblyU2DCSharp_TestLib_TestStruct1193123819MethodDeclarations.h"
 #include "mscorlib_System_Int64909078037.h"
-//#include "gc.h"
+#include "AssemblyU2DCSharp_TestLib_TestStruct1193123819MethodDeclarations.h"
+
 #ifdef __clang__
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Winvalid-offsetof"
@@ -65,8 +70,12 @@ extern Il2CppClass* List_1_t3836700070_il2cpp_TypeInfo_var;
 extern Il2CppClass* Main_t3706940067_il2cpp_TypeInfo_var;
 extern Il2CppClass* ThreadStart_t3437517264_il2cpp_TypeInfo_var;
 extern Il2CppClass* Thread_t241561612_il2cpp_TypeInfo_var;
+extern Il2CppClass* String_t_il2cpp_TypeInfo_var;
+extern Il2CppClass* Console_t2311202731_il2cpp_TypeInfo_var;
 extern const MethodInfo* List_1__ctor_m574377014_MethodInfo_var;
 extern const MethodInfo* Main_MainLoop_m709282870_MethodInfo_var;
+extern const MethodInfo* List_1_get_Item_m3473343921_MethodInfo_var;
+extern Il2CppCodeGenString* _stringLiteral4146534670;
 extern const uint32_t Main_TestGC_m1651579141_MetadataUsageId;
 extern "C"  void Main_TestGC_m1651579141 (Il2CppObject * __this /* static, unused */, const MethodInfo* method)
 {
@@ -76,24 +85,13 @@ extern "C"  void Main_TestGC_m1651579141 (Il2CppObject * __this /* static, unuse
 		il2cpp_codegen_initialize_method (Main_TestGC_m1651579141_MetadataUsageId);
 		s_Il2CppMethodInitialized = true;
 	}
-
-	for (int i = 0; i < List_1_t3836700070_il2cpp_TypeInfo_var->field_count; i++)
-	{
-		FieldInfo &fi = List_1_t3836700070_il2cpp_TypeInfo_var->fields[i];
-
-		printf("name:%s type:%d offset=%d flags=0x%X\n", fi.name, fi.type->type, fi.offset, il2cpp_field_get_flags(&fi));
-	}
 	Thread_t241561612 * V_0 = NULL;
 	{
 		List_1_t3836700070 * L_0 = (List_1_t3836700070 *)il2cpp_codegen_object_new(List_1_t3836700070_il2cpp_TypeInfo_var);
-		printf("name:1111 offset=0x%X\n", offsetof(List_1_t3836700070, klass));
-		printf("name:1111 offset=0x%X\n", offsetof(List_1_t3836700070, monitor));
-		Il2CppObject* obj2 = (Il2CppObject*)L_0;
-		printf("addr1=0x%X addr2=0x%X \n", (intptr_t)L_0, (intptr_t)obj2);
 		List_1__ctor_m574377014(L_0, /*hidden argument*/List_1__ctor_m574377014_MethodInfo_var);
+		IL2CPP_RUNTIME_CLASS_INIT(Main_t3706940067_il2cpp_TypeInfo_var);
 		((Main_t3706940067_StaticFields*)Main_t3706940067_il2cpp_TypeInfo_var->static_fields)->set_lst_0(L_0);
-
-		ThreadStart_t3437517264 * L_1 = ((Main_t3706940067_StaticFields*)Main_t3706940067_il2cpp_TypeInfo_var->static_fields)->get_U3CU3Ef__mgU24cache0_1();
+		ThreadStart_t3437517264 * L_1 = ((Main_t3706940067_StaticFields*)Main_t3706940067_il2cpp_TypeInfo_var->static_fields)->get_U3CU3Ef__mgU24cache0_3();
 		if (L_1)
 		{
 			goto IL_0023;
@@ -104,12 +102,14 @@ extern "C"  void Main_TestGC_m1651579141 (Il2CppObject * __this /* static, unuse
 		L_2.set_m_value_0((void*)(void*)Main_MainLoop_m709282870_MethodInfo_var);
 		ThreadStart_t3437517264 * L_3 = (ThreadStart_t3437517264 *)il2cpp_codegen_object_new(ThreadStart_t3437517264_il2cpp_TypeInfo_var);
 		ThreadStart__ctor_m3015256841(L_3, NULL, L_2, /*hidden argument*/NULL);
-		((Main_t3706940067_StaticFields*)Main_t3706940067_il2cpp_TypeInfo_var->static_fields)->set_U3CU3Ef__mgU24cache0_1(L_3);
+		IL2CPP_RUNTIME_CLASS_INIT(Main_t3706940067_il2cpp_TypeInfo_var);
+		((Main_t3706940067_StaticFields*)Main_t3706940067_il2cpp_TypeInfo_var->static_fields)->set_U3CU3Ef__mgU24cache0_3(L_3);
 	}
 
 IL_0023:
 	{
-		ThreadStart_t3437517264 * L_4 = ((Main_t3706940067_StaticFields*)Main_t3706940067_il2cpp_TypeInfo_var->static_fields)->get_U3CU3Ef__mgU24cache0_1();
+		IL2CPP_RUNTIME_CLASS_INIT(Main_t3706940067_il2cpp_TypeInfo_var);
+		ThreadStart_t3437517264 * L_4 = ((Main_t3706940067_StaticFields*)Main_t3706940067_il2cpp_TypeInfo_var->static_fields)->get_U3CU3Ef__mgU24cache0_3();
 		Thread_t241561612 * L_5 = (Thread_t241561612 *)il2cpp_codegen_object_new(Thread_t241561612_il2cpp_TypeInfo_var);
 		Thread__ctor_m4175494164(L_5, L_4, /*hidden argument*/NULL);
 		V_0 = L_5;
@@ -120,18 +120,25 @@ IL_0023:
 
 IL_0034:
 	{
-		printf("MainLoop");
 		IL2CPP_RUNTIME_CLASS_INIT(Thread_t241561612_il2cpp_TypeInfo_var);
-		Thread_Sleep_m1248422015(NULL /*static, unused*/, ((int32_t)100), /*hidden argument*/NULL);
+		Thread_Sleep_m1248422015(NULL /*static, unused*/, ((int32_t)1000), /*hidden argument*/NULL);
+		IL2CPP_RUNTIME_CLASS_INIT(Main_t3706940067_il2cpp_TypeInfo_var);
+		List_1_t3836700070 * L_7 = ((Main_t3706940067_StaticFields*)Main_t3706940067_il2cpp_TypeInfo_var->static_fields)->get_lst_0();
+		NullCheck(L_7);
+		TestClass_t172611642 * L_8 = List_1_get_Item_m3473343921(L_7, 0, /*hidden argument*/List_1_get_Item_m3473343921_MethodInfo_var);
+		IL2CPP_RUNTIME_CLASS_INIT(String_t_il2cpp_TypeInfo_var);
+		String_t* L_9 = String_Format_m2024975688(NULL /*static, unused*/, _stringLiteral4146534670, L_8, /*hidden argument*/NULL);
+		IL2CPP_RUNTIME_CLASS_INIT(Console_t2311202731_il2cpp_TypeInfo_var);
+		Console_WriteLine_m3271989373(NULL /*static, unused*/, L_9, /*hidden argument*/NULL);
 		goto IL_0034;
 	}
 }
 // System.Void TestLib.Main::MainLoop()
 extern Il2CppClass* TestClass_t172611642_il2cpp_TypeInfo_var;
+extern Il2CppClass* Main_t3706940067_il2cpp_TypeInfo_var;
 extern Il2CppClass* TestClass2_t2823348084_il2cpp_TypeInfo_var;
 extern Il2CppClass* TestStruct_t1193123819_il2cpp_TypeInfo_var;
 extern Il2CppClass* List_1_t3836700070_il2cpp_TypeInfo_var;
-extern Il2CppClass* Main_t3706940067_il2cpp_TypeInfo_var;
 extern Il2CppClass* Thread_t241561612_il2cpp_TypeInfo_var;
 extern const MethodInfo* List_1__ctor_m574377014_MethodInfo_var;
 extern const MethodInfo* List_1_Add_m823888578_MethodInfo_var;
@@ -161,54 +168,84 @@ IL_0001:
 		NullCheck(L_1);
 		TestClass_set_Byte_m3274944280(L_1, 1, /*hidden argument*/NULL);
 		TestClass_t172611642 * L_2 = V_0;
+		IL2CPP_RUNTIME_CLASS_INIT(Main_t3706940067_il2cpp_TypeInfo_var);
+		int32_t L_3 = ((Main_t3706940067_StaticFields*)Main_t3706940067_il2cpp_TypeInfo_var->static_fields)->get_idx_1();
 		NullCheck(L_2);
-		TestClass_set_Int_m3712982379(L_2, 2, /*hidden argument*/NULL);
-		TestClass_t172611642 * L_3 = V_0;
-		TestClass2_t2823348084 * L_4 = (TestClass2_t2823348084 *)il2cpp_codegen_object_new(TestClass2_t2823348084_il2cpp_TypeInfo_var);
-		TestClass2__ctor_m3015933272(L_4, /*hidden argument*/NULL);
-		NullCheck(L_3);
-		TestClass_set_Object_m2601583493(L_3, L_4, /*hidden argument*/NULL);
-		Initobj (TestStruct_t1193123819_il2cpp_TypeInfo_var, (&V_1));
+		TestClass_set_Int_m3712982379(L_2, L_3, /*hidden argument*/NULL);
+		TestClass_t172611642 * L_4 = V_0;
 		TestClass2_t2823348084 * L_5 = (TestClass2_t2823348084 *)il2cpp_codegen_object_new(TestClass2_t2823348084_il2cpp_TypeInfo_var);
 		TestClass2__ctor_m3015933272(L_5, /*hidden argument*/NULL);
-		TestStruct_set_Object_m3182382424((&V_1), L_5, /*hidden argument*/NULL);
+		NullCheck(L_4);
+		TestClass_set_Object_m2601583493(L_4, L_5, /*hidden argument*/NULL);
 		TestClass_t172611642 * L_6 = V_0;
 		NullCheck(L_6);
 		TestClass2_t2823348084 * L_7 = TestClass_get_Object_m4251471040(L_6, /*hidden argument*/NULL);
-		TestStruct_t1193123819  L_8 = V_1;
+		int32_t L_8 = ((Main_t3706940067_StaticFields*)Main_t3706940067_il2cpp_TypeInfo_var->static_fields)->get_idx_1();
 		NullCheck(L_7);
-		TestClass2_set_Struct_m2775423800(L_7, L_8, /*hidden argument*/NULL);
-		//List_1_t3836700070 * L_9 = (List_1_t3836700070 *)il2cpp_codegen_object_new(List_1_t3836700070_il2cpp_TypeInfo_var);
-		//List_1__ctor_m574377014(L_9, /*hidden argument*/List_1__ctor_m574377014_MethodInfo_var);
-		//((Main_t3706940067_StaticFields*)Main_t3706940067_il2cpp_TypeInfo_var->static_fields)->set_lst_0(L_9);
-		List_1_t3836700070 * L_10 = ((Main_t3706940067_StaticFields*)Main_t3706940067_il2cpp_TypeInfo_var->static_fields)->get_lst_0();
-		TestClass_t172611642 * L_11 = V_0;
+		TestClass2_set_Long_m3494713159(L_7, (((int64_t)((int64_t)((int32_t)((int32_t)L_8+(int32_t)1))))), /*hidden argument*/NULL);
+		Initobj (TestStruct_t1193123819_il2cpp_TypeInfo_var, (&V_1));
+		TestClass2_t2823348084 * L_9 = (TestClass2_t2823348084 *)il2cpp_codegen_object_new(TestClass2_t2823348084_il2cpp_TypeInfo_var);
+		TestClass2__ctor_m3015933272(L_9, /*hidden argument*/NULL);
+		TestStruct_set_Object_m3182382424((&V_1), L_9, /*hidden argument*/NULL);
+		TestClass2_t2823348084 * L_10 = TestStruct_get_Object_m1668251399((&V_1), /*hidden argument*/NULL);
+		int32_t L_11 = ((Main_t3706940067_StaticFields*)Main_t3706940067_il2cpp_TypeInfo_var->static_fields)->get_idx_1();
 		NullCheck(L_10);
-		List_1_Add_m823888578(L_10, L_11, /*hidden argument*/List_1_Add_m823888578_MethodInfo_var);
-		List_1_t3836700070 * L_12 = ((Main_t3706940067_StaticFields*)Main_t3706940067_il2cpp_TypeInfo_var->static_fields)->get_lst_0();
+		TestClass2_set_Long_m3494713159(L_10, (((int64_t)((int64_t)((int32_t)((int32_t)L_11+(int32_t)2))))), /*hidden argument*/NULL);
+		TestClass_t172611642 * L_12 = V_0;
 		NullCheck(L_12);
-		int32_t L_13 = List_1_get_Count_m3314063396(L_12, /*hidden argument*/List_1_get_Count_m3314063396_MethodInfo_var);
-		
-		/*GC_word pheap_size = 0, pfree_bytes = 0, punmapped_bytes = 0, pbytes_since_gc = 0, ptotal_bytes = 0;
-		GC_get_heap_usage_safe(&pheap_size, &pfree_bytes, &punmapped_bytes, &pbytes_since_gc, &ptotal_bytes);
-		printf("pheap_size=%d, pfree_bytes=%d, punmapped_bytes=%d, pbytes_since_gc=%d, ptotal_bytes=%d\n", pheap_size, pfree_bytes, punmapped_bytes, pbytes_since_gc, ptotal_bytes);*/
-
-		if ((((int32_t)L_13) <= ((int32_t)((int32_t)50))))
+		TestClass2_t2823348084 * L_13 = TestClass_get_Object_m4251471040(L_12, /*hidden argument*/NULL);
+		TestStruct_t1193123819  L_14 = V_1;
+		NullCheck(L_13);
+		TestClass2_set_Struct_m2775423800(L_13, L_14, /*hidden argument*/NULL);
+		List_1_t3836700070 * L_15 = (List_1_t3836700070 *)il2cpp_codegen_object_new(List_1_t3836700070_il2cpp_TypeInfo_var);
+		List_1__ctor_m574377014(L_15, /*hidden argument*/List_1__ctor_m574377014_MethodInfo_var);
+		((Main_t3706940067_StaticFields*)Main_t3706940067_il2cpp_TypeInfo_var->static_fields)->set_lst_0(L_15);
+		List_1_t3836700070 * L_16 = ((Main_t3706940067_StaticFields*)Main_t3706940067_il2cpp_TypeInfo_var->static_fields)->get_lst_0();
+		TestClass_t172611642 * L_17 = V_0;
+		NullCheck(L_16);
+		List_1_Add_m823888578(L_16, L_17, /*hidden argument*/List_1_Add_m823888578_MethodInfo_var);
+		List_1_t3836700070 * L_18 = ((Main_t3706940067_StaticFields*)Main_t3706940067_il2cpp_TypeInfo_var->static_fields)->get_lst_0();
+		NullCheck(L_18);
+		int32_t L_19 = List_1_get_Count_m3314063396(L_18, /*hidden argument*/List_1_get_Count_m3314063396_MethodInfo_var);
+		if ((((int32_t)L_19) <= ((int32_t)5)))
 		{
-			goto IL_007f;
+			goto IL_009e;
 		}
 	}
 	{
-		List_1_t3836700070 * L_14 = ((Main_t3706940067_StaticFields*)Main_t3706940067_il2cpp_TypeInfo_var->static_fields)->get_lst_0();
-		NullCheck(L_14);
-		List_1_RemoveRange_m3027445787(L_14, ((int32_t)10), ((int32_t)40), /*hidden argument*/List_1_RemoveRange_m3027445787_MethodInfo_var);
+		IL2CPP_RUNTIME_CLASS_INIT(Main_t3706940067_il2cpp_TypeInfo_var);
+		List_1_t3836700070 * L_20 = ((Main_t3706940067_StaticFields*)Main_t3706940067_il2cpp_TypeInfo_var->static_fields)->get_lst_0();
+		NullCheck(L_20);
+		List_1_RemoveRange_m3027445787(L_20, 1, 4, /*hidden argument*/List_1_RemoveRange_m3027445787_MethodInfo_var);
 	}
 
-IL_007f:
+IL_009e:
 	{
 		IL2CPP_RUNTIME_CLASS_INIT(Thread_t241561612_il2cpp_TypeInfo_var);
 		Thread_Sleep_m1248422015(NULL /*static, unused*/, ((int32_t)10), /*hidden argument*/NULL);
+		IL2CPP_RUNTIME_CLASS_INIT(Main_t3706940067_il2cpp_TypeInfo_var);
+		int32_t L_21 = ((Main_t3706940067_StaticFields*)Main_t3706940067_il2cpp_TypeInfo_var->static_fields)->get_idx_1();
+		((Main_t3706940067_StaticFields*)Main_t3706940067_il2cpp_TypeInfo_var->static_fields)->set_idx_1(((int32_t)((int32_t)L_21+(int32_t)((int32_t)10))));
+		int32_t L_22 = ((Main_t3706940067_StaticFields*)Main_t3706940067_il2cpp_TypeInfo_var->static_fields)->get_idx2_2();
+		((Main_t3706940067_StaticFields*)Main_t3706940067_il2cpp_TypeInfo_var->static_fields)->set_idx2_2(((int32_t)((int32_t)L_22+(int32_t)1)));
 		goto IL_0001;
+	}
+}
+// System.Void TestLib.Main::.cctor()
+extern Il2CppClass* Main_t3706940067_il2cpp_TypeInfo_var;
+extern const uint32_t Main__cctor_m240902136_MetadataUsageId;
+extern "C"  void Main__cctor_m240902136 (Il2CppObject * __this /* static, unused */, const MethodInfo* method)
+{
+	static bool s_Il2CppMethodInitialized;
+	if (!s_Il2CppMethodInitialized)
+	{
+		il2cpp_codegen_initialize_method (Main__cctor_m240902136_MetadataUsageId);
+		s_Il2CppMethodInitialized = true;
+	}
+	{
+		((Main_t3706940067_StaticFields*)Main_t3706940067_il2cpp_TypeInfo_var->static_fields)->set_idx_1(0);
+		((Main_t3706940067_StaticFields*)Main_t3706940067_il2cpp_TypeInfo_var->static_fields)->set_idx2_2(0);
+		return;
 	}
 }
 // System.Void TestLib.TestClass::.ctor()
@@ -294,6 +331,37 @@ extern "C"  void TestClass_set_Object_m2601583493 (TestClass_t172611642 * __this
 		return;
 	}
 }
+// System.String TestLib.TestClass::ToString()
+extern Il2CppClass* Int32_t2071877448_il2cpp_TypeInfo_var;
+extern Il2CppClass* String_t_il2cpp_TypeInfo_var;
+extern Il2CppCodeGenString* _stringLiteral3843496323;
+extern const uint32_t TestClass_ToString_m1983748051_MetadataUsageId;
+extern "C"  String_t* TestClass_ToString_m1983748051 (TestClass_t172611642 * __this, const MethodInfo* method)
+{
+	static bool s_Il2CppMethodInitialized;
+	if (!s_Il2CppMethodInitialized)
+	{
+		il2cpp_codegen_initialize_method (TestClass_ToString_m1983748051_MetadataUsageId);
+		s_Il2CppMethodInitialized = true;
+	}
+	String_t* V_0 = NULL;
+	{
+		int32_t L_0 = TestClass_get_Int_m2189662148(__this, /*hidden argument*/NULL);
+		int32_t L_1 = L_0;
+		Il2CppObject * L_2 = Box(Int32_t2071877448_il2cpp_TypeInfo_var, &L_1);
+		TestClass2_t2823348084 * L_3 = TestClass_get_Object_m4251471040(__this, /*hidden argument*/NULL);
+		IL2CPP_RUNTIME_CLASS_INIT(String_t_il2cpp_TypeInfo_var);
+		String_t* L_4 = String_Format_m1811873526(NULL /*static, unused*/, _stringLiteral3843496323, L_2, L_3, /*hidden argument*/NULL);
+		V_0 = L_4;
+		goto IL_0022;
+	}
+
+IL_0022:
+	{
+		String_t* L_5 = V_0;
+		return L_5;
+	}
+}
 // System.Void TestLib.TestClass2::.ctor()
 extern "C"  void TestClass2__ctor_m3015933272 (TestClass2_t2823348084 * __this, const MethodInfo* method)
 {
@@ -351,6 +419,40 @@ extern "C"  void TestClass2_set_Struct_m2775423800 (TestClass2_t2823348084 * __t
 		TestStruct_t1193123819  L_0 = ___value0;
 		__this->set_U3CStructU3Ek__BackingField_1(L_0);
 		return;
+	}
+}
+// System.String TestLib.TestClass2::ToString()
+extern Il2CppClass* Int64_t909078037_il2cpp_TypeInfo_var;
+extern Il2CppClass* TestStruct_t1193123819_il2cpp_TypeInfo_var;
+extern Il2CppClass* String_t_il2cpp_TypeInfo_var;
+extern Il2CppCodeGenString* _stringLiteral208830935;
+extern const uint32_t TestClass2_ToString_m429506017_MetadataUsageId;
+extern "C"  String_t* TestClass2_ToString_m429506017 (TestClass2_t2823348084 * __this, const MethodInfo* method)
+{
+	static bool s_Il2CppMethodInitialized;
+	if (!s_Il2CppMethodInitialized)
+	{
+		il2cpp_codegen_initialize_method (TestClass2_ToString_m429506017_MetadataUsageId);
+		s_Il2CppMethodInitialized = true;
+	}
+	String_t* V_0 = NULL;
+	{
+		int64_t L_0 = TestClass2_get_Long_m2699894310(__this, /*hidden argument*/NULL);
+		int64_t L_1 = L_0;
+		Il2CppObject * L_2 = Box(Int64_t909078037_il2cpp_TypeInfo_var, &L_1);
+		TestStruct_t1193123819  L_3 = TestClass2_get_Struct_m3273513589(__this, /*hidden argument*/NULL);
+		TestStruct_t1193123819  L_4 = L_3;
+		Il2CppObject * L_5 = Box(TestStruct_t1193123819_il2cpp_TypeInfo_var, &L_4);
+		IL2CPP_RUNTIME_CLASS_INIT(String_t_il2cpp_TypeInfo_var);
+		String_t* L_6 = String_Format_m1811873526(NULL /*static, unused*/, _stringLiteral208830935, L_2, L_5, /*hidden argument*/NULL);
+		V_0 = L_6;
+		goto IL_0027;
+	}
+
+IL_0027:
+	{
+		String_t* L_7 = V_0;
+		return L_7;
 	}
 }
 // System.Byte TestLib.TestStruct::get_Byte()
@@ -457,6 +559,42 @@ extern "C"  void TestStruct_set_Object_m3182382424_AdjustorThunk (Il2CppObject *
 {
 	TestStruct_t1193123819 * _thisAdjusted = reinterpret_cast<TestStruct_t1193123819 *>(__this + 1);
 	TestStruct_set_Object_m3182382424(_thisAdjusted, ___value0, method);
+}
+// System.String TestLib.TestStruct::ToString()
+extern Il2CppClass* Int32_t2071877448_il2cpp_TypeInfo_var;
+extern Il2CppClass* String_t_il2cpp_TypeInfo_var;
+extern Il2CppCodeGenString* _stringLiteral3843496323;
+extern const uint32_t TestStruct_ToString_m3534048920_MetadataUsageId;
+extern "C"  String_t* TestStruct_ToString_m3534048920 (TestStruct_t1193123819 * __this, const MethodInfo* method)
+{
+	static bool s_Il2CppMethodInitialized;
+	if (!s_Il2CppMethodInitialized)
+	{
+		il2cpp_codegen_initialize_method (TestStruct_ToString_m3534048920_MetadataUsageId);
+		s_Il2CppMethodInitialized = true;
+	}
+	String_t* V_0 = NULL;
+	{
+		int32_t L_0 = TestStruct_get_Int_m468755181(__this, /*hidden argument*/NULL);
+		int32_t L_1 = L_0;
+		Il2CppObject * L_2 = Box(Int32_t2071877448_il2cpp_TypeInfo_var, &L_1);
+		TestClass2_t2823348084 * L_3 = TestStruct_get_Object_m1668251399(__this, /*hidden argument*/NULL);
+		IL2CPP_RUNTIME_CLASS_INIT(String_t_il2cpp_TypeInfo_var);
+		String_t* L_4 = String_Format_m1811873526(NULL /*static, unused*/, _stringLiteral3843496323, L_2, L_3, /*hidden argument*/NULL);
+		V_0 = L_4;
+		goto IL_0022;
+	}
+
+IL_0022:
+	{
+		String_t* L_5 = V_0;
+		return L_5;
+	}
+}
+extern "C"  String_t* TestStruct_ToString_m3534048920_AdjustorThunk (Il2CppObject * __this, const MethodInfo* method)
+{
+	TestStruct_t1193123819 * _thisAdjusted = reinterpret_cast<TestStruct_t1193123819 *>(__this + 1);
+	return TestStruct_ToString_m3534048920(_thisAdjusted, method);
 }
 // Conversion methods for marshalling of: TestLib.TestStruct
 extern "C" void TestStruct_t1193123819_marshal_pinvoke(const TestStruct_t1193123819& unmarshaled, TestStruct_t1193123819_marshaled_pinvoke& marshaled)

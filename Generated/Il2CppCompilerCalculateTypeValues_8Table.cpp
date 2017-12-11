@@ -485,10 +485,12 @@ extern const Il2CppTypeDefinitionSizes g_typeDefinitionSize879 = { sizeof (Il2Cp
 extern const Il2CppTypeDefinitionSizes g_typeDefinitionSize880 = { sizeof (__Il2CppComDelegate_t3311706788), -1, 0, 0 };
 extern const Il2CppTypeDefinitionSizes g_typeDefinitionSize881 = { sizeof (U3CModuleU3E_t3783534215), -1, 0, 0 };
 extern const Il2CppTypeDefinitionSizes g_typeDefinitionSize882 = { sizeof (Main_t3706940067), -1, sizeof(Main_t3706940067_StaticFields), 0 };
-extern const int32_t g_FieldOffsetTable882[2] = 
+extern const int32_t g_FieldOffsetTable882[4] = 
 {
 	Main_t3706940067_StaticFields::get_offset_of_lst_0(),
-	Main_t3706940067_StaticFields::get_offset_of_U3CU3Ef__mgU24cache0_1(),
+	Main_t3706940067_StaticFields::get_offset_of_idx_1(),
+	Main_t3706940067_StaticFields::get_offset_of_idx2_2(),
+	Main_t3706940067_StaticFields::get_offset_of_U3CU3Ef__mgU24cache0_3(),
 };
 extern const Il2CppTypeDefinitionSizes g_typeDefinitionSize883 = { sizeof (TestClass_t172611642), -1, 0, 0 };
 extern const int32_t g_FieldOffsetTable883[3] = 

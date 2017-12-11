@@ -14,6 +14,8 @@
 
 // TestLib.TestClass2
 struct TestClass2_t2823348084;
+// System.String
+struct String_t;
 // TestLib.TestStruct
 struct TestStruct_t1193123819;
 struct TestStruct_t1193123819_marshaled_pinvoke;
@@ -35,6 +37,8 @@ extern "C"  void TestStruct_set_Int_m2149398506 (TestStruct_t1193123819 * __this
 extern "C"  TestClass2_t2823348084 * TestStruct_get_Object_m1668251399 (TestStruct_t1193123819 * __this, const MethodInfo* method) IL2CPP_METHOD_ATTR;
 // System.Void TestLib.TestStruct::set_Object(TestLib.TestClass2)
 extern "C"  void TestStruct_set_Object_m3182382424 (TestStruct_t1193123819 * __this, TestClass2_t2823348084 * ___value0, const MethodInfo* method) IL2CPP_METHOD_ATTR;
+// System.String TestLib.TestStruct::ToString()
+extern "C"  String_t* TestStruct_ToString_m3534048920 (TestStruct_t1193123819 * __this, const MethodInfo* method) IL2CPP_METHOD_ATTR;
 
 // Methods for marshaling
 struct TestStruct_t1193123819;

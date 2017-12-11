@@ -23,3 +23,5 @@ extern "C"  void Main__ctor_m1558680459 (Main_t3706940067 * __this, const Method
 extern "C"  void Main_TestGC_m1651579141 (Il2CppObject * __this /* static, unused */, const MethodInfo* method) IL2CPP_METHOD_ATTR;
 // System.Void TestLib.Main::MainLoop()
 extern "C"  void Main_MainLoop_m709282870 (Il2CppObject * __this /* static, unused */, const MethodInfo* method) IL2CPP_METHOD_ATTR;
+// System.Void TestLib.Main::.cctor()
+extern "C"  void Main__cctor_m240902136 (Il2CppObject * __this /* static, unused */, const MethodInfo* method) IL2CPP_METHOD_ATTR;

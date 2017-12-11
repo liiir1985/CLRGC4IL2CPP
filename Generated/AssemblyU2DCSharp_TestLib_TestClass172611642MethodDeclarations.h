@@ -16,6 +16,8 @@
 struct TestClass_t172611642;
 // TestLib.TestClass2
 struct TestClass2_t2823348084;
+// System.String
+struct String_t;
 
 #include "codegen/il2cpp-codegen.h"
 #include "AssemblyU2DCSharp_TestLib_TestClass22823348084.h"
@@ -34,3 +36,5 @@ extern "C"  void TestClass_set_Int_m3712982379 (TestClass_t172611642 * __this, i
 extern "C"  TestClass2_t2823348084 * TestClass_get_Object_m4251471040 (TestClass_t172611642 * __this, const MethodInfo* method) IL2CPP_METHOD_ATTR;
 // System.Void TestLib.TestClass::set_Object(TestLib.TestClass2)
 extern "C"  void TestClass_set_Object_m2601583493 (TestClass_t172611642 * __this, TestClass2_t2823348084 * ___value0, const MethodInfo* method) IL2CPP_METHOD_ATTR;
+// System.String TestLib.TestClass::ToString()
+extern "C"  String_t* TestClass_ToString_m1983748051 (TestClass_t172611642 * __this, const MethodInfo* method) IL2CPP_METHOD_ATTR;

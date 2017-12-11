@@ -23065,6 +23065,26 @@ extern "C"  Stream_t3255436806 * Console_OpenStandardOutput_m271745789 (Il2CppOb
 		return L_2;
 	}
 }
+// System.Void System.Console::WriteLine(System.String)
+extern Il2CppClass* Console_t2311202731_il2cpp_TypeInfo_var;
+extern const uint32_t Console_WriteLine_m3271989373_MetadataUsageId;
+extern "C"  void Console_WriteLine_m3271989373 (Il2CppObject * __this /* static, unused */, String_t* ___value0, const MethodInfo* method)
+{
+	static bool s_Il2CppMethodInitialized;
+	if (!s_Il2CppMethodInitialized)
+	{
+		il2cpp_codegen_initialize_method (Console_WriteLine_m3271989373_MetadataUsageId);
+		s_Il2CppMethodInitialized = true;
+	}
+	{
+		IL2CPP_RUNTIME_CLASS_INIT(Console_t2311202731_il2cpp_TypeInfo_var);
+		TextWriter_t4027217640 * L_0 = ((Console_t2311202731_StaticFields*)Console_t2311202731_il2cpp_TypeInfo_var->static_fields)->get_stdout_0();
+		String_t* L_1 = ___value0;
+		NullCheck(L_0);
+		VirtActionInvoker1< String_t* >::Invoke(13 /* System.Void System.IO.TextWriter::WriteLine(System.String) */, L_0, L_1);
+		return;
+	}
+}
 // System.Void System.ContextBoundObject::.ctor()
 extern "C"  void ContextBoundObject__ctor_m315654911 (ContextBoundObject_t4264702438 * __this, const MethodInfo* method)
 {

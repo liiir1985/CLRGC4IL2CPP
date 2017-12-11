@@ -83,6 +83,6 @@
 // System.Int32 System.Collections.Generic.List`1<TestLib.TestClass>::get_Count()
 #define List_1_get_Count_m3314063396(__this, method) ((  int32_t (*) (List_1_t3836700070 *, const MethodInfo*))List_1_get_Count_m2375293942_gshared)(__this, method)
 // T System.Collections.Generic.List`1<TestLib.TestClass>::get_Item(System.Int32)
-#define List_1_get_Item_m606099887(__this, ___index0, method) ((  TestClass_t172611642 * (*) (List_1_t3836700070 *, int32_t, const MethodInfo*))List_1_get_Item_m1354830498_gshared)(__this, ___index0, method)
+#define List_1_get_Item_m3473343921(__this, ___index0, method) ((  TestClass_t172611642 * (*) (List_1_t3836700070 *, int32_t, const MethodInfo*))List_1_get_Item_m1354830498_gshared)(__this, ___index0, method)
 // System.Void System.Collections.Generic.List`1<TestLib.TestClass>::set_Item(System.Int32,T)
 #define List_1_set_Item_m729966238(__this, ___index0, ___value1, method) ((  void (*) (List_1_t3836700070 *, int32_t, TestClass_t172611642 *, const MethodInfo*))List_1_set_Item_m4128108021_gshared)(__this, ___index0, ___value1, method)

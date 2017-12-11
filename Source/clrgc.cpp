@@ -41,8 +41,9 @@ namespace clrgc
 
 		IL2CPP_ASSERT(size >= pMT->GetBaseSize());
 
+		size_t alignSize = Align(size);
 		uint8_t* result = acontext->alloc_ptr;
-		uint8_t* advance = result + Align(size);
+		uint8_t* advance = result + alignSize;
 		if (advance <= acontext->alloc_limit)
 		{
 			acontext->alloc_ptr = advance;
@@ -50,7 +51,7 @@ namespace clrgc
 		}
 		else
 		{
-			pObject = g_theGCHeap->Alloc(acontext, size, 0);
+			pObject = g_theGCHeap->Alloc(acontext, alignSize, 0);
 			if (pObject == NULL)
 				return NULL;
 		}
@@ -250,7 +251,28 @@ namespace clrgc
 	{
 		MethodTable* tbl = clrgc::descriptor_builder::MakeDescriptorForType(klass);
 
-		Il2CppObject* obj = (Il2CppObject*)AllocateFree(tbl, AlignedSize(size));
+		IL2CPP_ASSERT(!tbl->ContainsPointers());
+		size_t alocSize = AlignedSize(size);
+		Il2CppObject* obj;
+
+		if (alocSize != tbl->GetBaseSize() && !(tbl->m_flags & MTFlag_IsArray))
+		{
+			//printf("Fixing");
+			tbl = &fDescMethodTable.m_MT;
+			alocSize = max(alocSize, AlignedSize(ObjSizeOf(FreeSizeObject)));
+			obj = (Il2CppObject*)AllocateFree(tbl, alocSize);
+			int missing = alocSize - tbl->m_baseSize;
+			if (missing > 0)
+			{
+				uint32_t* pSize = (uint32_t*)((intptr_t)obj + ArrayBase::GetOffsetOfNumComponents());
+				*pSize = missing;
+			}
+		}
+		else
+		{
+			obj = (Il2CppObject*)AllocateFree(tbl, alocSize);
+
+		}
 		return obj;
 	}
 	il2cpp::gc::GarbageCollector::FinalizerCallback finalizer = NULL;
@@ -270,9 +292,12 @@ namespace clrgc
 
 	void RegisterFinalizer(Il2CppObject * obj, il2cpp::gc::GarbageCollector::FinalizerCallback callback)
 	{
-		IL2CPP_ASSERT(finalizer == NULL || finalizer == callback);
-		finalizer = callback;
-		g_theGCHeap->RegisterForFinalization(0, (Object*)obj);
+		if (callback)
+		{
+			IL2CPP_ASSERT(finalizer == NULL || finalizer == callback);
+			finalizer = callback;
+			g_theGCHeap->RegisterForFinalization(0, (Object*)obj);
+		}	
 	}
 
 }

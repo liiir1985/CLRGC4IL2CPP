@@ -1160,6 +1160,7 @@ extern "C" void Console_Open_m2656719008 ();
 extern "C" void Console_OpenStandardError_m3676373108 ();
 extern "C" void Console_OpenStandardInput_m3779296306 ();
 extern "C" void Console_OpenStandardOutput_m271745789 ();
+extern "C" void Console_WriteLine_m3271989373 ();
 extern "C" void ContextBoundObject__ctor_m315654911 ();
 extern "C" void Convert__cctor_m926133987 ();
 extern "C" void Convert_InternalFromBase64String_m3682756716 ();
@@ -5486,6 +5487,7 @@ extern "C" void WeakReference_GetObjectData_m4037332046 ();
 extern "C" void Main__ctor_m1558680459 ();
 extern "C" void Main_TestGC_m1651579141 ();
 extern "C" void Main_MainLoop_m709282870 ();
+extern "C" void Main__cctor_m240902136 ();
 extern "C" void TestClass__ctor_m3958269440 ();
 extern "C" void TestClass_get_Byte_m3362519125 ();
 extern "C" void TestClass_set_Byte_m3274944280 ();
@@ -5493,18 +5495,21 @@ extern "C" void TestClass_get_Int_m2189662148 ();
 extern "C" void TestClass_set_Int_m3712982379 ();
 extern "C" void TestClass_get_Object_m4251471040 ();
 extern "C" void TestClass_set_Object_m2601583493 ();
+extern "C" void TestClass_ToString_m1983748051 ();
 extern "C" void TestClass2__ctor_m3015933272 ();
 extern "C" void TestClass2_get_Long_m2699894310 ();
 extern "C" void TestClass2_set_Long_m3494713159 ();
 extern "C" void TestClass2_get_Struct_m3273513589 ();
 extern "C" void TestClass2_set_Struct_m2775423800 ();
+extern "C" void TestClass2_ToString_m429506017 ();
 extern "C" void TestStruct_get_Byte_m2444952782_AdjustorThunk ();
 extern "C" void TestStruct_set_Byte_m2328962547_AdjustorThunk ();
 extern "C" void TestStruct_get_Int_m468755181_AdjustorThunk ();
 extern "C" void TestStruct_set_Int_m2149398506_AdjustorThunk ();
 extern "C" void TestStruct_get_Object_m1668251399_AdjustorThunk ();
 extern "C" void TestStruct_set_Object_m3182382424_AdjustorThunk ();
-extern const Il2CppMethodPointer g_MethodPointers[5493] = 
+extern "C" void TestStruct_ToString_m3534048920_AdjustorThunk ();
+extern const Il2CppMethodPointer g_MethodPointers[5498] = 
 {
 	Locale_GetText_m1954433032,
 	Locale_GetText_m2553164138,
@@ -6655,6 +6660,7 @@ extern const Il2CppMethodPointer g_MethodPointers[5493] =
 	Console_OpenStandardError_m3676373108,
 	Console_OpenStandardInput_m3779296306,
 	Console_OpenStandardOutput_m271745789,
+	Console_WriteLine_m3271989373,
 	ContextBoundObject__ctor_m315654911,
 	Convert__cctor_m926133987,
 	Convert_InternalFromBase64String_m3682756716,
@@ -10981,6 +10987,7 @@ extern const Il2CppMethodPointer g_MethodPointers[5493] =
 	Main__ctor_m1558680459,
 	Main_TestGC_m1651579141,
 	Main_MainLoop_m709282870,
+	Main__cctor_m240902136,
 	TestClass__ctor_m3958269440,
 	TestClass_get_Byte_m3362519125,
 	TestClass_set_Byte_m3274944280,
@@ -10988,15 +10995,18 @@ extern const Il2CppMethodPointer g_MethodPointers[5493] =
 	TestClass_set_Int_m3712982379,
 	TestClass_get_Object_m4251471040,
 	TestClass_set_Object_m2601583493,
+	TestClass_ToString_m1983748051,
 	TestClass2__ctor_m3015933272,
 	TestClass2_get_Long_m2699894310,
 	TestClass2_set_Long_m3494713159,
 	TestClass2_get_Struct_m3273513589,
 	TestClass2_set_Struct_m2775423800,
+	TestClass2_ToString_m429506017,
 	TestStruct_get_Byte_m2444952782_AdjustorThunk,
 	TestStruct_set_Byte_m2328962547_AdjustorThunk,
 	TestStruct_get_Int_m468755181_AdjustorThunk,
 	TestStruct_set_Int_m2149398506_AdjustorThunk,
 	TestStruct_get_Object_m1668251399_AdjustorThunk,
 	TestStruct_set_Object_m3182382424_AdjustorThunk,
+	TestStruct_ToString_m3534048920_AdjustorThunk,
 };
