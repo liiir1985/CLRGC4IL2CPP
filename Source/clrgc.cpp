@@ -144,7 +144,7 @@ namespace clrgc
 		}
 	};
 
-	static FreeSizeObject_MethodTable fDescMethodTable;
+	static FreeSizeObject_MethodTable* fDescMethodTable;
 
 	#define CalculateTypeSize(t,addition) max(sizeof(t)+sizeof(ObjHeader) + addition, MIN_OBJECT_SIZE)
 
@@ -189,10 +189,11 @@ namespace clrgc
 		if (!pGCHandleManager->Initialize())
 			return -1;
 
-		fDescMethodTable.m_MT.m_baseSize = AlignedSize(ObjSizeOf(FreeSizeObject));
-		fDescMethodTable.m_MT.m_flags = MTFlag_IsArray | MTFlag_HasComponentSize;
-		fDescMethodTable.m_MT.m_componentSize = 1;
-		fDescMethodTable.m_numSeries = 0;
+		fDescMethodTable = (FreeSizeObject_MethodTable*)AllocateInternal(sizeof(FreeSizeObject_MethodTable));
+		fDescMethodTable->m_MT.m_baseSize = AlignedSize(ObjSizeOf(FreeSizeObject));
+		fDescMethodTable->m_MT.m_flags = MTFlag_IsArray | MTFlag_HasComponentSize;
+		fDescMethodTable->m_MT.m_componentSize = 1;
+		fDescMethodTable->m_numSeries = 0;
 
 		clrgc::InitBoehm();
 		clrgc::InitBoehmThread();
@@ -217,7 +218,7 @@ namespace clrgc
 	void* clrgc::AllocateFixed(size_t size)
 	{	
 		size_t as = AlignedSize(ObjSizeOf(FreeSizeObject) + size);
-		FreeSizeObject* obj = (FreeSizeObject*)AllocateFree(&fDescMethodTable.m_MT, as);
+		FreeSizeObject* obj = (FreeSizeObject*)AllocateFree(&fDescMethodTable->m_MT, as);
 		uint32_t* pSize = (uint32_t*)((intptr_t)obj + ArrayBase::GetOffsetOfNumComponents());
 		*pSize = size;
 		obj->AccuireHandle();
@@ -258,7 +259,7 @@ namespace clrgc
 		if (alocSize != tbl->GetBaseSize() && !(tbl->m_flags & MTFlag_IsArray))
 		{
 			//printf("Fixing");
-			tbl = &fDescMethodTable.m_MT;
+			tbl = &fDescMethodTable->m_MT;
 			alocSize = max(alocSize, AlignedSize(ObjSizeOf(FreeSizeObject)));
 			obj = (Il2CppObject*)AllocateFree(tbl, alocSize);
 			int missing = alocSize - tbl->m_baseSize;
@@ -288,6 +289,23 @@ namespace clrgc
 			finalizer(obj, NULL);
 			obj = g_theGCHeap->GetNextFinalizable();
 		}
+	}
+
+	void* AquireStrongHandle(Il2CppObject* obj, bool pinned)
+	{
+		if (pinned)
+			return	HndCreateHandle(g_HandleTableMap.pBuckets[0]->pTable[GetCurrentThreadHomeHeapNumber()], HNDTYPE_PINNED, (Object*)obj);
+		else
+			return	HndCreateHandle(g_HandleTableMap.pBuckets[0]->pTable[GetCurrentThreadHomeHeapNumber()], HNDTYPE_STRONG, (Object*)obj);
+	}
+
+	void ReleaseStrongHandle(void* handle, bool pinned)
+	{
+		OBJECTHANDLE h = (OBJECTHANDLE)handle;
+		if (pinned)
+			HndDestroyHandle(HndGetHandleTable(h), HNDTYPE_PINNED, h);
+		else
+			HndDestroyHandle(HndGetHandleTable(h), HNDTYPE_STRONG, h);
 	}
 
 	void RegisterFinalizer(Il2CppObject * obj, il2cpp::gc::GarbageCollector::FinalizerCallback callback)

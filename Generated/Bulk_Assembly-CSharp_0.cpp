@@ -122,14 +122,14 @@ IL_0034:
 	{
 		IL2CPP_RUNTIME_CLASS_INIT(Thread_t241561612_il2cpp_TypeInfo_var);
 		Thread_Sleep_m1248422015(NULL /*static, unused*/, ((int32_t)1000), /*hidden argument*/NULL);
-		IL2CPP_RUNTIME_CLASS_INIT(Main_t3706940067_il2cpp_TypeInfo_var);
-		List_1_t3836700070 * L_7 = ((Main_t3706940067_StaticFields*)Main_t3706940067_il2cpp_TypeInfo_var->static_fields)->get_lst_0();
-		NullCheck(L_7);
-		TestClass_t172611642 * L_8 = List_1_get_Item_m3473343921(L_7, 0, /*hidden argument*/List_1_get_Item_m3473343921_MethodInfo_var);
-		IL2CPP_RUNTIME_CLASS_INIT(String_t_il2cpp_TypeInfo_var);
-		String_t* L_9 = String_Format_m2024975688(NULL /*static, unused*/, _stringLiteral4146534670, L_8, /*hidden argument*/NULL);
-		IL2CPP_RUNTIME_CLASS_INIT(Console_t2311202731_il2cpp_TypeInfo_var);
-		Console_WriteLine_m3271989373(NULL /*static, unused*/, L_9, /*hidden argument*/NULL);
+		//IL2CPP_RUNTIME_CLASS_INIT(Main_t3706940067_il2cpp_TypeInfo_var);
+		//List_1_t3836700070 * L_7 = ((Main_t3706940067_StaticFields*)Main_t3706940067_il2cpp_TypeInfo_var->static_fields)->get_lst_0();
+		//NullCheck(L_7);
+		//TestClass_t172611642 * L_8 = List_1_get_Item_m3473343921(L_7, 0, /*hidden argument*/List_1_get_Item_m3473343921_MethodInfo_var);
+		//IL2CPP_RUNTIME_CLASS_INIT(String_t_il2cpp_TypeInfo_var);
+		//String_t* L_9 = String_Format_m2024975688(NULL /*static, unused*/, _stringLiteral4146534670, L_8, /*hidden argument*/NULL);
+		//IL2CPP_RUNTIME_CLASS_INIT(Console_t2311202731_il2cpp_TypeInfo_var);
+		//Console_WriteLine_m3271989373(NULL /*static, unused*/, L_9, /*hidden argument*/NULL);
 		goto IL_0034;
 	}
 }
@@ -197,9 +197,9 @@ IL_0001:
 		TestStruct_t1193123819  L_14 = V_1;
 		NullCheck(L_13);
 		TestClass2_set_Struct_m2775423800(L_13, L_14, /*hidden argument*/NULL);
-		List_1_t3836700070 * L_15 = (List_1_t3836700070 *)il2cpp_codegen_object_new(List_1_t3836700070_il2cpp_TypeInfo_var);
-		List_1__ctor_m574377014(L_15, /*hidden argument*/List_1__ctor_m574377014_MethodInfo_var);
-		((Main_t3706940067_StaticFields*)Main_t3706940067_il2cpp_TypeInfo_var->static_fields)->set_lst_0(L_15);
+		//List_1_t3836700070 * L_15 = (List_1_t3836700070 *)il2cpp_codegen_object_new(List_1_t3836700070_il2cpp_TypeInfo_var);
+		//List_1__ctor_m574377014(L_15, /*hidden argument*/List_1__ctor_m574377014_MethodInfo_var);
+		//((Main_t3706940067_StaticFields*)Main_t3706940067_il2cpp_TypeInfo_var->static_fields)->set_lst_0(L_15);
 		List_1_t3836700070 * L_16 = ((Main_t3706940067_StaticFields*)Main_t3706940067_il2cpp_TypeInfo_var->static_fields)->get_lst_0();
 		TestClass_t172611642 * L_17 = V_0;
 		NullCheck(L_16);

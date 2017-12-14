@@ -83,9 +83,9 @@ struct Il2CppMetadataCache
 
 static Il2CppMetadataCache s_MetadataCache;
 static Il2CppClass** s_TypeInfoTable = NULL;
-Il2CppClass** s_TypeInfoDefinitionTable = NULL;
+static Il2CppClass** s_TypeInfoDefinitionTable = NULL;
 static const MethodInfo** s_MethodInfoDefinitionTable = NULL;
-static Il2CppString** s_StringLiteralTable = NULL;
+Il2CppString** s_StringLiteralTable = NULL;
 static const Il2CppGenericMethod** s_GenericMethodTable = NULL;
 static int32_t s_ImagesCount = 0;
 static Il2CppImage* s_ImagesTable = NULL;

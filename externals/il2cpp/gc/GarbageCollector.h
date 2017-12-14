@@ -53,9 +53,11 @@ namespace gc
         static void FreeFixed(void* addr);
 
 #if IL2CPP_GC_PRECISE
-		static Il2CppObject* AllocateObject(size_t size, Il2CppClass* klass);
-		static Il2CppObject* AllocateFree(size_t size, Il2CppClass* klass);
-		static void WriteBarrier(void** dst, void* ref);
+        static Il2CppObject* AllocateObject(size_t size, Il2CppClass* klass);
+        static Il2CppObject* AllocateFree(size_t size, Il2CppClass* klass);
+        static void WriteBarrier(void** dst, void* ref);
+		static void* AquireStrongHandle(Il2CppObject* obj, bool pinned);
+		static void ReleaseStrongHandle(void* handle, bool pinned);
 #endif
         static bool RegisterThread(void *baseptr);
         static bool UnregisterThread();

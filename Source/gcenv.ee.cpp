@@ -21,6 +21,7 @@
 #include "tabledefs.h"
 #include "object-internals.h"
 #include "il2cpp-metadata.h"
+#include "vm/MetadataCache.h"
 #include "clrgc.h"
 
 MethodTable * g_pFreeObjectMethodTable;
@@ -145,7 +146,7 @@ Thread * ThreadStore::GetThreadList(Thread * pThread)
 }
 
 extern const Il2CppGlobalMetadataHeader* s_GlobalMetadataHeader;
-extern Il2CppClass** s_TypeInfoDefinitionTable;
+extern Il2CppString** s_StringLiteralTable;
 
 void ThreadStore::AttachCurrentThread(void* baseptr)
 {
@@ -172,7 +173,6 @@ void ThreadStore::AttachCurrentThread(void* baseptr)
 #define INTPTR_INC(p) p = p + sizeof(uintptr_t)
 #define INTPTR_DEC(p) p = p - sizeof(uintptr_t)
 #define IS_GC_HEAP_ADDR(addr) addr <= (PTR_Object)g_gc_highest_address && addr >= (PTR_Object)g_gc_lowest_address
-#define IS_VALID_KLASS(klass) klass >= s_TypeInfoDefinitionTable && klass <= (s_TypeInfoDefinitionTable + s_GlobalMetadataHeader->typeDefinitionsCount)
 #define IS_VALID_GEN(obj, condemned) IS_GC_HEAP_ADDR(obj) && g_theGCHeap->WhichGeneration((Object*)obj) == condemned
 void GcScanRootsInner(promote_func* fn, ScanContext* sc, int condemned, uintptr_t bp, uintptr_t sp, std::vector<uintptr_t>& registers)
 {
@@ -376,6 +376,23 @@ void ScanStatics(promote_func* fn, ScanContext* sc, int condemned)
 	}
 }
 
+void ScanStringLiterals(promote_func* fn, int condemned, ScanContext* sc)
+{
+	int maxIndex = s_GlobalMetadataHeader->stringLiteralCount / sizeof(Il2CppStringLiteral);
+	for (int i = 0; i < maxIndex; i++)
+	{
+		PTR_PTR_Object addr = (PTR_PTR_Object)&s_StringLiteralTable[i];
+		void* val = *addr;
+
+		if (val && IS_VALID_GEN(val, condemned))
+		{
+			Il2CppObject* obj = (Il2CppObject*)val;
+			if (clrgc::IsValidInternalMemory(obj->MethodTable))
+				fn(addr, sc, NULL);
+		}
+	}
+}
+
 void GCToEEInterface::GcScanRoots(promote_func* fn,  int condemned, int max_gen, ScanContext* sc)
 {
     // TODO: Implement - Scan stack roots on given thread
@@ -404,6 +421,7 @@ void GCToEEInterface::GcScanRoots(promote_func* fn,  int condemned, int max_gen,
 	}
 
 	ScanStatics(fn, sc, condemned);
+	ScanStringLiterals(fn, condemned, sc);
 }
 
 void GCToEEInterface::GcStartWork(int condemned, int max_gen)

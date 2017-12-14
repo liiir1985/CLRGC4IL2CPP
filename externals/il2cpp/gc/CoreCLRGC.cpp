@@ -225,6 +225,16 @@ void il2cpp::gc::GarbageCollector::WriteBarrier(void** dst, void* ref)
 	clrgc::WriteBarrier(dst, ref);
 }
 
+void* il2cpp::gc::GarbageCollector::AquireStrongHandle(Il2CppObject* obj, bool pinned)
+{
+	return clrgc::AquireStrongHandle(obj, pinned);
+}
+
+void il2cpp::gc::GarbageCollector::ReleaseStrongHandle(void* handle, bool pinned)
+{
+	clrgc::ReleaseStrongHandle(handle, pinned);
+}
+
 int32_t
 il2cpp::gc::GarbageCollector::InvokeFinalizers()
 {

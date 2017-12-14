@@ -32,6 +32,10 @@ namespace clrgc
 
 	void RegisterFinalizer(Il2CppObject* obj, il2cpp::gc::GarbageCollector::FinalizerCallback callback);
 
+	void* AquireStrongHandle(Il2CppObject* obj, bool pinned);
+
+	void ReleaseStrongHandle(void* handle, bool pinned);
+
 	void InitBoehm();
 
 	void InitBoehmThread();

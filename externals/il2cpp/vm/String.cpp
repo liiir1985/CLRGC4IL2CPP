@@ -17,31 +17,60 @@
 namespace il2cpp
 {
 namespace vm
-{
-    static Il2CppString* s_EmptyString;
-
+{  
+#if IL2CPP_GC_CORE
+	static void* s_EmptyStringHandle;
+#else
+	static Il2CppString* s_EmptyString;
+#endif
     void String::InitializeEmptyString(Il2CppClass* stringClass)
     {
-        IL2CPP_ASSERT(s_EmptyString == NULL && "Empty string was already initialized");
+        
 
+#if IL2CPP_GC_CORE
+		IL2CPP_ASSERT(s_EmptyStringHandle == NULL && "Empty string was already initialized");
+		Il2CppString* s_EmptyString = (Il2CppString*)(gc::GarbageCollector::AllocateFree(sizeof(Il2CppString) + 2, stringClass));
+		s_EmptyString->object.klass = stringClass;
+		s_EmptyStringHandle = gc::GarbageCollector::AquireStrongHandle(&s_EmptyString->object, false);
+
+		s_EmptyString->length = 0;
+		s_EmptyString->chars[0] = 0;
+#else
+		IL2CPP_ASSERT(s_EmptyString == NULL && "Empty string was already initialized");
         // size for string and null terminator
         s_EmptyString = static_cast<Il2CppString*>(gc::GarbageCollector::AllocateFixed(sizeof(Il2CppString) + 2, 0));
         s_EmptyString->object.klass = stringClass;
-        s_EmptyString->length = 0;
-        s_EmptyString->chars[0] = 0;
+		s_EmptyString->length = 0;
+		s_EmptyString->chars[0] = 0;
+#endif
     }
 
     void String::CleanupEmptyString()
     {
-        IL2CPP_ASSERT(s_EmptyString && "Empty string was not yet initialized");
+        
+#if IL2CPP_GC_CORE
+		IL2CPP_ASSERT(s_EmptyStringHandle && "Empty string was not yet initialized");
+		gc::GarbageCollector::ReleaseStrongHandle(s_EmptyStringHandle, false);
+		s_EmptyStringHandle = NULL;
+#else
+		IL2CPP_ASSERT(s_EmptyString && "Empty string was not yet initialized");
         gc::GarbageCollector::FreeFixed(s_EmptyString);
-        s_EmptyString = NULL;
+
+		s_EmptyString = NULL;
+#endif
     }
 
     Il2CppString* String::Empty()
     {
+#if IL2CPP_GC_CORE
+		IL2CPP_ASSERT(s_EmptyStringHandle && "Empty string was not yet initialized");
+		Il2CppString** addr = (Il2CppString**)s_EmptyStringHandle;
+		return *addr;
+#else
         IL2CPP_ASSERT(s_EmptyString && "Empty string was not yet initialized");
-        return s_EmptyString;
+		return s_EmptyString;
+#endif
+        
     }
 
     int32_t String::GetLength(Il2CppString* str)

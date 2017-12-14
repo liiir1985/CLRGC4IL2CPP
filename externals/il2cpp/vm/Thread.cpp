@@ -122,8 +122,12 @@ namespace vm
     {
         IL2CPP_ASSERT(thread->GetInternalThread()->handle != NULL);
         IL2CPP_ASSERT(thread->GetInternalThread()->synch_cs != NULL);
-
+               
+#if IL2CPP_GC_CORE
+        s_CurrentThread.SetValue(gc::GarbageCollector::AquireStrongHandle(&thread->obj, false));
+#else
         s_CurrentThread.SetValue(thread);
+#endif
 
         Domain::ContextSet(domain->default_context);
 
@@ -168,7 +172,7 @@ namespace vm
 #if IL2CPP_DEBUGGER_ENABLED
         il2cpp_debugger_notify_thread_detach(thread);
 #endif
-		
+        
         Unregister(thread);
         FreeThreadStaticData(thread);
 
@@ -177,14 +181,28 @@ namespace vm
 #endif
 
         os::Thread::DetachCurrentThread();
+#if IL2CPP_GC_CORE
+        void* value = NULL;
+        s_CurrentThread.GetValue(&value);
+        gc::GarbageCollector::ReleaseStrongHandle(value, false);
         s_CurrentThread.SetValue(NULL);
+#else
+        s_CurrentThread.SetValue(NULL);
+#endif
     }
 
     Il2CppThread* Thread::Current()
     {
         void* value = NULL;
         s_CurrentThread.GetValue(&value);
+#if IL2CPP_GC_CORE
+        if (value == NULL)
+            return NULL;
+        Il2CppThread** addr = (Il2CppThread**)value;
+        return *addr;
+#else
         return (Il2CppThread*)value;
+#endif
     }
 
     Il2CppThread** Thread::GetAllAttachedThreads(size_t &size)
